@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'Pages/Home_Page.dart'; // Assuming Home_Page.dart contains HomePage widget
+import 'Pages/Home_Page.dart';
+// Assuming Home_Page.dart contains HomePage widget
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
 }
 
 class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+  const OnboardingPage({Key? key}) : super(key: key);
 
   @override
   _OnboardingPageState createState() => _OnboardingPageState();
@@ -54,7 +55,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     // For example, you can use Navigator.pushReplacement() to navigate to a new page
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage()), // Corrected from Home() to HomePage()
+      MaterialPageRoute(builder: (context) => const HomePage()),
     );
   }
 
@@ -63,7 +64,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black12,
-        title: const Text("Wellcome to AudiRAB",
+        title: const Text(
+          "Wellcome to AudiRAB",
           style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),
         ),
         actions: [
@@ -105,7 +107,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ElevatedButton(
                   onPressed: _previousPage,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
+                    backgroundColor: Colors.blue,
                   ),
                   child: const Text(
                     "Previous",
@@ -118,7 +120,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ? _nextPage
                     : _finishOnboarding,
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
+                  backgroundColor: Colors.blue,
                 ),
                 child: Text(
                   _currentPageIndex < _imagePaths.length - 1
@@ -135,6 +137,3 @@ class _OnboardingPageState extends State<OnboardingPage> {
     );
   }
 }
-
-
-
