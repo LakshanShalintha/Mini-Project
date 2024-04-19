@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../Nav_Menu.dart';
+import '../Home_Page.dart';
 import 'Forgot/Forgot_pass.dart';
 import 'SignUp_Page.dart';
 
@@ -188,7 +190,11 @@ class _LogIn_PageState extends State<LogIn_Page> {
                           SizedBox(
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (context) => const NavMenu()),
+                                );
+                              },
                               style: ButtonStyle(
                                 backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.blue),
