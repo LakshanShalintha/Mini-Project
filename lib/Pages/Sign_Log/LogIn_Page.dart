@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../Nav_Menu.dart';
 import '../Home_Page.dart';
 import 'Forgot/Forgot_pass.dart';
 import 'SignUp_Page.dart';
@@ -14,6 +12,7 @@ class LogIn_Page extends StatefulWidget {
 
 class _LogIn_PageState extends State<LogIn_Page> {
   bool _showPassword = false; // Define _showPassword here
+  bool _rememberMe = false; // Define _rememberMe here
 
   @override
   Widget build(BuildContext context) {
@@ -165,11 +164,27 @@ class _LogIn_PageState extends State<LogIn_Page> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Checkbox(value: true, onChanged: (value) {}),
-                                  const Text("Remember Me"),
-                                ],
+                              GestureDetector(
+                                onTap: () {
+                                  // Toggle the checkbox value
+                                  setState(() {
+                                    _rememberMe = !_rememberMe;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                      value: _rememberMe,
+                                      onChanged: (value) {
+                                        // Toggle the checkbox value
+                                        setState(() {
+                                          _rememberMe = value!;
+                                        });
+                                      },
+                                    ),
+                                    const Text("Remember Me"),
+                                  ],
+                                ),
                               ),
                               TextButton(
                                 onPressed: () {
@@ -192,7 +207,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context) => const NavMenu()),
+                                  MaterialPageRoute(builder: (context) => const HomePage()),
                                 );
                               },
                               style: ButtonStyle(
