@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'Home_Page.dart';
+import '../Pages/Home_Page.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({Key? key}) : super(key: key);
@@ -53,6 +52,28 @@ class _OnboardingState extends State<Onboarding> {
                   padding: const EdgeInsets.all(40),
                   child: Column(
                     children: [
+                      if (currentIndex <= 1) // Show skip button only for the first two pages
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: GestureDetector(
+                            onTap: () {
+                              // Handle skip button tap
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white38,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: Colors.white70, width: 0),
+                              ),
+                              child: const Text(
+                                'Skip',
+                                style: TextStyle(color: Colors.red, fontSize: 15, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
                       Image(
                         image: contents[i].onBoarding,
                         height: 180,
@@ -150,5 +171,3 @@ class OnboardingItem {
     this.additionalImage,
   });
 }
-
-

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'Sign_Log/LogIn_Page.dart';
-import 'Sign_Log/SignUp_Page.dart';
+import 'package:mini_project/Pages/Sign_Log/LogIn_Page.dart';
+import 'package:mini_project/Pages/Sign_Log/SignUp_Page.dart';
+
+import '../Nav_Menu.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,102 +22,147 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  get google => null;
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            PopupMenuButton(
-              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                const PopupMenuItem(
-                  value: 'search',
-                  child: Text('Search'),
+            ClipPath(
+              clipper: CustomCurvedEdges(),
+              child: Container(
+                color: Colors.blue,
+                padding: const EdgeInsets.all(0),
+                child: SizedBox(
+                  height: 400,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: -150,
+                        right: -250,
+                        child: CircularContainer(
+                          backgroundColor: Colors.white70.withOpacity(0.1),
+                        ),
+                      ),
+                      Positioned(
+                        top: 100,
+                        right: -300,
+                        child: CircularContainer(
+                          backgroundColor: Colors.white70.withOpacity(0.1),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                const PopupMenuItem(
-                  value: 'menu',
-                  child: Text('Menu'),
-                ),
-                const PopupMenuItem(
-                  value: 'log',
-                  child: Text('Log'),
-                ),
-                const PopupMenuItem(
-                  value: 'sign',
-                  child: Text('Sign'),
-                ),
-              ],
-              onSelected: (value) {
-                // Handle item selection
-                switch (value) {
-                  case 'search':
-                  // Navigate to search page
-                    break;
-                  case 'menu':
-                  // Handle menu action
-                    break;
-                  case 'log':
-                  // Navigate to login page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LogIn_Page()),
-                    );
-                    break;
-                  case 'sign':
-                  // Navigate to sign up page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SignUp_Page()),
-                    );
-                    break;
-                }
-              },
-              icon: const Icon(Icons.menu),
-              onOpened: () {}, // Menu icon
+              ),
             ),
-            const SizedBox(width: 8), // Spacing
-            const SizedBox(width: 8), // Spacing
-            const Text('Audio Books', style: TextStyle(fontSize: 25.0)),
+            // Add SignUp and LogIn buttons
+            Container(
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const SignUp_Page()),
+                      );// Handle SignUp button tap
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.green, // Change font color
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Change button padding
+                      textStyle: const TextStyle(fontSize: 20), // Change font size
+                    ),
+                    child: const Text('Sign Up'),
+                  ),
+                  const SizedBox(width: 20, height: 500,),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const LogIn_Page()),
+                      );// Handle LogIn button tap
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue, // Change font color
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Change button padding
+                      textStyle: const TextStyle(fontSize: 20), // Change font size
+                    ),
+                    child: const Text('Log In'),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-        backgroundColor: Colors.greenAccent,
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Navigate to sign up page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SignUp_Page()),
-              );
-            },
-            icon: const Icon(Icons.person_add),
-          ),
-          IconButton(
-            onPressed: () {
-              // Navigate to login page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LogIn_Page()),
-              );
-            },
-            icon: const Icon(Icons.login),
-          ),
-        ],
       ),
-      backgroundColor: Colors.red[200],
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/Home_Page/onboard03.png"),
-            fit:BoxFit.cover,
-          ),
-
-        ),
-      ),
+      bottomNavigationBar: const NavMenu(),
     );
+  }
+}
+
+class CircularContainer extends StatelessWidget {
+  const CircularContainer({
+    Key? key,
+    this.child,
+    this.width = 400,
+    this.height = 400,
+    this.radius = 400,
+    this.padding = 0,
+    this.backgroundColor = Colors.blueAccent,
+  }) : super(key: key);
+
+  final double? width;
+  final double? height;
+  final double radius;
+  final double padding;
+  final Widget? child;
+  final Color backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      padding: EdgeInsets.all(padding),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(radius),
+        color: backgroundColor,
+      ),
+      child: child,
+    );
+  }
+}
+
+class CustomCurvedEdges extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height);
+
+    final firstCurveStart = Offset(0, size.height - 20);
+    final firstCurveEnd = Offset(40, size.height - 20);
+    path.quadraticBezierTo(firstCurveStart.dx, firstCurveStart.dy, firstCurveEnd.dx, firstCurveEnd.dy);
+
+    final secondCurveStart = Offset(0, size.height - 20);
+    final secondCurveEnd = Offset(size.width - 40, size.height - 20);
+    path.quadraticBezierTo(secondCurveStart.dx, secondCurveStart.dy, secondCurveEnd.dx, secondCurveEnd.dy);
+
+    final thirdCurveStart = Offset(size.width, size.height - 20);
+    final thirdCurveEnd = Offset(size.width, size.height);
+    path.quadraticBezierTo(thirdCurveStart.dx, thirdCurveStart.dy, thirdCurveEnd.dx, thirdCurveEnd.dy);
+
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
   }
 }

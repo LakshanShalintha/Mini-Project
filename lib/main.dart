@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mini_project/Pages/Home_Page.dart';
+import 'CommonParts/Onboarding.dart';
 
-import 'Pages/Onboarding.dart';
-
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

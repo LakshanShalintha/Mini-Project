@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mini_project/Pages/Sign_Log/Verify_email.dart';
 
 import 'LogIn_Page.dart';
-import 'Forgot/Forgot_pass.dart'; // Import Forgot_pass page
 
 class SignUp_Page extends StatefulWidget {
   const SignUp_Page({Key? key}) : super(key: key);
@@ -12,7 +11,8 @@ class SignUp_Page extends StatefulWidget {
 }
 
 class _SignUp_PageState extends State<SignUp_Page> {
-  bool _showPassword = false; // Define _showPassword here
+  bool _showPassword = false;
+  bool _rememberMe = false; // Define _rememberMe here
 
   @override
   Widget build(BuildContext context) {
@@ -178,11 +178,30 @@ class _SignUp_PageState extends State<SignUp_Page> {
                             children: [
                               Row(
                                 children: [
-                                  Checkbox(value: true, onChanged: (value) {}),
-                                  const Text("Remember Me"),
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Toggle the checkbox value
+                                      setState(() {
+                                        _rememberMe = !_rememberMe;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Checkbox(
+                                          value: _rememberMe,
+                                          onChanged: (value) {
+                                            // Toggle the checkbox value
+                                            setState(() {
+                                              _rememberMe = value!;
+                                            });
+                                          },
+                                        ),
+                                        const Text("Remember Me"),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
-
                             ],
                           ),
                           const SizedBox(height: 20),
