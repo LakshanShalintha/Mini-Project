@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../CommonParts/Seach_Bar.dart';
 import '../Home_Page.dart';
 import 'Forgot/Forgot_pass.dart';
 import 'SignUp_Page.dart';
@@ -207,7 +208,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context) => const HomePage()),
+                                  MaterialPageRoute(builder: (context) => const Search_Bar()),
                                 );
                               },
                               style: ButtonStyle(

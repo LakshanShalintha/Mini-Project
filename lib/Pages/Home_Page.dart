@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_project/Pages/Sign_Log/LogIn_Page.dart';
 import 'package:mini_project/Pages/Sign_Log/SignUp_Page.dart';
 
-import '../Nav_Menu.dart';
+import '../CommonParts/Nav_Menu.dart';
 
 void main() {
   runApp(const MyApp());
