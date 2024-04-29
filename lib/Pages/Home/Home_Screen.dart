@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 
+import '../../CommonParts/AppBar.dart';
+import '../../CommonParts/Nav_Menu.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
+      appBar: const CustomAppBar(
+        title: ('Home'),
       ),
       backgroundColor: Colors.blueAccent,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 8.0),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 8.0),
             child: SearchBar(), // Corrected widget name to SearchBar
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SectionHeading(title: 'popular categories', showActionButton: false),
-                SizedBox(
+                const SectionHeading(title: 'popular categories', showActionButton: false),
+                const SizedBox(
                   height: 20,
                 ),
                 SizedBox(
@@ -33,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                     itemCount: 8,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (_,index) {
-                      return VerticalImageText();
+                      return const VerticalImageText();
                     },
                   ),
                 ),
@@ -42,6 +45,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: const NavMenu(),
     );
   }
 }
@@ -62,7 +66,7 @@ class VerticalImageText extends StatelessWidget {
             Container(
               width: 56,
               height: 56,
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(100),
@@ -75,7 +79,7 @@ class VerticalImageText extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 5), // Added SizedBox to provide spacing
+            const SizedBox(height: 5), // Added SizedBox to provide spacing
             SizedBox(
               width: 55,
               child: Text(
@@ -99,10 +103,10 @@ class SearchBar extends StatelessWidget { // Renamed Search_Bar to SearchBar
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Container(
         width: 250,
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
@@ -110,8 +114,8 @@ class SearchBar extends StatelessWidget { // Renamed Search_Bar to SearchBar
         ),
         child: Row(
           children: [
-            Icon(Icons.search, color: Colors.grey),
-            SizedBox(width: 20),
+            const Icon(Icons.search, color: Colors.grey),
+            const SizedBox(width: 20),
             Text(
               'search in store',
               style: Theme.of(context).textTheme.bodyText1,
@@ -146,7 +150,7 @@ class SectionHeading extends StatelessWidget {
         if (showActionButton)
           TextButton(
             onPressed: () {},
-            child: Text('buttontitle'),
+            child: const Text('button title'),
           )
       ],
     );
@@ -154,7 +158,7 @@ class SectionHeading extends StatelessWidget {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: HomeScreen(),
   ));
 }

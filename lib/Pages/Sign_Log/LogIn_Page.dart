@@ -20,53 +20,6 @@ class _LogIn_PageState extends State<LogIn_Page> {
       appBar: AppBar(
         title: Row(
           children: [
-            PopupMenuButton(
-              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                const PopupMenuItem(
-                  value: 'search',
-                  child: Text('Search'),
-                ),
-                const PopupMenuItem(
-                  value: 'menu',
-                  child: Text('Menu'),
-                ),
-                const PopupMenuItem(
-                  value: 'log',
-                  child: Text('Log'),
-                ),
-                const PopupMenuItem(
-                  value: 'sign',
-                  child: Text('Sign'),
-                ),
-              ],
-              onSelected: (value) {
-                // Handle item selection
-                switch (value) {
-                  case 'search':
-                  // Navigate to search page
-                    break;
-                  case 'menu':
-                  // Handle menu action
-                    break;
-                  case 'log':
-                  // Navigate to login page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SignUp_Page()),
-                    );
-                    break;
-                  case 'sign':
-                  // Navigate to sign up page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SignUp_Page()),
-                    );
-                    break;
-                }
-              },
-              icon: const Icon(Icons.menu),
-              onOpened: () {}, // Menu icon
-            ),
             const SizedBox(width: 8), // Spacing
             const SizedBox(width: 8), // Spacing
             const Text('Audio Books', style: TextStyle(fontSize: 25.0)),
