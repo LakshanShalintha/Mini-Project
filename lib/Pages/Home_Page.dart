@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'My Custom AppBar'),
+      appBar: const CustomAppBar(title: 'Wellcome To AudiRAB'),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20),
                     child: Column(
                       children: [
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         const SectionHeading(title: 'popular categories', showActionButton: false),
                         const SizedBox(height: 20),
                         SizedBox(
@@ -60,14 +60,14 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Text(
+            const Text(
               'Your additional text goes here'
               'asugfdgfhwdfjk\n hfjwej ewgih jhwde cnwej'
               'jdbfhkd shchw dsd hbixhk anxhbsx k \n gcz sbyshjb hcs',
               style: TextStyle(fontSize: 16, color: Colors.red),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             const Center(
               child: Image(
                 height: 170,
@@ -130,9 +130,9 @@ class CurvedBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 280, // Adjust the height as needed
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.blue,
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40),
           bottomRight: Radius.circular(40),
         ),

@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: ('Home'),
+        title: ('AudiRAB'),
       ),
       backgroundColor: Colors.blueAccent,
       body: Column(
