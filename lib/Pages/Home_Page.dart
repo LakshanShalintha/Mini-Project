@@ -121,6 +121,38 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class SearchBar extends StatelessWidget { // Renamed Search_Bar to SearchBar
+  const SearchBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Container(
+        width: 250,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.search, color: Colors.grey),
+            const SizedBox(width: 20),
+            Text(
+              'search in store',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
 class CurvedBackground extends StatelessWidget {
   final Widget child;
 
