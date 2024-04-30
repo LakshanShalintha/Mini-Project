@@ -11,7 +11,7 @@ class NavMenu extends StatelessWidget {
       height: 60,
       color: Colors.white70,
       backgroundColor: Colors.blueAccent,
-      items: [
+      items: const [
         CurvedNavigationBarItem(
           child: Icon(Icons.home_outlined),
           label: 'Home',

@@ -18,11 +18,11 @@ class _LogIn_PageState extends State<LogIn_Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
-            const SizedBox(width: 8), // Spacing
-            const SizedBox(width: 8), // Spacing
-            const Text('Audio Books', style: TextStyle(fontSize: 25.0)),
+            SizedBox(width: 8), // Spacing
+            SizedBox(width: 8), // Spacing
+            Text('Audio Books', style: TextStyle(fontSize: 25.0)),
           ],
         ),
         backgroundColor: Colors.greenAccent,
