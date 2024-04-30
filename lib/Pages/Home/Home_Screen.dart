@@ -9,15 +9,45 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: ('AudiRAB'),
+      appBar: CustomAppBar(
+        title: 'AudiRAB',
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             /// background
             CurvedBackground(
-
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 8.0),
+                    child: SearchBar(),
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SectionHeading(title: 'popular categories', showActionButton: false),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          height: 80,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 8,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (_, index) {
+                              return VerticalImageText();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -28,9 +58,12 @@ class HomeScreen extends StatelessWidget {
 }
 
 class CurvedBackground extends StatelessWidget {
+  final Widget child;
+
   const CurvedBackground({
-    super.key,
-  });
+    required this.child,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,16 +90,30 @@ class CurvedBackground extends StatelessWidget {
                   backgroundColor: Colors.white70.withOpacity(0.1),
                 ),
               ),
+              // Aligning child column to the center of the page
+              Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width, // Match parent width
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: child,
+                ),
+              ),
             ],
           ),
         ),
       ),
-
     );
   }
 }
 
 class CircularContainer extends StatelessWidget {
+  final double? width;
+  final double? height;
+  final double radius;
+  final double padding;
+  final Widget? child;
+  final Color backgroundColor;
+
   const CircularContainer({
     Key? key,
     this.child,
@@ -76,13 +123,6 @@ class CircularContainer extends StatelessWidget {
     this.padding = 0,
     this.backgroundColor = Colors.blueAccent,
   }) : super(key: key);
-
-  final double? width;
-  final double? height;
-  final double radius;
-  final double padding;
-  final Widget? child;
-  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +135,37 @@ class CircularContainer extends StatelessWidget {
         color: backgroundColor,
       ),
       child: child,
+    );
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Container(
+        width: 250,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.search, color: Colors.grey),
+            const SizedBox(width: 20),
+            Text(
+              'search in store',
+              style: Theme.of(context).textTheme.bodyText1!,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -125,6 +196,82 @@ class CustomCurvedEdges extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
+  }
+}
+
+class SectionHeading extends StatelessWidget {
+  final String title;
+  final bool showActionButton;
+
+  const SectionHeading({
+    required this.title,
+    this.showActionButton = true,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        if (showActionButton)
+          TextButton(
+            onPressed: () {},
+            child: const Text('button title'),
+          )
+      ],
+    );
+  }
+}
+
+class VerticalImageText extends StatelessWidget {
+  const VerticalImageText({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.only(right: 20),
+        child: Column(
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Center(
+                child: Image.asset(
+                  'assets/icons/Home_popular/icon.jfif',
+                  fit: BoxFit.cover,
+                  color: Colors.black12,
+                ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            SizedBox(
+              width: 55,
+              child: Text(
+                'store uvjdcv bb',
+                style: Theme.of(context).textTheme.labelMedium!.apply(color: Colors.white),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
 
