@@ -2,6 +2,8 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 
+import 'Setting.dart';
+
 class NavMenu extends StatelessWidget {
   const NavMenu({Key? key}) : super(key: key);
 
@@ -18,19 +20,19 @@ class NavMenu extends StatelessWidget {
         ),
         CurvedNavigationBarItem(
           child: Icon(
-            Icons.search,
+            Icons.favorite,
             color: Colors.red,
             size: 40,
           ),
-          label: 'Search',
+          label: 'Favorite',
         ),
         CurvedNavigationBarItem(
           child: Icon(Icons.chat_bubble_outline),
           label: 'Chat',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.newspaper),
-          label: 'Feed',
+          child: Icon(Icons.add),
+          label: 'Add',
         ),
         CurvedNavigationBarItem(
           child: Icon(Icons.perm_identity),
@@ -39,7 +41,14 @@ class NavMenu extends StatelessWidget {
       ],
       onTap: (index) {
         // Handle button tap
+        if (index == 4) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SettingScreen()),
+          );
+        }
       },
     );
   }
 }
+

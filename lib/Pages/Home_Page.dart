@@ -4,7 +4,6 @@ import 'package:mini_project/Pages/Sign_Log/SignUp_Page.dart';
 
 import '../CommonParts/AppBar.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -28,7 +27,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Wellcome To AudiRAB'),
+      appBar: CustomAppBar(title: 'Wellcome To AudiRAB'), // Hide the back button
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -62,8 +61,8 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 20),
             const Text(
               'Your additional text goes here'
-              'asugfdgfhwdfjk\n hfjwej ewgih jhwde cnwej'
-              'jdbfhkd shchw dsd hbixhk anxhbsx k \n gcz sbyshjb hcs',
+                  'asugfdgfhwdfjk\n hfjwej ewgih jhwde cnwej'
+                  'jdbfhkd shchw dsd hbixhk anxhbsx k \n gcz sbyshjb hcs',
               style: TextStyle(fontSize: 16, color: Colors.red),
               textAlign: TextAlign.center,
             ),
@@ -121,7 +120,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatelessWidget { // Renamed Search_Bar to SearchBar
+class SearchBar extends StatelessWidget {
   const SearchBar({Key? key}) : super(key: key);
 
   @override
