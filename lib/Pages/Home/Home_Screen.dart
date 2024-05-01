@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../CommonParts/AppBar.dart';
 import '../../CommonParts/Nav_Menu.dart';
 
@@ -9,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         title: 'AudiRAB',
       ),
       body: SingleChildScrollView(
@@ -39,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                             itemCount: 8,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (_, index) {
-                              return VerticalImageText();
+                              return const VerticalImageText();
                             },
                           ),
                         ),

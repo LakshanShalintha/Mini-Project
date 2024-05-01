@@ -185,6 +185,19 @@ class CurvedBackground extends StatelessWidget {
               backgroundColor: Colors.white70.withOpacity(0.1),
             ),
           ),
+          const Positioned(
+            top: 200,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Center(
+              child: Text(
+                'Your additional text goes here',
+                style: TextStyle(fontSize: 16, color: Colors.red),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: child,
