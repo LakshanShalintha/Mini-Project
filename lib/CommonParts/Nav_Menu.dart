@@ -1,7 +1,9 @@
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_project/Pages/Home/Home_Screen.dart';
 
+import '../Pages/Home/Favorite_Page.dart';
 import 'Setting.dart';
 
 class NavMenu extends StatelessWidget {
@@ -41,13 +43,36 @@ class NavMenu extends StatelessWidget {
       ],
       onTap: (index) {
         // Handle button tap
-        if (index == 4) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SettingScreen()),
-          );
+        switch (index) {
+          case 0:
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );// Home
+          // Handle navigation to Home
+            break;
+          case 1: // Favorite
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FavoritePage()),
+            );
+            break;
+          case 2: // Chat
+          // Handle navigation to Chat
+            break;
+          case 3: // Add
+          // Handle navigation to Add
+            break;
+          case 4:
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SettingScreen()),
+            );// Personal
+          // Handle navigation to Personal
+            break;
         }
       },
+
     );
   }
 }
