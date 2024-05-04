@@ -16,7 +16,7 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: FAppBar(
         title: 'Favorite',
         actions: [
           IconButton(
@@ -100,12 +100,12 @@ class _FavoritePageState extends State<FavoritePage> {
 
 
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class FAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
   final Color backgroundColor;
 
-  const CustomAppBar({
+  const FAppBar({
     Key? key,
     required this.title,
     this.actions,

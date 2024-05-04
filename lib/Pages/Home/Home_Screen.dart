@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../CommonParts/AppBar.dart';
+
 import '../../CommonParts/Nav_Menu.dart';
+import 'Favorite_Page.dart';
+
+void main() {
+  runApp(const MaterialApp(
+    home: HomeScreen(),
+  ));
+}
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -8,13 +15,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'AudiRAB',
+      appBar: AppBar(
+        title: const Text('Home Screen'),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            /// background
             CurvedBackground(
               child: Column(
                 children: [
@@ -45,6 +51,99 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                ],
+              ),
+            ),
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Your Grid Title',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  GridView.count(
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: List.generate(12, (index) {
+                      final itemText = index < 3
+                          ? 'l' * (index + 1)
+                          : index == 3
+                          ? 'qqqq'
+                          : index == 4
+                          ? 'wwww'
+                          : index == 5
+                          ? 'eeee'
+                          : index == 6
+                          ? 'vfgbgrb'
+                          : index == 7
+                          ? 'ffev'
+                          : index == 8
+                          ? 'ffr'
+                          : index == 9
+                          ? 'erffs'
+                          : index == 10
+                          ? 'sdfcdsdsd'
+                          : index == 11
+                          ? 'vfvdfvdfvscx'
+                          : index == 12
+                          ? 'xcdfqwd'
+                          : index == 13
+                          ? 'ililoil'
+                          : index == 14
+                          ? 'ujkiulyjt'
+                          : 'trdtdgdrg';
+                      return GestureDetector(
+                        onTap: () {
+                          // Navigate to FavoritePage when a grid item is tapped
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FavoritePage(),
+                            ),
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            GridItem(
+                              text: itemText, // Change text here
+                              image: 'assets/icons/Home_popular/icon.jfif', // Add image here
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 5,
+                              child: HeartButton(), // Add HeartButton widget here
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ),
+                  SizedBox(height: 20), // Add space between the GridView and the button
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => const HomeScreen()),
+                        );// Handle button tap
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.red), // Change the background color here
+                      ),
+                      child: Text(
+                        'More',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+
                 ],
               ),
             ),
@@ -89,10 +188,9 @@ class CurvedBackground extends StatelessWidget {
                   backgroundColor: Colors.white70.withOpacity(0.1),
                 ),
               ),
-              // Aligning child column to the center of the page
               Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width, // Match parent width
+                  width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: child,
                 ),
@@ -274,8 +372,68 @@ class VerticalImageText extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(const MaterialApp(
-    home: HomeScreen(),
-  ));
+class GridItem extends StatelessWidget {
+  final String text;
+  final String image;
+
+  const GridItem({
+    Key? key,
+    required this.text,
+    required this.image,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 110, // Adjust the width as needed
+      height: 110, // Adjust the height as needed
+      child: Container(
+        margin: EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
+        color: Colors.grey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              image,
+              width: 30,
+              height: 30,
+            ),
+            SizedBox(height: 5),
+            Text(
+              text,
+              style: TextStyle(color: Colors.black),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class HeartButton extends StatefulWidget {
+  const HeartButton({Key? key}) : super(key: key);
+
+  @override
+  _HeartButtonState createState() => _HeartButtonState();
+}
+
+class _HeartButtonState extends State<HeartButton> {
+  bool _isLiked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        _isLiked ? Icons.favorite : Icons.favorite_border,
+        color: _isLiked ? Colors.red : null,
+      ),
+      onPressed: () {
+        setState(() {
+          _isLiked = !_isLiked;
+        });
+      },
+    );
+  }
 }

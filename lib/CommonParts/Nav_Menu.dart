@@ -29,12 +29,14 @@ class NavMenu extends StatelessWidget {
           label: 'Favorite',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.chat_bubble_outline),
-          label: 'Chat',
+          child: Icon(Icons.add,
+            size: 40,
+          ),
+          label: 'New',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.add),
-          label: 'Add',
+          child: Icon(Icons.shopping_cart),
+          label: 'Cart',
         ),
         CurvedNavigationBarItem(
           child: Icon(Icons.perm_identity),
