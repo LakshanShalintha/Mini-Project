@@ -80,7 +80,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             decoration: const InputDecoration(
                               labelText: 'Username',
                               labelStyle: TextStyle(
-                                color: Colors.blue,
+                                color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -93,7 +93,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             decoration: InputDecoration(
                               labelText: 'Password',
                               labelStyle: const TextStyle(
-                                color: Colors.blue,
+                                color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),

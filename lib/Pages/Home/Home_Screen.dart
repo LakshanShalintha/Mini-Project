@@ -15,8 +15,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Screen'),
+      appBar: FAppBar(
+        title: 'Home Screen',
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -168,7 +168,7 @@ class CurvedBackground extends StatelessWidget {
     return ClipPath(
       clipper: CustomCurvedEdges(),
       child: Container(
-        color: Colors.blue,
+        color: Colors.purpleAccent,
         padding: const EdgeInsets.all(0),
         child: SizedBox(
           height: 320,
@@ -372,7 +372,7 @@ class VerticalImageText extends StatelessWidget {
   }
 }
 
-class GridItem extends StatelessWidget {
+class GridItem extends StatefulWidget {
   final String text;
   final String image;
 
@@ -381,6 +381,13 @@ class GridItem extends StatelessWidget {
     required this.text,
     required this.image,
   }) : super(key: key);
+
+  @override
+  _GridItemState createState() => _GridItemState();
+}
+
+class _GridItemState extends State<GridItem> {
+  bool _isLiked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -395,14 +402,25 @@ class GridItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              image,
+              widget.image,
               width: 30,
               height: 30,
             ),
             SizedBox(height: 5),
             Text(
-              text,
+              widget.text,
               style: TextStyle(color: Colors.black),
+            ),
+            IconButton(
+              icon: Icon(
+                _isLiked ? Icons.favorite : Icons.favorite_border,
+                color: _isLiked ? Colors.red : Colors.grey,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isLiked = !_isLiked;
+                });
+              },
             ),
           ],
         ),
@@ -410,6 +428,7 @@ class GridItem extends StatelessWidget {
     );
   }
 }
+
 
 
 class HeartButton extends StatefulWidget {

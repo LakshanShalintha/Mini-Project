@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Wellcome To AudiRAB'), // Hide the back button
+      appBar: const CustomAppBar(title: 'Wellcome To AudiRAB'), // Hide the back button
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -104,7 +104,7 @@ class HomePage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.blue, // Change font color
+                      backgroundColor: Colors.purpleAccent, // Change font color
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Change button padding
                       textStyle: const TextStyle(fontSize: 20), // Change font size
                     ),
@@ -120,36 +120,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Container(
-        width: 250,
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.grey),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.search, color: Colors.grey),
-            const SizedBox(width: 20),
-            Text(
-              'search in store',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 
 class CurvedBackground extends StatelessWidget {
@@ -215,7 +185,7 @@ class CircularContainer extends StatelessWidget {
     this.height = 400,
     this.radius = 400,
     this.padding = 0,
-    this.backgroundColor = Colors.blueAccent,
+    this.backgroundColor = Colors.purpleAccent,
   }) : super(key: key);
 
   final double? width;

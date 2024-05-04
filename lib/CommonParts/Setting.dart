@@ -229,7 +229,7 @@ class CurvedBackground extends StatelessWidget {
     return ClipPath(
       clipper: CustomCurvedEdges(),
       child: Container(
-        color: Colors.blue,
+        color: Colors.purpleAccent,
         padding: const EdgeInsets.all(0),
         child: SizedBox(
           height: 100,

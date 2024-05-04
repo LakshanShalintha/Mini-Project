@@ -128,7 +128,7 @@ class _OnboardingState extends State<Onboarding> {
                 }
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
+                backgroundColor: MaterialStateProperty.all(Colors.purpleAccent),
               ),
               child: Text(
                 currentIndex == contents.length - 1 ? "Finish" : "Next",
@@ -152,7 +152,7 @@ class _OnboardingState extends State<Onboarding> {
       margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: index == currentIndex ? Colors.blue : Colors.grey, // Active dot color
+        color: index == currentIndex ? Colors.purpleAccent : Colors.grey, // Active dot color
       ),
     );
   }

@@ -30,7 +30,7 @@ class _FavoritePageState extends State<FavoritePage> {
             },
           ),
         ],
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.purpleAccent,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -51,15 +51,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       child: Stack(
                         children: [
                           // Your content here
-                          Center(
-                            child: Icon(
-                              Icons.favorite,
-                              color: isFavorited[index]
-                                  ? Colors.red
-                                  : Colors.grey, // Change color based on isFavorited value
-                              size: 50,
-                            ),
-                          ),
+
                           // Heart button in top-right corner
                           Positioned(
                             top: 8,
@@ -109,7 +101,7 @@ class FAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     required this.title,
     this.actions,
-    this.backgroundColor = Colors.blue, // Default color is blue
+    this.backgroundColor = Colors.purpleAccent, // Default color is blue
   }) : super(key: key);
 
   @override
@@ -124,3 +116,5 @@ class FAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
+
+

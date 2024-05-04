@@ -80,7 +80,7 @@ class _SignUp_PageState extends State<SignUp_Page> {
                             decoration: const InputDecoration(
                               labelText: 'Username',
                               labelStyle: TextStyle(
-                                color: Colors.blue,
+                                color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -92,7 +92,7 @@ class _SignUp_PageState extends State<SignUp_Page> {
                             decoration: const InputDecoration(
                               labelText: 'Email',
                               labelStyle: TextStyle(
-                                color: Colors.blue,
+                                color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -105,7 +105,7 @@ class _SignUp_PageState extends State<SignUp_Page> {
                             decoration: InputDecoration(
                               labelText: 'Password',
                               labelStyle: const TextStyle(
-                                color: Colors.blue,
+                                color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
