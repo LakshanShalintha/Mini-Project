@@ -38,9 +38,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   curved_labeled_navigation_bar: ^2.0.2
   flutter_svg: ^2.0.10+1
-  file_picker: ^4.0.0
-  flutter_pdfview: ^1.0.1
-pdf_text: ^0.5.0
 
 dev_dependencies:
   flutter_test:

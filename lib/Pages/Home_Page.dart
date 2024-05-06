@@ -132,7 +132,7 @@ class CurvedBackground extends StatelessWidget {
     return Container(
       height: 280, // Adjust the height as needed
       decoration: const BoxDecoration(
-        color: Colors.blue,
+        color: Colors.purpleAccent,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40),
           bottomRight: Radius.circular(40),
