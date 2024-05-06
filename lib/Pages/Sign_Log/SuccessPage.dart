@@ -67,7 +67,7 @@ class SuccessPage extends StatelessWidget {
                   },
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
+                        MaterialStateProperty.all<Color>(Colors.purpleAccent),
                     minimumSize:
                         MaterialStateProperty.all<Size>(const Size(200, 50)),
                   ),

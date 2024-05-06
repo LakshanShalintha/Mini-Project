@@ -7,6 +7,8 @@ import 'AppBar.dart'; // Import the file where CurvedBackground is defined
 // Explicitly import VoidCallback from dart:ui
 import 'dart:ui' show VoidCallback;
 
+import 'Nav_Menu.dart';
+
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
 
@@ -124,7 +126,7 @@ class SettingScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                   ),
-                  child: Text(
+                  child: const Text(
                     'Log Out',
                     style: TextStyle(
                       color: Colors.white,
@@ -136,6 +138,7 @@ class SettingScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const NavMenu(),
     );
   }
 

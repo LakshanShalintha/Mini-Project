@@ -25,7 +25,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
             Text('Audio Books', style: TextStyle(fontSize: 25.0)),
           ],
         ),
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.purpleAccent,
         actions: [
           IconButton(
             onPressed: () {
@@ -165,7 +165,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                               },
                               style: ButtonStyle(
                                 backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.blue),
+                                MaterialStateProperty.all<Color>(Colors.purpleAccent),
                                 minimumSize:
                                 MaterialStateProperty.all<Size>(const Size(200, 50)),
                               ),

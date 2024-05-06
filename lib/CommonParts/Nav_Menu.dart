@@ -53,7 +53,7 @@ class NavMenu extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const HomeScreen()),
             );// Home
           // Handle navigation to Home
-            break;
+
           case 1: // Favorite
             Navigator.push(
               context,
@@ -61,7 +61,6 @@ class NavMenu extends StatelessWidget {
             );
             break;
           case 2: // Chat
-          // Handle navigation to Chat
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const NewStory()),

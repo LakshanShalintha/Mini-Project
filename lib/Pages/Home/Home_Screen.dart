@@ -236,36 +236,67 @@ class CircularContainer extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatelessWidget {
+
+
+class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
+
+  @override
+  _SearchBarState createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  bool _isFocused = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Container(
-        width: 250,
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.grey),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.search, color: Colors.grey),
-            const SizedBox(width: 20),
-            Text(
-              'search in store',
-              style: Theme.of(context).textTheme.bodyText1!,
+      child: TextFormField(
+        onTap: () {
+          setState(() {
+            _isFocused = true;
+          });
+        },
+        decoration: InputDecoration(
+          hintText: 'Search in story',
+          suffixIcon: _isFocused
+              ? IconButton(
+            icon: const Icon(Icons.search, color: Colors.black,
+            size: 35,
             ),
-          ],
+            onPressed: () {
+              // Handle search button press
+              // For example, you can show search results
+            },
+          )
+              : null,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(color: Colors.grey),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(color: Colors.grey),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(color: Colors.grey),
+          ),
+          filled: true, // Set filled to true
+          fillColor: Colors.white, // Set fillColor to white
         ),
       ),
     );
   }
 }
+
+
+
+
+
 
 class CustomCurvedEdges extends CustomClipper<Path> {
   @override
