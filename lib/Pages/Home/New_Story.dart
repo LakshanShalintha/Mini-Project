@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import '../../CommonParts/AppBar.dart';
 import '../../CommonParts/Nav_Menu.dart';
 import 'Home_Screen.dart';
+import 'package:file_picker/file_picker.dart';
+
 
 class NewStory extends StatelessWidget {
-  const NewStory({super.key});
+  const NewStory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       appBar: CustomAppBar(
         title: 'Create Own Story',
       ),
@@ -34,7 +36,58 @@ class NewStory extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
+            SizedBox(height: 20,),
+            Text(
+              'Upload Your Story',
+              style: TextStyle(fontSize: 20, color: Colors.brown),
+            ),
+            SizedBox(height: 20,),
+            ElevatedButton(
+              onPressed: () async {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['pdf'],
+                );
+
+                if (result != null) {
+                  PlatformFile file = result.files.first;
+                  // Use the selected file here
+                  print('Selected file: ${file.name}');
+                } else {
+                  // User canceled the picker
+                }
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.greenAccent), // Change button color here
+                padding: MaterialStateProperty.all(EdgeInsets.all(12)), // Change button padding here
+              ),
+              child: Text(
+                'Select PDF',
+                style: TextStyle(color: Colors.white), // Change text color here
+              ),
+            ),
+
+            SizedBox(height: 20,),
+            ElevatedButton(
+              onPressed: () {
+                // Handle button press
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                padding: MaterialStateProperty.all(EdgeInsets.all(12)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: Colors.black),
+                  ),
+                ),
+              ),
+              child: Text(
+                'Upload PDF',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
           ],
         ),
       ),
@@ -42,6 +95,7 @@ class NewStory extends StatelessWidget {
     );
   }
 }
+
 
 
 class CurvedBackground extends StatelessWidget {
