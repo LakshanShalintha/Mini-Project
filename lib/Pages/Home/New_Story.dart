@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../CommonParts/AppBar.dart';
 import '../../CommonParts/Nav_Menu.dart';
 import 'Home_Screen.dart';
-import 'package:file_picker/file_picker.dart';
 
 
 class NewStory extends StatelessWidget {
@@ -11,13 +10,13 @@ class NewStory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         title: 'Create Own Story',
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CurvedBackground(
+            const CurvedBackground(
               child: Column(
                 children: [
                   SizedBox(height: 25,),
@@ -37,53 +36,48 @@ class NewStory extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20,),
-            Text(
+            const SizedBox(height: 20,),
+            const Text(
               'Upload Your Story',
               style: TextStyle(fontSize: 20, color: Colors.brown),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             ElevatedButton(
-              onPressed: () async {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: ['pdf'],
-                );
-
-                if (result != null) {
-                  PlatformFile file = result.files.first;
-                  // Use the selected file here
-                  print('Selected file: ${file.name}');
-                } else {
-                  // User canceled the picker
-                }
+              onPressed: () {
+                // Handle button press
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.greenAccent), // Change button color here
-                padding: MaterialStateProperty.all(EdgeInsets.all(12)), // Change button padding here
+                backgroundColor: MaterialStateProperty.all(Colors.greenAccent),
+                padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: const BorderSide(color: Colors.black),
+                  ),
+                ),
               ),
-              child: Text(
-                'Select PDF',
-                style: TextStyle(color: Colors.white), // Change text color here
+              child: const Text(
+                'Selectc File',
+                style: TextStyle(color: Colors.black),
               ),
             ),
 
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             ElevatedButton(
               onPressed: () {
                 // Handle button press
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
-                padding: MaterialStateProperty.all(EdgeInsets.all(12)),
+                padding: MaterialStateProperty.all(const EdgeInsets.all(12)),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
-                    side: BorderSide(color: Colors.black),
+                    side: const BorderSide(color: Colors.black),
                   ),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Upload PDF',
                 style: TextStyle(color: Colors.black),
               ),
@@ -91,7 +85,7 @@ class NewStory extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: NavMenu(),
+      bottomNavigationBar: const NavMenu(),
     );
   }
 }
@@ -108,7 +102,7 @@ class CurvedBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 400, // Adjust the height as needed
       child: ClipPath(
         clipper: CustomCurvedEdges(),
@@ -239,8 +233,8 @@ class _SearchBarState extends State<SearchBar> {
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.redAccent), // Change the background color here
-            fixedSize: MaterialStateProperty.all(Size(100, 40)), // Change the size of the button here
-            side: MaterialStateProperty.all(BorderSide(color: Colors.orange, width: 2)), // Add border
+            fixedSize: MaterialStateProperty.all(const Size(100, 40)), // Change the size of the button here
+            side: MaterialStateProperty.all(const BorderSide(color: Colors.orange, width: 2)), // Add border
           ),
           child: const Text(
             'Create',

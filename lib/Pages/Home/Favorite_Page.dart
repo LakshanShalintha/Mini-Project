@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../CommonParts/AppBar.dart';
 import '../../CommonParts/Nav_Menu.dart';
 
 class FavoritePage extends StatefulWidget {
-  const FavoritePage({Key? key}) : super(key: key);
+  const FavoritePage({super.key});
 
   @override
   _FavoritePageState createState() => _FavoritePageState();
@@ -20,7 +19,7 @@ class _FavoritePageState extends State<FavoritePage> {
         title: 'Favorite',
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.add,
               size: 30,
               color: Colors.black,
@@ -34,14 +33,14 @@ class _FavoritePageState extends State<FavoritePage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               // Add your favorite items grid here
               GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: List.generate(6, (index) {
                   return GestureDetector(
                     onTap: () {
@@ -84,7 +83,7 @@ class _FavoritePageState extends State<FavoritePage> {
           ),
         ),
       ),
-      bottomNavigationBar: NavMenu(),
+      bottomNavigationBar: const NavMenu(),
     );
   }
 }
@@ -114,7 +113,7 @@ class FAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 

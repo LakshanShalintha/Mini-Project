@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: FAppBar(
+      appBar: const FAppBar(
         title: 'Home Screen',
       ),
       body: SingleChildScrollView(
@@ -103,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FavoritePage(),
+                              builder: (context) => const FavoritePage(),
                             ),
                           );
                         },
@@ -113,7 +113,7 @@ class HomeScreen extends StatelessWidget {
                               text: itemText, // Change text here
                               image: 'assets/icons/Home_popular/icon.jfif', // Add image here
                             ),
-                            Positioned(
+                            const Positioned(
                               top: 0,
                               right: 5,
                               child: HeartButton(), // Add HeartButton widget here
@@ -123,7 +123,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     }),
                   ),
-                  SizedBox(height: 20), // Add space between the GridView and the button
+                  const SizedBox(height: 20), // Add space between the GridView and the button
                   Center(
                     child: TextButton(
                       onPressed: () {
@@ -134,7 +134,7 @@ class HomeScreen extends StatelessWidget {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.red), // Change the background color here
                       ),
-                      child: Text(
+                      child: const Text(
                         'More',
                         style: TextStyle(
                           color: Colors.black,
@@ -426,8 +426,8 @@ class _GridItemState extends State<GridItem> {
       width: 110, // Adjust the width as needed
       height: 110, // Adjust the height as needed
       child: Container(
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         color: Colors.grey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -437,10 +437,10 @@ class _GridItemState extends State<GridItem> {
               width: 30,
               height: 30,
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               widget.text,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
             IconButton(
               icon: Icon(

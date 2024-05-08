@@ -8,7 +8,7 @@ import '../Pages/Home/Favorite_Page.dart';
 import 'Setting.dart';
 
 class NavMenu extends StatelessWidget {
-  const NavMenu({Key? key}) : super(key: key);
+  const NavMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,7 @@ class NavMenu extends StatelessWidget {
           label: 'Favorite',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.add,
-            size: 40,
-          ),
+          child: Icon(Icons.add, size: 40),
           label: 'New',
         ),
         CurvedNavigationBarItem(
@@ -51,35 +49,33 @@ class NavMenu extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );// Home
-          // Handle navigation to Home
-
-          case 1: // Favorite
+            );
+            break; // Add break statement
+          case 1:
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const FavoritePage()),
             );
             break;
-          case 2: // Chat
+          case 2:
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const NewStory()),
             );
             break;
-          case 3: // Add
-          // Handle navigation to Add
+          case 3:
+          // Handle navigation to Cart
             break;
           case 4:
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const SettingScreen()),
-            );// Personal
-          // Handle navigation to Personal
+            );
             break;
         }
       },
-
     );
   }
 }
+
 
