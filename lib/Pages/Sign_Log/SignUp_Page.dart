@@ -26,18 +26,7 @@ class _SignUp_PageState extends State<SignUp_Page> {
           ],
         ),
         backgroundColor: Colors.purpleAccent,
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Navigate to login page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LogIn_Page()),
-              );
-            },
-            icon: const Icon(Icons.login),
-          ),
-        ],
+
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -45,14 +34,7 @@ class _SignUp_PageState extends State<SignUp_Page> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 0.1),
-              const Center(
-                child: Image(
-                  height: 50,
-                  image: AssetImage("assets/logos/login.png"),
-                ),
-              ),
-              const SizedBox(height: 0.01),
+              const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -182,18 +164,28 @@ class _SignUp_PageState extends State<SignUp_Page> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => const LogIn_Page()),
+                              );
+                            },
+                            child: Text(
+                              'Already have an account? Log In',
+                              style: TextStyle(color: Color.fromARGB(255, 25, 26, 13)),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Flexible(
                           child: Divider(
                             color: Colors.red,
-                            thickness: 0.5,
+                            thickness: 1.5,
                             indent: 60,
                             endIndent: 5,
                           ),
@@ -206,7 +198,7 @@ class _SignUp_PageState extends State<SignUp_Page> {
                         Flexible(
                           child: Divider(
                             color: Colors.red,
-                            thickness: 0.5,
+                            thickness: 1.5,
                             indent: 5,
                             endIndent: 60,
                           ),

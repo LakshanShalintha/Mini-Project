@@ -26,18 +26,6 @@ class _LogIn_PageState extends State<LogIn_Page> {
           ],
         ),
         backgroundColor: Colors.purpleAccent,
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Navigate to login page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SignUp_Page()),
-              );
-            },
-            icon: const Icon(Icons.login),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -45,14 +33,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 0.1),
-              const Center(
-                child: Image(
-                  height: 50,
-                  image: AssetImage("assets/logos/login.png"),
-                ),
-              ),
-              const SizedBox(height: 0.01),
+              const SizedBox(height: 55),
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -143,12 +124,17 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const Forgot_pass()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Forgot_pass()),
                                   );
                                 },
-                                child: const Text("Forgot Password",
+                                child: const Text(
+                                  "Forgot Password",
                                   style: TextStyle(
-                                    fontSize: 15,fontWeight: FontWeight.bold,color: Colors.red,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
                                   ),
                                 ),
                               ),
@@ -160,14 +146,16 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                                  MaterialPageRoute(
+                                      builder: (context) => const HomeScreen()),
                                 );
                               },
                               style: ButtonStyle(
                                 backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.purpleAccent),
-                                minimumSize:
-                                MaterialStateProperty.all<Size>(const Size(200, 50)),
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.purpleAccent),
+                                minimumSize: MaterialStateProperty.all<Size>(
+                                    const Size(200, 50)),
                               ),
                               child: const Text(
                                 "LogIn",
@@ -179,11 +167,23 @@ class _LogIn_PageState extends State<LogIn_Page> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => const SignUp_Page()),
+                              );
+                            },
+                            child: Text(
+                              "You don't have an account? SignUp",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 25, 26, 13)),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -195,9 +195,12 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             endIndent: 5,
                           ),
                         ),
-                        Text("or",
+                        Text(
+                          "or",
                           style: TextStyle(
-                            fontSize: 30,fontWeight: FontWeight.bold,color: Colors.green,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
                           ),
                         ),
                         Flexible(
