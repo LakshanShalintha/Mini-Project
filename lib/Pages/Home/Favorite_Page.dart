@@ -31,6 +31,7 @@ class _FavoritePageState extends State<FavoritePage> {
         ],
         backgroundColor: Colors.purpleAccent,
       ),
+      backgroundColor: Colors.purple,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),

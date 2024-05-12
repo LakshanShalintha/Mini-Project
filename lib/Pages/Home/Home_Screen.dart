@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_project/Pages/Home/Gallery.dart';
 
 import '../../CommonParts/Nav_Menu.dart';
 import 'Favorite_Page.dart';
@@ -128,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => const HomeScreen()),
+                          MaterialPageRoute(builder: (context) => const Gallery()),
                         );// Handle button tap
                       },
                       style: ButtonStyle(
