@@ -27,7 +27,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Wellcome To AudiRAB'), // Hide the back button
+      appBar: const CustomAppBar(
+          title: 'Wellcome To AudiRAB'), // Hide the back button
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -38,42 +39,30 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20),
                     child: Column(
                       children: [
-                        const SizedBox(height: 20,),
-                        const SectionHeading(title: 'popular categories', showActionButton: false),
                         const SizedBox(height: 20),
-                        SizedBox(
-                          height: 80,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 8,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (_,index) {
-                              return const VerticalImageText();
-                            },
-                          ),
+                        const SectionHeading(
+                            title: 'AudiRAB', showActionButton: false),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Your additional text goes here'
+                          'asugfdgfhwdfjk\n hfjwej ewgih jhwde cnwej'
+                          'jdbfhkd shchw dsd hbixhk anxhbsx k \n gcz sbyshjb hcs',
+                          style: TextStyle(fontSize: 16, color: Colors.black),
+                          textAlign: TextAlign.center,
                         ),
+                        const SizedBox(height: 40), // Adding some space between text and image
+                        Image.asset(
+                          'assets/images/on_boarding/onboard01.png',
+                          height: 120,
+                          width: 150,
+                        )
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'Your additional text goes here'
-                  'asugfdgfhwdfjk\n hfjwej ewgih jhwde cnwej'
-                  'jdbfhkd shchw dsd hbixhk anxhbsx k \n gcz sbyshjb hcs',
-              style: TextStyle(fontSize: 16, color: Colors.red),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 15,),
-            const Center(
-              child: Image(
-                height: 170,
-                width: 200,
-                image: AssetImage("assets/images/on_boarding/onboard01.png"),
-              ),
-            ),
+            SizedBox(height: 80,),
             // Add SignUp and LogIn buttons
             Container(
               alignment: Alignment.bottomCenter,
@@ -84,29 +73,40 @@ class HomePage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const SignUp_Page()),
-                      );// Handle SignUp button tap
+                        MaterialPageRoute(
+                            builder: (context) => const SignUp_Page()),
+                      ); // Handle SignUp button tap
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.green, // Change font color
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Change button padding
-                      textStyle: const TextStyle(fontSize: 20), // Change font size
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10), // Change button padding
+                      textStyle:
+                          const TextStyle(fontSize: 20), // Change font size
                     ),
                     child: const Text('Sign Up'),
                   ),
-                  const SizedBox(width: 10, height: 100,),
+                  const SizedBox(
+                    width: 10,
+                    height: 100,
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const LogIn_Page()),
-                      );// Handle LogIn button tap
+                        MaterialPageRoute(
+                            builder: (context) => const LogIn_Page()),
+                      ); // Handle LogIn button tap
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.purpleAccent, // Change font color
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Change button padding
-                      textStyle: const TextStyle(fontSize: 20), // Change font size
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10), // Change button padding
+                      textStyle:
+                          const TextStyle(fontSize: 20), // Change font size
                     ),
                     child: const Text('Log In'),
                   ),
@@ -120,8 +120,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-
-
 class CurvedBackground extends StatelessWidget {
   final Widget child;
 
@@ -130,7 +128,7 @@ class CurvedBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 280, // Adjust the height as needed
+      height: 400, // Adjust the height as needed
       decoration: const BoxDecoration(
         color: Colors.purpleAccent,
         borderRadius: BorderRadius.only(
@@ -160,11 +158,6 @@ class CurvedBackground extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: Center(
-              child: Text(
-                'Your additional text goes here',
-                style: TextStyle(fontSize: 16, color: Colors.red),
-                textAlign: TextAlign.center,
-              ),
             ),
           ),
           Padding(
@@ -226,7 +219,10 @@ class SectionHeading extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white), // Adjusted text color
+          style: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(color: Colors.white), // Adjusted text color
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -236,52 +232,6 @@ class SectionHeading extends StatelessWidget {
             child: const Text('button title'),
           )
       ],
-    );
-  }
-}
-
-class VerticalImageText extends StatelessWidget {
-  const VerticalImageText({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Padding(
-        padding: const EdgeInsets.only(right: 20),
-        child: Column(
-          children: [
-            Container(
-              width: 56,
-              height: 56,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Center(
-                child: Image.asset(
-                  'assets/icons/Home_popular/icon.jfif',
-                  fit: BoxFit.cover,
-                  color: Colors.black12,
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            SizedBox(
-              width: 55,
-              child: Text(
-                'store uvjdcv bb',
-                style: Theme.of(context).textTheme.labelMedium!.apply(color: Colors.white),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

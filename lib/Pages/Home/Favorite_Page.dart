@@ -37,12 +37,11 @@ class _FavoritePageState extends State<FavoritePage> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              // Add your favorite items grid here
               GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: List.generate(6, (index) {
+                children: List.generate(12, (index) {
                   return GestureDetector(
                     onTap: () {
                       // Handle item tap
@@ -64,12 +63,8 @@ class _FavoritePageState extends State<FavoritePage> {
                                 });
                               },
                               child: Icon(
-                                isFavorited[index]
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: isFavorited[index]
-                                    ? Colors.red
-                                    : Colors.grey, // Change color based on isFavorited value
+                                Icons.favorite,
+                                color: Colors.red, // Always show as red
                                 size: 30,
                               ),
                             ),
@@ -89,9 +84,6 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 }
 
-
-
-
 class FAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
@@ -101,7 +93,7 @@ class FAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     required this.title,
     this.actions,
-    this.backgroundColor = Colors.purpleAccent, // Default color is blue
+    this.backgroundColor = Colors.purpleAccent, // Default color is purpleAccent
   }) : super(key: key);
 
   @override
@@ -116,5 +108,3 @@ class FAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-
-
