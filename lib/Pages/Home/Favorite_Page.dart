@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../CommonParts/Nav_Menu.dart';
+import 'Gallery.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({super.key});
@@ -25,7 +26,9 @@ class _FavoritePageState extends State<FavoritePage> {
               color: Colors.black,
             ),
             onPressed: () {
-              // Add your functionality here
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const Gallery()),
+              );// Add your functionality here
             },
           ),
         ],
