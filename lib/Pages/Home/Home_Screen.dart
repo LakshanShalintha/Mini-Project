@@ -371,21 +371,13 @@ class VerticalImageText extends StatelessWidget {
         padding: const EdgeInsets.only(right: 20),
         child: Column(
           children: [
-            Container(
-              width: 56,
-              height: 56,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Center(
-                child: Image.asset(
-                  'assets/icons/Home_popular/icon.jfif',
-                  fit: BoxFit.cover,
-                  color: Colors.black12,
-                ),
-              ),
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 28,
+              child: Image.asset('assets/logos/facebook.png',
+                width: 40,
+                height: 40,
+              ), // Replace 'your_image.png' with your image asset path
             ),
             const SizedBox(height: 5),
             SizedBox(
