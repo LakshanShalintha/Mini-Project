@@ -3,7 +3,7 @@ import '../../CommonParts/Nav_Menu.dart';
 import 'Gallery.dart';
 
 class FavoritePage extends StatefulWidget {
-  const FavoritePage({super.key});
+  const FavoritePage({Key? key});
 
   @override
   _FavoritePageState createState() => _FavoritePageState();
@@ -11,7 +11,7 @@ class FavoritePage extends StatefulWidget {
 
 class _FavoritePageState extends State<FavoritePage> {
   // Boolean list to track whether each grid item is favorited or not
-  List<bool> isFavorited = List.generate(6, (index) => false);
+  List<bool> isFavorited = List.generate(12, (index) => false); // Updated grid count to match the number of grid items
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +66,12 @@ class _FavoritePageState extends State<FavoritePage> {
                                 });
                               },
                               child: Icon(
-                                Icons.favorite,
-                                color: Colors.red, // Always show as red
+                                isFavorited[index]
+                                    ? Icons.favorite_border
+                                    : Icons.favorite,
+                                color: isFavorited[index]
+                                    ? Colors.grey
+                                    : Colors.red, // Change color based on isFavorited value
                                 size: 30,
                               ),
                             ),
