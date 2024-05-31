@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SectionHeading(title: 'popular categories', showActionButton: false),
+                        const SectionHeading(title: 'Popular Categories', showActionButton: false),
                         const SizedBox(
                           height: 20,
                         ),
@@ -133,18 +133,17 @@ class HomeScreen extends StatelessWidget {
                         );// Handle button tap
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.red), // Change the background color here
+                        backgroundColor: MaterialStateProperty.all(Colors.teal), // Change the background color here
                       ),
                       child: const Text(
                         'More',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 20,
                         ),
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -169,7 +168,7 @@ class CurvedBackground extends StatelessWidget {
     return ClipPath(
       clipper: CustomCurvedEdges(),
       child: Container(
-        color: Colors.purpleAccent,
+        color: Colors.lightBlue.shade300,
         padding: const EdgeInsets.all(0),
         child: SizedBox(
           height: 320,
@@ -219,7 +218,7 @@ class CircularContainer extends StatelessWidget {
     this.height = 400,
     this.radius = 400,
     this.padding = 0,
-    this.backgroundColor = Colors.blueAccent,
+    this.backgroundColor = Colors.lightBlue,
   }) : super(key: key);
 
   @override
@@ -236,8 +235,6 @@ class CircularContainer extends StatelessWidget {
     );
   }
 }
-
-
 
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
@@ -265,9 +262,7 @@ class _SearchBarState extends State<SearchBar> {
           hintText: 'Search in story',
           suffixIcon: _isFocused
               ? IconButton(
-            icon: const Icon(Icons.search, color: Colors.black,
-            size: 35,
-            ),
+            icon: const Icon(Icons.search, color: Colors.black, size: 35),
             onPressed: () {
               // Handle search button press
               // For example, you can show search results
@@ -293,11 +288,6 @@ class _SearchBarState extends State<SearchBar> {
     );
   }
 }
-
-
-
-
-
 
 class CustomCurvedEdges extends CustomClipper<Path> {
   @override
@@ -421,7 +411,7 @@ class _GridItemState extends State<GridItem> {
       child: Container(
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.all(8),
-        color: Colors.grey,
+        color: Colors.lightGreen.shade100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -452,8 +442,6 @@ class _GridItemState extends State<GridItem> {
     );
   }
 }
-
-
 
 class HeartButton extends StatefulWidget {
   const HeartButton({Key? key}) : super(key: key);

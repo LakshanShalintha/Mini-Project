@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-          title: 'Wellcome To AudiRAB'), // Hide the back button
+          title: 'Welcome To AudiRAB'), // Hide the back button
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -45,8 +45,8 @@ class HomePage extends StatelessWidget {
                         const SizedBox(height: 20),
                         const Text(
                           'Your additional text goes here'
-                          'asugfdgfhwdfjk\n hfjwej ewgih jhwde cnwej'
-                          'jdbfhkd shchw dsd hbixhk anxhbsx k \n gcz sbyshjb hcs',
+                              'asugfdgfhwdfjk\n hfjwej ewgih jhwde cnwej'
+                              'jdbfhkd shchw dsd hbixhk anxhbsx k \n gcz sbyshjb hcs',
                           style: TextStyle(fontSize: 16, color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 80,),
+            const SizedBox(height: 80,),
             // Add SignUp and LogIn buttons
             Container(
               alignment: Alignment.bottomCenter,
@@ -79,12 +79,12 @@ class HomePage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.green, // Change font color
+                      backgroundColor: Colors.teal, // Change button color
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 10), // Change button padding
                       textStyle:
-                          const TextStyle(fontSize: 20), // Change font size
+                      const TextStyle(fontSize: 20), // Change font size
                     ),
                     child: const Text('Sign Up'),
                   ),
@@ -101,12 +101,12 @@ class HomePage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.purpleAccent, // Change font color
+                      backgroundColor: Colors.blueAccent, // Change button color
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 10), // Change button padding
                       textStyle:
-                          const TextStyle(fontSize: 20), // Change font size
+                      const TextStyle(fontSize: 20), // Change font size
                     ),
                     child: const Text('Log In'),
                   ),
@@ -130,7 +130,7 @@ class CurvedBackground extends StatelessWidget {
     return Container(
       height: 400, // Adjust the height as needed
       decoration: const BoxDecoration(
-        color: Colors.purpleAccent,
+        color: Colors.teal, // New background color
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40),
           bottomRight: Radius.circular(40),
@@ -178,7 +178,7 @@ class CircularContainer extends StatelessWidget {
     this.height = 400,
     this.radius = 400,
     this.padding = 0,
-    this.backgroundColor = Colors.purpleAccent,
+    this.backgroundColor = Colors.teal, // New color
   }) : super(key: key);
 
   final double? width;

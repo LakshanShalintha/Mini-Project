@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:url_launcher/url_launcher.dart';
 import '../Home/Home_Screen.dart';
 import 'Forgot/Forgot_pass.dart';
 import 'SignUp_Page.dart';
@@ -295,18 +295,23 @@ class _LogIn_PageState extends State<LogIn_Page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          // Handle Facebook login
+                        onTap: () async {
+                          const googleUrl = 'https://www.google.com';
+                          if (await canLaunch(googleUrl)) {
+                            await launch(googleUrl);
+                          } else {
+                            throw 'Could not launch $googleUrl';
+                          }
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.zero,
                             ),
                             child: IconButton(
                               onPressed: () {
-                                // Handle Facebook login
+                                // Handle Google login
                               },
                               icon: Image(
                                 width: 50,
@@ -316,8 +321,8 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             ),
                           ),
                         ),
-
                       ),
+
                       GestureDetector(
                         onTap: () {
                           // Handle Google login
