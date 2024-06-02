@@ -159,13 +159,13 @@ class _SignUpPageState extends State<SignUp_Page> {
                           ),
                           child: TextField(
                             controller: phoneNumberController,
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.phone),
                               hintText: 'Phone Number',
                               hintStyle: const TextStyle(color: Colors.black),
                               border: const OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(
                                   color: Colors.black, // Border color
                                   width: 2.0, // Border width
@@ -181,8 +181,7 @@ class _SignUpPageState extends State<SignUp_Page> {
                             onChanged: (value) {
                               if (!RegExp(r'^[0-9]*$').hasMatch(value)) {
                                 setState(() {
-                                  phoneNumberErrorText =
-                                  'Please enter a valid phone number';
+                                  phoneNumberErrorText = 'Please enter a valid phone number';
                                 });
                               } else {
                                 setState(() {
@@ -193,6 +192,7 @@ class _SignUpPageState extends State<SignUp_Page> {
                           ),
                         ),
                       ),
+
                       if (phoneNumberErrorText.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.symmetric(
