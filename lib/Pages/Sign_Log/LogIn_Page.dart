@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mini_project/Pages/Sign_Log/Facebook_LogIn.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Home/Home_Screen.dart';
 import 'Forgot/Forgot_pass.dart';
@@ -14,11 +15,13 @@ class LogIn_Page extends StatefulWidget {
 }
 
 class _LogIn_PageState extends State<LogIn_Page> {
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   bool rememberMe = false;
   bool _showPassword = false;
+  String emailErrorText = '';
+
 
   Future<void> signIn() async {
     String url = 'http://10.0.2.2:8000/login/';
@@ -27,7 +30,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
       final response = await http.post(
         Uri.parse(url),
         body: {
-          'email': usernameController.text,
+          'email': emailController.text,
           'password': passwordController.text,
         },
       );
@@ -97,68 +100,86 @@ class _LogIn_PageState extends State<LogIn_Page> {
                     alignment: const Alignment(0, 0.06),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 30.0, vertical: 20.0),
-                      child: TextField(
-                        controller: usernameController,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.person),
-                          hintText: 'Username',
-                          hintStyle: const TextStyle(color: Colors.black),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.black, // Border color
-                              width: 2.0, // Border width
+                        horizontal: 30.0,
+                        vertical: 20.0,
+                      ),
+                      child: Column(
+                        children: [
+                          // Email Field
+                          TextField(
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.email),
+                              hintText: 'Email',
+                              hintStyle: const TextStyle(color: Colors.black),
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  color: Colors.black, // Border color
+                                  width: 2.0, // Border width
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.5),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 5,
+                                vertical: 2.5,
+                              ),
+                              errorText: emailErrorText.isNotEmpty ? emailErrorText : null,
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                if (!RegExp(
+                                  r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$',
+                                ).hasMatch(value)) {
+                                  emailErrorText = 'Please enter a valid email address';
+                                } else {
+                                  emailErrorText = '';
+                                }
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 15.0), // Add some spacing between the fields
+                          // Password Field
+                          TextField(
+                            controller: passwordController,
+                            obscureText: !_showPassword,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.lock),
+                              hintText: 'Password',
+                              hintStyle: const TextStyle(color: Colors.black),
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  color: Colors.black, // Border color
+                                  width: 2.0, // Border width
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.5),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 5,
+                                vertical: 2.5,
+                              ),
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _showPassword = !_showPassword;
+                                  });
+                                },
+                                child: Icon(
+                                  _showPassword ? Icons.visibility : Icons.visibility_off,
+                                ),
+                              ),
                             ),
                           ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.5),
-                        ),
+                        ],
                       ),
                     ),
                   ),
 
-                  //Password
-                  Align(
-                    alignment: const Alignment(0, 0.06),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0,
-                        vertical: 20.0,
-                      ),
-                      child: TextField(
-                        controller: passwordController,
-                        obscureText: !_showPassword,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.lock),
-                          hintText: 'Password',
-                          hintStyle: const TextStyle(color: Colors.black),
-                          border: const OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.black, // Border color
-                              width: 2.0, // Border width
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.5),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _showPassword = !_showPassword;
-                              });
-                            },
-                            child: Icon(
-                              _showPassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+
                   const SizedBox(height: 0),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -335,7 +356,10 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             ),
                             child: IconButton(
                               onPressed: () {
-                                // Handle Facebook login
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>  FacebookLoginPage()),
+                                );
                               },
                               icon: Image(
                                 width: 50,
