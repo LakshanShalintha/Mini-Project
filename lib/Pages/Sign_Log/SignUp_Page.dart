@@ -21,6 +21,8 @@ class _SignUpPageState extends State<SignUp_Page> {
   bool _showPassword = false;
   bool _showConfirmPassword = false;
   bool rememberMe = false;
+  String emailErrorText = '';
+
 
   Future<void> signUp() async {
     // Your backend endpoint URL
@@ -126,30 +128,47 @@ class _SignUpPageState extends State<SignUp_Page> {
                             horizontal: 20.0,
                             vertical: 15.0,
                           ),
-                          child: TextField(
-                            controller: emailController,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.email),
-                              hintText: 'Email',
-                              hintStyle: const TextStyle(color: Colors.black),
-                              border: const OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  color: Colors.black, // Border color
-                                  width: 2.0, // Border width
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  prefixIcon: const Icon(Icons.email),
+                                  hintText: 'Email',
+                                  hintStyle: const TextStyle(color: Colors.black),
+                                  border: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    borderSide: BorderSide(
+                                      color: Colors.black, // Border color
+                                      width: 2.0, // Border width
+                                    ),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white.withOpacity(0.5),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 5,
+                                    vertical: 2.5,
+                                  ),
+                                  errorText: emailErrorText.isNotEmpty ? emailErrorText : null,
                                 ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (!RegExp(
+                                      r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$',
+                                    ).hasMatch(value)) {
+                                      emailErrorText = 'Please enter a valid email address';
+                                    } else {
+                                      emailErrorText = '';
+                                    }
+                                  });
+                                },
                               ),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.5),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 5,
-                                vertical: 2.5,
-                              ),
-                            ),
+                            ],
                           ),
                         ),
                       ),
+
                       Align(
                         alignment: const Alignment(0, 0.06),
                         child: Padding(
