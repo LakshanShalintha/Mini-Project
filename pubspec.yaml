@@ -36,8 +36,6 @@ dependencies:
   curved_labeled_navigation_bar: ^2.0.2
   flutter_svg: ^2.0.10+1
   url_launcher: ^6.2.6
-  flutter_facebook_auth: ^7.0.0
-  firebase_auth: ^4.20.0
 
 dev_dependencies:
   flutter_test:
