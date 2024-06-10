@@ -5,6 +5,7 @@ import 'package:mini_project/Pages/Sign_Log/Facebook_LogIn.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Home/Home_Screen.dart';
 import 'Forgot/Forgot_pass.dart';
+import 'Gmail_LogIn.dart';
 import 'SignUp_Page.dart';
 
 class LogIn_Page extends StatefulWidget {
@@ -332,7 +333,10 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             ),
                             child: IconButton(
                               onPressed: () {
-                                // Handle Google login
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>  GmailLoginPage()),
+                                );// Handle Google login
                               },
                               icon: Image(
                                 width: 50,
