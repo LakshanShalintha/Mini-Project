@@ -102,7 +102,12 @@ class _GmailLoginPageState extends State<GmailLoginPage> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                          builder: (context) =>  PasswordScreen()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF1877F2),
                     shape: RoundedRectangleBorder(
@@ -151,3 +156,97 @@ class _GmailLoginPageState extends State<GmailLoginPage> {
     );
   }
 }
+
+class PasswordScreen extends StatefulWidget {
+  @override
+  _PasswordScreenState createState() => _PasswordScreenState();
+}
+
+class _PasswordScreenState extends State<PasswordScreen> {
+  bool _obscureText = true; // Initially obscure the text
+  bool _showPassword = false; // Checkbox state
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+      _showPassword = !_showPassword;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Google Login'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Image.asset(
+              'assets/logos/google.png', // Make sure to add Google logo in assets
+              height: 100,
+            ),
+            SizedBox(height: 40),
+            Text(
+              'Welcome',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 20),
+            /*Text(
+              'nlsperea@std.appsc.sab.ac.lk',
+              style: TextStyle(fontSize: 18),
+            ),*/
+            SizedBox(height: 20),
+            Text(
+              'To continue, first verify that it\'s you',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Enter your password',
+                border: OutlineInputBorder(),
+              ),
+              obscureText: _obscureText, // Use the state variable here
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: <Widget>[
+                Checkbox(
+                  value: _showPassword,
+                  onChanged: (bool? value) {
+                    _togglePasswordVisibility(); // Toggle password visibility
+                  },
+                ),
+                Text('Show password'),
+              ],
+            ),
+            SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text('Next'),
+              ),
+            ),
+            SizedBox(height: 20),
+            /*Center(
+              child: TextButton(
+                onPressed: () {},
+                child: Text('Forgot password?'),
+              ),
+            ),*/
+          ],
+        ),
+      ),
+    );
+  }
+}
+
