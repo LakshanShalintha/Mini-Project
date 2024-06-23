@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../Home/Home_Screen.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -65,16 +67,16 @@ class _GmailLoginPageState extends State<GmailLoginPage> {
                   'assets/logos/google.png', // Make sure to add Google logo in assets
                   height: 100,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   localizedStrings[_selectedLanguage]!['signIn']!,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   localizedStrings[_selectedLanguage]!['toContinue']!,
                   textAlign: TextAlign.center,
@@ -83,14 +85,14 @@ class _GmailLoginPageState extends State<GmailLoginPage> {
                     color: Colors.grey[700],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextField(
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     labelText: localizedStrings[_selectedLanguage]!['emailOrPhone']!,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: TextButton(
@@ -100,7 +102,7 @@ class _GmailLoginPageState extends State<GmailLoginPage> {
                     child: Text(localizedStrings[_selectedLanguage]!['forgotEmail']!),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
@@ -109,32 +111,32 @@ class _GmailLoginPageState extends State<GmailLoginPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF1877F2),
+                    backgroundColor: const Color(0xFF1877F2),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 100.0),
+                    padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 100.0),
                   ),
                   child: Text(
                     localizedStrings[_selectedLanguage]!['next']!,  // Corrected key to 'next'
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
                     // Handle create account
                   },
                   child: Text(localizedStrings[_selectedLanguage]!['createAccount']!),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 DropdownButton<String>(
                   value: _selectedLanguage,
                   dropdownColor: Colors.white,
-                  style: TextStyle(color: Colors.black),
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
+                  icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
                   items: <String>['English', 'Sinhala', 'Tamil']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
@@ -158,6 +160,8 @@ class _GmailLoginPageState extends State<GmailLoginPage> {
 }
 
 class PasswordScreen extends StatefulWidget {
+  const PasswordScreen({super.key});
+
   @override
   _PasswordScreenState createState() => _PasswordScreenState();
 }
@@ -177,13 +181,13 @@ class _PasswordScreenState extends State<PasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Google Login'),
+        title: const Text('Google Login'),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -191,33 +195,33 @@ class _PasswordScreenState extends State<PasswordScreen> {
               'assets/logos/google.png', // Make sure to add Google logo in assets
               height: 100,
             ),
-            SizedBox(height: 40),
-            Text(
+            const SizedBox(height: 40),
+            const Text(
               'Welcome',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             /*Text(
               'nlsperea@std.appsc.sab.ac.lk',
               style: TextStyle(fontSize: 18),
             ),*/
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'To continue, first verify that it\'s you',
               style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Enter your password',
                 border: OutlineInputBorder(),
               ),
               obscureText: _obscureText, // Use the state variable here
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: <Widget>[
                 Checkbox(
@@ -226,17 +230,21 @@ class _PasswordScreenState extends State<PasswordScreen> {
                     _togglePasswordVisibility(); // Toggle password visibility
                   },
                 ),
-                Text('Show password'),
+                const Text('Show password'),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Center(
               child: ElevatedButton(
-                onPressed: () {},
-                child: Text('Next'),
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  );// Handle button tap
+                },
+                child: const Text('Next'),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             /*Center(
               child: TextButton(
                 onPressed: () {},
