@@ -65,7 +65,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -200,7 +200,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             },
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 4,
                           child: Text(
                             'Remember Me',
@@ -217,7 +217,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                               MaterialPageRoute(builder: (context) => Forgot_pass()),
                             );
                           },
-                          child: Text(
+                          child: const Text(
                             'Forgot Password?',
                             style: TextStyle(
                               fontSize: 14,
@@ -280,8 +280,8 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20,),
-                        Row(
+                        const SizedBox(height: 20,),
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Flexible(
@@ -328,7 +328,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.zero,
                             ),
                             child: IconButton(
@@ -338,7 +338,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                   MaterialPageRoute(builder: (context) =>  GmailLoginPage()),
                                 );// Handle Google login
                               },
-                              icon: Image(
+                              icon: const Image(
                                 width: 50,
                                 height: 40,
                                 image: AssetImage("assets/logos/google.png"),
@@ -365,7 +365,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                   MaterialPageRoute(builder: (context) =>  FacebookLoginPage()),
                                 );
                               },
-                              icon: Image(
+                              icon: const Image(
                                 width: 50,
                                 height: 40,
                                 image: AssetImage("assets/logos/facebook.png"),
