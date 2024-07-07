@@ -23,7 +23,7 @@ class NewStory extends StatelessWidget {
                   Center(
                     child: Text(
                       'nkscnv kkcc khbdskbcbsa kahbcas\n uhikh hibkhbhda\n hgsgAHV JHSGHAVJXHVAX JADVAJVXVAX VJ'
-                          'KHGAJHXBAX \nKGIAx  ckjcs xkbcbs z ',
+                          'KHGAJHXBAX \nKGIAx  jhbfjdb hufhwebh ubwuhdb uywdhbwhsd hhbckjcs xkbcbs z ',
                       style: TextStyle(color: Colors.black, fontSize: 18),
                       textAlign: TextAlign.center,
                     ),
