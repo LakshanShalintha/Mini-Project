@@ -1,8 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http; // Add this import
 import '../../CommonParts/AppBar.dart';
 import '../../CommonParts/Nav_Menu.dart';
 import 'Home_Screen.dart';
-
 
 class NewStory extends StatelessWidget {
   const NewStory({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class NewStory extends StatelessWidget {
                 ),
               ),
               child: const Text(
-                'Selectc File',
+                'Select File',
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -89,8 +90,6 @@ class NewStory extends StatelessWidget {
     );
   }
 }
-
-
 
 class CurvedBackground extends StatelessWidget {
   final Widget child;
@@ -176,7 +175,6 @@ class CircularContainer extends StatelessWidget {
   }
 }
 
-
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
 
@@ -186,6 +184,37 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   bool _isFocused = false;
+  TextEditingController _controller = TextEditingController();
+  String _story = '';
+
+  Future<void> generateStory(String prompt) async {
+    final response = await http.post(
+      Uri.parse('https://api.openai.com/v1/engines/davinci-codex/completions'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer sk-DLNgw68cJCEHd6JJYUYjT3BlbkFJX8RUPSfgjizQj7TkNBTEYOUR_API_KEY_HERE',
+      },
+      body: jsonEncode({
+        'prompt': prompt,
+        'max_tokens': 100,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      setState(() {
+        _story = data['choices'][0]['text'];
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => StoryDisplayScreen(story: _story),
+        ),
+      );
+    } else {
+      throw Exception('Failed to generate story');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -196,6 +225,7 @@ class _SearchBarState extends State<SearchBar> {
           height: 60,
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: TextFormField(
+            controller: _controller,
             onTap: () {
               setState(() {
                 _isFocused = true;
@@ -207,7 +237,7 @@ class _SearchBarState extends State<SearchBar> {
               });
             },
             decoration: InputDecoration(
-              hintText: 'Create New story',
+              hintText: 'Create New Story',
               prefixIcon: const Icon(Icons.search, color: Colors.grey),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -221,34 +251,53 @@ class _SearchBarState extends State<SearchBar> {
                 borderRadius: BorderRadius.circular(15),
                 borderSide: const BorderSide(color: Colors.grey),
               ),
-              filled: true, // Set filled to true
-              fillColor: Colors.white, // Set fillColor to white
+              filled: true,
+              fillColor: Colors.white,
             ),
           ),
         ),
-        const SizedBox(height: 10), // Add spacing between the search bar and the button
+        const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
-            // Handle button tap
+            generateStory(_controller.text);
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.redAccent), // Change the background color here
-            fixedSize: MaterialStateProperty.all(const Size(100, 40)), // Change the size of the button here
-            side: MaterialStateProperty.all(const BorderSide(color: Colors.orange, width: 2)), // Add border
+            backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+            fixedSize: MaterialStateProperty.all(const Size(100, 40)),
+            side: MaterialStateProperty.all(const BorderSide(color: Colors.orange, width: 2)),
           ),
           child: const Text(
             'Create',
             style: TextStyle(color: Colors.black, fontSize: 15),
           ),
         ),
-
+        const SizedBox(height: 20),
       ],
     );
   }
 }
 
+class StoryDisplayScreen extends StatelessWidget {
+  final String story;
 
+  const StoryDisplayScreen({Key? key, required this.story}) : super(key: key);
 
-
-
-
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const CustomAppBar(
+        title: 'Generated Story',
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Text(
+            story,
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      ),
+      bottomNavigationBar: const NavMenu(),
+    );
+  }
+}
