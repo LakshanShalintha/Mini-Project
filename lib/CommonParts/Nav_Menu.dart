@@ -3,7 +3,6 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/Pages/Home/Home_Screen.dart';
 import 'package:mini_project/Pages/Home/New_Story.dart';
-
 import '../Pages/Home/Favorite_Page.dart';
 import 'Setting.dart';
 
@@ -64,7 +63,10 @@ class NavMenu extends StatelessWidget {
             );
             break;
           case 3:
-          // Handle navigation to Cart
+            /*Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ()),
+            );*/
             break;
           case 4:
             Navigator.push(
@@ -77,5 +79,3 @@ class NavMenu extends StatelessWidget {
     );
   }
 }
-
-
