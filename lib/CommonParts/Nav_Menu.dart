@@ -66,8 +66,8 @@ class NavMenu extends StatelessWidget {
           case 3:
             /*Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  MyApp()),
-            );*/
+              MaterialPageRoute(builder: (context) =>  MyHomePage()),
+            )*/;
             break;
           case 4:
             Navigator.push(
