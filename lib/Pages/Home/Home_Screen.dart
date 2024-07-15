@@ -15,6 +15,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // List of image paths and labels
+    List<Map<String, String>> categories = [
+      {'imagePath': 'assets/logos/facebook.png', 'label': 'Facebook'},
+      {'imagePath': 'assets/logos/google.png', 'label': 'Twitter'},
+      {'imagePath': 'assets/logos/facebook.png', 'label': 'Instagram'},
+      {'imagePath': 'assets/logos/google.png', 'label': 'LinkedIn'},
+      // Add more images and labels here
+    ];
+
     return Scaffold(
       appBar: const FAppBar(
         title: 'Home Screen',
@@ -34,7 +43,10 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SectionHeading(title: 'Popular Categories', showActionButton: false),
+                        const SectionHeading(
+                          title: 'Popular Categories',
+                          showActionButton: false,
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -42,10 +54,13 @@ class HomeScreen extends StatelessWidget {
                           height: 80,
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: 8,
+                            itemCount: categories.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (_, index) {
-                              return const VerticalImageText();
+                              return VerticalImageText(
+                                imagePath: categories[index]['imagePath']!,
+                                label: categories[index]['label']!,
+                              );
                             },
                           ),
                         ),
@@ -70,9 +85,14 @@ class HomeScreen extends StatelessWidget {
                     crossAxisCount: 3,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: List.generate(12, (index) {
-                      final itemText = index < 3
-                          ? 'l' * (index + 1)
+                    children: List.generate(3, (index) {
+                      // Define itemText based on index
+                      String itemText = index == 0
+                          ? 'l'
+                          : index == 1
+                          ? 'll'
+                          : index == 2
+                          ? 'lll'
                           : index == 3
                           ? 'qqqq'
                           : index == 4
@@ -91,13 +111,8 @@ class HomeScreen extends StatelessWidget {
                           ? 'sdfcdsdsd'
                           : index == 11
                           ? 'vfvdfvdfvscx'
-                          : index == 12
-                          ? 'xcdfqwd'
-                          : index == 13
-                          ? 'ililoil'
-                          : index == 14
-                          ? 'ujkiulyjt'
                           : 'trdtdgdrg';
+
                       return GestureDetector(
                         onTap: () {
                           // Navigate to FavoritePage when a grid item is tapped
@@ -111,12 +126,12 @@ class HomeScreen extends StatelessWidget {
                         child: Stack(
                           children: [
                             GridItem(
-                              text: itemText, // Change text here
+                              text: itemText, // Use itemText here
                               image: 'assets/icons/Home_popular/icon.jfif', // Add image here
                             ),
                             const Positioned(
                               top: 0,
-                              right: 5,
+                              right: 10,
                               child: HeartButton(), // Add HeartButton widget here
                             ),
                           ],
@@ -130,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) => const Gallery()),
-                        );// Handle button tap
+                        ); // Handle button tap
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.teal), // Change the background color here
@@ -325,8 +340,8 @@ class SectionHeading extends StatelessWidget {
   const SectionHeading({
     required this.title,
     this.showActionButton = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -349,8 +364,13 @@ class SectionHeading extends StatelessWidget {
 }
 
 class VerticalImageText extends StatelessWidget {
+  final String imagePath;
+  final String label;
+
   const VerticalImageText({
     Key? key,
+    required this.imagePath,
+    required this.label,
   }) : super(key: key);
 
   @override
@@ -364,16 +384,17 @@ class VerticalImageText extends StatelessWidget {
             CircleAvatar(
               backgroundColor: Colors.white,
               radius: 28,
-              child: Image.asset('assets/logos/facebook.png',
+              child: Image.asset(
+                imagePath,
                 width: 40,
                 height: 40,
-              ), // Replace 'your_image.png' with your image asset path
+              ),
             ),
             const SizedBox(height: 5),
             SizedBox(
               width: 55,
               child: Text(
-                'store uvjdcv bb',
+                label,
                 style: Theme.of(context).textTheme.labelMedium!.apply(color: Colors.white),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

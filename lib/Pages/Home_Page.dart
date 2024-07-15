@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                         "Join us and unlock a universe of captivating audiobooks."
                               "Sign in or create an account to explore an endless library of stories,"
                               "from timeless classics to modern masterpieces. Begin your auditory adventure with us today!",
-                          style: TextStyle(fontSize: 26, color: Colors.black),
+                          style: TextStyle(fontSize: 23, color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 40), // Adding some space between text and image
