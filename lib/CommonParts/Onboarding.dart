@@ -17,19 +17,24 @@ class _OnboardingState extends State<Onboarding> {
     List<OnboardingItem> contents = [
       OnboardingItem(
         onBoarding: const AssetImage("assets/images/on_boarding/onboard01.png"),
-        title: "Welcome",
-        description: "sdflkndljbdfbxm,cn,bd  bkjd zncbaskcb"
-            "sbsmcnb,bc bk nsckhn nnc kn ndsc kn c",
+        title: "Welcome to AudiRAB",
+        description: "Your Gateway to the World of Audiobooks"
+          "Step into a world where stories come to life, where every page is an adventure,"
+          "and every word is a journey!",
       ),
       OnboardingItem(
         onBoarding: const AssetImage("assets/images/on_boarding/onboard02.jfif"),
-        title: "Second Page",
-        description: "Description of second page",
+        title: "",
+        description: "Discover a vast library of audiobooks from all genres."
+          "With Audirab, you can listen to your favorite stories anytime, anywhere."
+          "With Audirab, you have the power to transform mundane moments into extraordinary adventures.",
       ),
       OnboardingItem(
         onBoarding: const AssetImage("assets/images/on_boarding/onboard03.jfif"),
-        title: "Final Page",
-        description: "Description of final page",
+        title: "",
+        description: "Ready to Begin Your Audio Adventure?"
+          "Start your audio journey with Audirab now!"
+            "receive recommendations based on your preferences, and never miss out on the latest releases. Join our community of audiobook enthusiasts and start your journey with Audirab today. Your next great listen is just a tap away!",
       ),
     ];
 
@@ -81,7 +86,7 @@ class _OnboardingState extends State<Onboarding> {
                       Text(
                         contents[i].title,
                         style: const TextStyle(
-                          fontSize: 35,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -91,7 +96,7 @@ class _OnboardingState extends State<Onboarding> {
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 18,
-                          color: Colors.grey,
+                          color: Colors.grey,fontWeight: FontWeight.bold
                         ),
                       ),
                       if (i == currentIndex && contents[i].additionalImage != null) // Show additional image only for the current page

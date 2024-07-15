@@ -70,9 +70,9 @@ class _LogIn_PageState extends State<LogIn_Page> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.blue,
-              Colors.green,
-              Colors.yellow,
+              Colors.blueGrey,
+              Colors.white54,
+              Colors.black12,
             ],
           ),
         ),

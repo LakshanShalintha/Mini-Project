@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_project/Pages/Home/Home_Screen.dart';
 import 'package:mini_project/Pages/Home/New_Story.dart';
 import '../Pages/Home/Favorite_Page.dart';
+import '../Pages/Home/speech.dart';
 import 'Setting.dart';
 
 class NavMenu extends StatelessWidget {
@@ -65,8 +66,8 @@ class NavMenu extends StatelessWidget {
           case 3:
             /*Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ()),
-            );*/
+              MaterialPageRoute(builder: (context) =>  MyHomePage()),
+            )*/;
             break;
           case 4:
             Navigator.push(

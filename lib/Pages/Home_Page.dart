@@ -27,8 +27,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-          title: 'Welcome To AudiRAB'), // Hide the back button
+      /*appBar: const CustomAppBar(
+          title: 'Welcome To AudiRAB'), // Hide the back button*/
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -42,27 +42,28 @@ class HomePage extends StatelessWidget {
                         const SizedBox(height: 20),
                         const SectionHeading(
                             title: 'AudiRAB', showActionButton: false),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 90),
                         const Text(
-                          'Your additional text goes here'
-                              'asugfdgfhwdfjk\n hfjwej ewgih jhwde cnwej'
-                              'jdbfhkd shchw dsd hbixhk anxhbsx k \n gcz sbyshjb hcs',
-                          style: TextStyle(fontSize: 16, color: Colors.black),
+                          "Welcome to Audirab!\n"
+                        "Join us and unlock a universe of captivating audiobooks."
+                              "Sign in or create an account to explore an endless library of stories,"
+                              "from timeless classics to modern masterpieces. Begin your auditory adventure with us today!",
+                          style: TextStyle(fontSize: 26, color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 40), // Adding some space between text and image
-                        Image.asset(
+                        /*Image.asset(
                           'assets/images/on_boarding/onboard01.png',
                           height: 120,
                           width: 150,
-                        )
+                        )*/
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 80,),
+            const SizedBox(height: 10,),
             // Add SignUp and LogIn buttons
             Container(
               alignment: Alignment.bottomCenter,
@@ -79,7 +80,7 @@ class HomePage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.teal, // Change button color
+                      backgroundColor: Colors.blueGrey, // Change button color
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 10), // Change button padding
@@ -128,7 +129,7 @@ class CurvedBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400, // Adjust the height as needed
+      height: 600, // Adjust the height as needed
       decoration: const BoxDecoration(
         color: Colors.teal, // New background color
         borderRadius: BorderRadius.only(
@@ -142,7 +143,7 @@ class CurvedBackground extends StatelessWidget {
             top: -150,
             right: -250,
             child: CircularContainer(
-              backgroundColor: Colors.white70.withOpacity(0.1),
+              backgroundColor: Colors.white.withOpacity(0.1),
             ),
           ),
           Positioned(
