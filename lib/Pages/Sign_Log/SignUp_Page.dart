@@ -62,9 +62,14 @@ class _SignUpPageState extends State<SignUp_Page> {
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/on_boarding/onboard03.jfif'),
-            fit: BoxFit.cover,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.blueGrey,
+              Colors.white54,
+              Colors.white10,
+            ],
           ),
         ),
         child: Stack(

@@ -40,6 +40,7 @@ dependencies:
   google_generative_ai: ^0.4.3
   flutter_dotenv: ^5.1.0
   just_audio: ^0.9.39
+  #flutter_tts: ^4.0.2
 
 dev_dependencies:
   flutter_test:
