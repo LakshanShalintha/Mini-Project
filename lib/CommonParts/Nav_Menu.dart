@@ -1,6 +1,7 @@
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:mini_project/Pages/Home/Home_Screen.dart';
 import 'package:mini_project/Pages/Home/New_Story.dart';
 import '../Pages/Home/Favorite_Page.dart';
@@ -64,10 +65,10 @@ class NavMenu extends StatelessWidget {
             );
             break;
           case 3:
-            /*Navigator.push(
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  MyHomePage()),
-            )*/;
+              MaterialPageRoute(builder: (context) =>  PDFView()),
+            );
             break;
           case 4:
             Navigator.push(
