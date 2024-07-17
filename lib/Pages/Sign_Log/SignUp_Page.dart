@@ -1,6 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_project/Pages/Home_Page.dart';
-import 'package:http/http.dart' as http;
+import '../Home_Page.dart';
 import 'LogIn_Page.dart';
 
 class SignUp_Page extends StatefulWidget {
@@ -23,36 +23,48 @@ class _SignUpPageState extends State<SignUp_Page> {
   bool rememberMe = false;
   String emailErrorText = '';
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> signUp() async {
-    // Your backend endpoint URL
-    String url = 'http://127.0.0.1:8000/api/signup/';
-
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        body: {
-          'name': firstNameController.text,
-          'email': emailController.text,
-          'phone_number': phoneNumberController.text,
-          'password': passwordController.text,
-        },
-      );
-
-      if (response.statusCode == 201) {
-        // Request successful
+    if (firstNameController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        phoneNumberController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty &&
+        confirmPasswordController.text.isNotEmpty &&
+        phoneNumberErrorText.isEmpty &&
+        passwordController.text == confirmPasswordController.text) {
+      try {
+        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
         print('Sign up successful');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
         );
-      } else {
-        // Request failed
-        print('Sign up failed with status: ${response.statusCode}');
+      } catch (e) {
+        print('Sign up failed: $e');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
       }
-    } catch (e) {
-      // Error occurred
-      print('Error: $e');
+    } else {
+      print('Sign up failed');
     }
   }
 
@@ -173,7 +185,6 @@ class _SignUpPageState extends State<SignUp_Page> {
                           ),
                         ),
                       ),
-
                       Align(
                         alignment: const Alignment(0, 0.06),
                         child: Padding(
@@ -216,7 +227,6 @@ class _SignUpPageState extends State<SignUp_Page> {
                           ),
                         ),
                       ),
-
                       if (phoneNumberErrorText.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.symmetric(
