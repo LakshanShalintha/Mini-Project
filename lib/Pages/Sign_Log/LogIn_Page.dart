@@ -359,7 +359,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                               icon: const Icon(
                                 FontAwesomeIcons.google, // Google icon
                                 size: 30,
-                                color: Colors.redAccent,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -387,7 +387,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                               icon: const Icon(
                                 FontAwesomeIcons.facebookF, // Facebook icon
                                 size: 30,
-                                color: Colors.blueAccent,
+                                color: Colors.white,
                               ),
                             ),
                           ),
