@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:mini_project/Pages/Home/Home_Screen.dart';
 import 'package:mini_project/Pages/Home/New_Story.dart';
+import 'package:mini_project/Pages/Home/StoryDisplay.dart';
 import '../Pages/Home/Favorite_Page.dart';
+import '../Pages/Home/Text_to_speech.dart';
 import '../Pages/Home/speech.dart';
 import 'Setting.dart';
 
@@ -74,10 +76,10 @@ class NavMenu extends StatelessWidget {
             );
             break;
           case 3:
-            /*Navigator.push(
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  PDFView()),
-            );*/
+              MaterialPageRoute(builder: (context) =>  AudiobookApp()),
+            );
             break;
           case 4:
             Navigator.push(
