@@ -15,11 +15,13 @@ class NavMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
       height: 60,
-      color: Colors.white70,
-      backgroundColor: Colors.purpleAccent,
+      color: Colors.black26,
+      backgroundColor: Colors.black26,
       items: const [
         CurvedNavigationBarItem(
-          child: Icon(Icons.home_outlined),
+          child: Icon(Icons.home_outlined,
+            color: Colors.black,
+          ),
           label: 'Home',
         ),
         CurvedNavigationBarItem(
@@ -31,16 +33,23 @@ class NavMenu extends StatelessWidget {
           label: 'Favorite',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.add, size: 40),
+          child: Icon(Icons.add,
+              color: Colors.black,
+              size: 40,
+          ),
           label: 'New',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.shopping_cart),
+          child: Icon(Icons.shopping_cart,
+            color: Colors.black,
+          ),
           label: 'Cart',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.perm_identity),
-          label: 'Personal',
+          child: Icon(Icons.perm_identity,
+            color: Colors.black,
+          ),
+          label: 'Account',
         ),
       ],
       onTap: (index) {
@@ -65,10 +74,10 @@ class NavMenu extends StatelessWidget {
             );
             break;
           case 3:
-            Navigator.push(
+            /*Navigator.push(
               context,
               MaterialPageRoute(builder: (context) =>  PDFView()),
-            );
+            );*/
             break;
           case 4:
             Navigator.push(
