@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/Pages/Home/Gallery.dart';
 
@@ -13,6 +14,12 @@ void main() {
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  Future<List<String>> fetchPdfUrls() async {
+    final firestore = FirebaseFirestore.instance;
+    final snapshot = await firestore.collection('pdfs').get();
+    return snapshot.docs.map((doc) => doc['url'] as String).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     // List of image paths and labels
@@ -25,15 +32,24 @@ class HomeScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: const FAppBar(
+      /*appBar: const FAppBar(
         title: 'Home Screen',
-      ),
+      ),*/
       body: SingleChildScrollView(
         child: Column(
           children: [
             CurvedBackground(
+              imagePath: 'assets/images/Home_Page/new story.jpeg',
               child: Column(
                 children: [
+                  SizedBox(height: 70,),
+                  Center(
+                    child: Text(
+                      'AudiRAB',
+                      style: TextStyle(color: Colors.white, fontSize: 28,fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   const Padding(
                     padding: EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 8.0),
                     child: SearchBar(),
@@ -71,7 +87,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Container(
-              color: Colors.white,
+              color: Colors.white10,
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,65 +97,12 @@ class HomeScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  GridView.count(
-                    crossAxisCount: 3,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: List.generate(3, (index) {
-                      // Define itemText based on index
-                      String itemText = index == 0
-                          ? 'l'
-                          : index == 1
-                          ? 'll'
-                          : index == 2
-                          ? 'lll'
-                          : index == 3
-                          ? 'qqqq'
-                          : index == 4
-                          ? 'wwww'
-                          : index == 5
-                          ? 'eeee'
-                          : index == 6
-                          ? 'vfgbgrb'
-                          : index == 7
-                          ? 'ffev'
-                          : index == 8
-                          ? 'ffr'
-                          : index == 9
-                          ? 'erffs'
-                          : index == 10
-                          ? 'sdfcdsdsd'
-                          : index == 11
-                          ? 'vfvdfvdfvscx'
-                          : 'trdtdgdrg';
 
-                      return GestureDetector(
-                        onTap: () {
-                          // Navigate to FavoritePage when a grid item is tapped
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const FavoritePage(),
-                            ),
-                          );
-                        },
-                        child: Stack(
-                          children: [
-                            GridItem(
-                              text: itemText, // Use itemText here
-                              image: 'assets/icons/Home_popular/icon.jfif', // Add image here
-                            ),
-                            const Positioned(
-                              top: 0,
-                              right: 10,
-                              child: HeartButton(), // Add HeartButton widget here
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-                  ),
-                  const SizedBox(height: 20), // Add space between the GridView and the button
+                  // replace -------------------------------
+
+                  // ---------------------------------------
+
+                  const SizedBox(height: 150), // Add space between the GridView and the button
                   Center(
                     child: TextButton(
                       onPressed: () {
@@ -147,13 +110,18 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => const Gallery()),
                         ); // Handle button tap
                       },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.teal), // Change the background color here
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 58),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                       ),
                       child: const Text(
                         'More',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                         ),
                       ),
@@ -170,11 +138,16 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+
+
+
 class CurvedBackground extends StatelessWidget {
   final Widget child;
+  final String imagePath; // Add image path parameter
 
   const CurvedBackground({
     required this.child,
+    required this.imagePath, // Required parameter for image path
     Key? key,
   }) : super(key: key);
 
@@ -183,17 +156,22 @@ class CurvedBackground extends StatelessWidget {
     return ClipPath(
       clipper: CustomCurvedEdges(),
       child: Container(
-        color: Colors.lightBlue.shade300,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(imagePath), // Use AssetImage or NetworkImage
+            fit: BoxFit.cover, // Adjust fit as needed
+          ),
+        ),
         padding: const EdgeInsets.all(0),
         child: SizedBox(
-          height: 320,
+          height: 420,
           child: Stack(
             children: [
               Positioned(
                 top: -150,
                 right: -250,
                 child: CircularContainer(
-                  backgroundColor: Colors.white70.withOpacity(0.1),
+                  backgroundColor: Colors.white.withOpacity(0.1),
                 ),
               ),
               Positioned(
@@ -217,6 +195,7 @@ class CurvedBackground extends StatelessWidget {
     );
   }
 }
+
 
 class CircularContainer extends StatelessWidget {
   final double? width;
