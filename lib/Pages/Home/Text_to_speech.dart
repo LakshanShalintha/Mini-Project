@@ -24,3 +24,17 @@ class AudiobookHomePage extends StatefulWidget {
   @override
   _AudiobookHomePageState createState() => _AudiobookHomePageState();
 }
+
+class _AudiobookHomePageState extends State<AudiobookHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Audiobook App'),
+      ),
+      body: Center(
+        child: Text('Welcome to the Audiobook App!'),
+      ),
+    );
+  }
+}
