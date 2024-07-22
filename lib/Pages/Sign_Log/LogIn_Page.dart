@@ -1,12 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:mini_project/Pages/Sign_Log/Facebook_LogIn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Home/Home_Screen.dart';
+import 'Facebook_LogIn.dart';
 import 'Forgot/Forgot_pass.dart';
 import 'Gmail_LogIn.dart';
 import 'SignUp_Page.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Import this package
+
 
 class LogIn_Page extends StatefulWidget {
   const LogIn_Page({Key? key}) : super(key: key);
@@ -22,40 +23,45 @@ class _LogIn_PageState extends State<LogIn_Page> {
   bool rememberMe = false;
   bool _showPassword = false;
   String emailErrorText = '';
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> signIn() async {
-    String url = 'http://10.0.2.2:8000/login/';
-
     try {
-      final response = await http.post(
-        Uri.parse(url),
-        body: {
-          'email': emailController.text,
-          'password': passwordController.text,
-        },
+      await _auth.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
-
-      if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        final userId = responseData['user_id'];
-        print(userId);
-        print('Sign in successful');
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message;
+      if (e.code == 'user-not-found') {
+        message = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        message = 'Wrong password provided for that user.';
       } else {
-        final responseData = jsonDecode(response.body);
-        print('Sign in failed: ${responseData['message']}');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Sign in failed: ${responseData['message']}')),
-        );
+        message = 'Sign in failed. Please try again.';
       }
-    } catch (e) {
-      print('Error: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
+
+      // Show error message in a dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Login Error'),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
       );
     }
   }
@@ -67,13 +73,9 @@ class _LogIn_PageState extends State<LogIn_Page> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
+            colors: [Color(0xFF131313), Color(0xFF312E2E)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Colors.blueGrey,
-              Colors.white54,
-              Colors.black12,
-            ],
           ),
         ),
         child: Stack(
@@ -92,7 +94,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                         style: TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 58, 57, 57),
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -111,54 +113,61 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             controller: emailController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.email),
+                              prefixIcon:
+                                  const Icon(Icons.email, color: Colors.black),
                               hintText: 'Email',
                               hintStyle: const TextStyle(color: Colors.black),
                               border: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(
-                                  color: Colors.black, // Border color
-                                  width: 2.0, // Border width
+                                  color: Colors.black,
+                                  width: 2.0,
                                 ),
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.5),
+                              fillColor: Colors.white,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 5,
                                 vertical: 2.5,
                               ),
-                              errorText: emailErrorText.isNotEmpty ? emailErrorText : null,
+                              errorText: emailErrorText.isNotEmpty
+                                  ? emailErrorText
+                                  : null,
                             ),
                             onChanged: (value) {
                               setState(() {
                                 if (!RegExp(
                                   r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$',
                                 ).hasMatch(value)) {
-                                  emailErrorText = 'Please enter a valid email address';
+                                  emailErrorText =
+                                      'Please enter a valid email address';
                                 } else {
                                   emailErrorText = '';
                                 }
                               });
                             },
                           ),
-                          const SizedBox(height: 15.0), // Add some spacing between the fields
+                          const SizedBox(height: 15.0),
                           // Password Field
                           TextField(
                             controller: passwordController,
                             obscureText: !_showPassword,
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.lock),
+                              prefixIcon:
+                                  const Icon(Icons.lock, color: Colors.black),
                               hintText: 'Password',
                               hintStyle: const TextStyle(color: Colors.black),
                               border: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(
-                                  color: Colors.black, // Border color
-                                  width: 2.0, // Border width
+                                  color: Colors.black,
+                                  width: 2.0,
                                 ),
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.5),
+                              fillColor: Colors.white,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 5,
                                 vertical: 2.5,
@@ -170,7 +179,10 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                   });
                                 },
                                 child: Icon(
-                                  _showPassword ? Icons.visibility : Icons.visibility_off,
+                                  _showPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
@@ -179,8 +191,6 @@ class _LogIn_PageState extends State<LogIn_Page> {
                       ),
                     ),
                   ),
-
-
                   const SizedBox(height: 0),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -198,6 +208,8 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                 rememberMe = value!;
                               });
                             },
+                            activeColor: Colors.white,
+                            checkColor: Colors.black,
                           ),
                         ),
                         const Expanded(
@@ -205,7 +217,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                           child: Text(
                             'Remember Me',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 16,
                             ),
                           ),
@@ -214,7 +226,8 @@ class _LogIn_PageState extends State<LogIn_Page> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Forgot_pass()),
+                              MaterialPageRoute(
+                                  builder: (context) => const Forgot_pass()),
                             );
                           },
                           child: const Text(
@@ -222,37 +235,35 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.redAccent,
-                              decoration: TextDecoration.underline,
-                              decorationColor: Color.fromARGB(255, 18, 76, 236),
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-
-
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const HomeScreen()),
-                      );// Handle button tap
+                      signIn();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.orange,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(color: Colors.black, width: 1), // Black border
+                        borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(color: Colors.black, width: 1),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 5),
                     ),
                     child: const Text(
                       'Log In',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-
                   const SizedBox(height: 20),
                   Center(
                     child: Column(
@@ -260,35 +271,41 @@ class _LogIn_PageState extends State<LogIn_Page> {
                         Row(
                           children: [
                             const SizedBox(width: 80),
-                            const Text("Don't have an account?"),
+                            const Text(
+                              "Don't have an account?",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.white,
+                              ),
+                            ),
                             const SizedBox(width: 20),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const SignUp_Page()),
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignUp_Page()),
                                 );
                               },
                               child: const Text(
                                 'SignUp',
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 18, 76, 236),
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Color.fromARGB(255, 18, 76, 236),
+                                  color: Colors.lightBlue,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 20),
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Flexible(
                               child: Divider(
-                                color: Colors.red,
+                                color: Colors.white,
                                 thickness: 1.5,
-                                indent: 60,
+                                indent: 35,
                                 endIndent: 5,
                               ),
                             ),
@@ -297,15 +314,15 @@ class _LogIn_PageState extends State<LogIn_Page> {
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.green,
+                                color: Colors.white,
                               ),
                             ),
                             Flexible(
                               child: Divider(
-                                color: Colors.red,
+                                color: Colors.white,
                                 thickness: 1.5,
                                 indent: 5,
-                                endIndent: 60,
+                                endIndent: 35,
                               ),
                             ),
                           ],
@@ -335,22 +352,22 @@ class _LogIn_PageState extends State<LogIn_Page> {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) =>  GmailLoginPage()),
-                                );// Handle Google login
+                                  MaterialPageRoute(
+                                      builder: (context) => GmailLoginPage()),
+                                );
                               },
-                              icon: const Image(
-                                width: 50,
-                                height: 40,
-                                image: AssetImage("assets/logos/google.png"),
+                              icon: const Icon(
+                                FontAwesomeIcons.google, // Google icon
+                                size: 30,
+                                color: Colors.white,
                               ),
                             ),
                           ),
                         ),
                       ),
-
                       GestureDetector(
                         onTap: () {
-                          // Handle Google login
+                          // Handle Facebook login
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -362,22 +379,22 @@ class _LogIn_PageState extends State<LogIn_Page> {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) =>  FacebookLoginPage()),
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FacebookLoginPage()),
                                 );
                               },
-                              icon: const Image(
-                                width: 50,
-                                height: 40,
-                                image: AssetImage("assets/logos/facebook.png"),
+                              icon: const Icon(
+                                FontAwesomeIcons.facebookF, // Facebook icon
+                                size: 30,
+                                color: Colors.white,
                               ),
                             ),
                           ),
                         ),
-
                       ),
                     ],
-                  ),
-
+                  )
                 ],
               ),
             ),

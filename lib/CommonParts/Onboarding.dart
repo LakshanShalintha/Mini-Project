@@ -46,13 +46,11 @@ class _OnboardingState extends State<Onboarding> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white60,
-              Colors.white70,
-              Colors.white38,
-              Colors.white,
+              Color(0xFFD7CACA),
+              Color(0xFF050000),
             ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
         ),
         child: Column(
@@ -115,7 +113,7 @@ class _OnboardingState extends State<Onboarding> {
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 18,
-                            color: Colors.black, // Text color for descriptions
+                            color: Colors.white, // Text color for descriptions
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -153,14 +151,14 @@ class _OnboardingState extends State<Onboarding> {
                   }
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.purpleAccent),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
                 child: Text(
                   currentIndex == contents.length - 1 ? "Finish" : "Next",
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -178,7 +176,9 @@ class _OnboardingState extends State<Onboarding> {
       margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: index == currentIndex ? Colors.purpleAccent : Colors.grey, // Active dot color
+        color: index == currentIndex ?
+        Color(0xFFE3D512) :
+        Colors.white, // Active dot color
       ),
     );
   }

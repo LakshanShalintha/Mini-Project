@@ -1,6 +1,4 @@
 name: mini_project
-#lkd
-name: audiobook_app
 
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
@@ -34,8 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-    #lkd
-    flutter_tts: ^3.4.0
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,11 +40,11 @@ dependencies:
   curved_labeled_navigation_bar: ^2.0.2
   flutter_svg: ^2.0.10+1
   url_launcher: ^6.2.6
-  http: ^1.2.1
+  #http: ^1.2.2
+  http: ^1.1.0
   google_generative_ai: ^0.4.3
   flutter_dotenv: ^5.1.0
-  just_audio: ^0.9.39
-  #flutter_tts: ^4.0.2
+  #just_audio: ^0.9.39
   firebase_core: ^3.2.0
   firebase_auth: ^5.1.2
   cloud_firestore: ^5.1.0
@@ -58,6 +55,17 @@ dependencies:
   #flutter_plugin_pdf_viewer: ^2.0.0
   flutter_document_picker: ^5.2.3
   pdfx: ^2.6.0
+  font_awesome_flutter: ^10.0.0
+  pdf: ^3.3.1
+  flutter_tts: ^3.4.0
+  just_audio: ^0.9.39
+  #curved_navigation_bar: ^1.0.6
+  dart_openai: ^5.1.0
+  #openai: ^1.0.0
+  firebase_app_check: ^0.3.0+3
+  shared_preferences: ^2.0.15
+cloud_firestore: ^5.1.0
+
 
 dev_dependencies:
   flutter_test:
