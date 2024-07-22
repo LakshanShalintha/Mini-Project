@@ -121,7 +121,7 @@ class HomePage extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF837E47),
+                        backgroundColor: Colors.orange,
                         padding: const EdgeInsets.symmetric(
                             vertical: 12, horizontal: 88),
                         shape: RoundedRectangleBorder(
