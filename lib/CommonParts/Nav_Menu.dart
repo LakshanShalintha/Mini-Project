@@ -2,11 +2,11 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:mini_project/Pages/Home/Gallery.dart';
 import 'package:mini_project/Pages/Home/Home_Screen.dart';
 import 'package:mini_project/Pages/Home/New_Story.dart';
 import 'package:mini_project/Pages/Home/StoryDisplay.dart';
 import '../Pages/Home/Favorite_Page.dart';
-import '../Pages/Home/Text_to_speech.dart';
 import '../Pages/Home/speech.dart';
 import 'Setting.dart';
 
@@ -35,20 +35,20 @@ class NavMenu extends StatelessWidget {
           label: 'Favorite',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.add,
+          child: Icon(Icons.add_box_rounded,
               color: Colors.black,
               size: 40,
           ),
-          label: 'New',
+          label: 'Create',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.shopping_cart,
+          child: Icon(Icons.add_business_sharp,
             color: Colors.black,
           ),
-          label: 'Cart',
+          label: 'Gallery',
         ),
         CurvedNavigationBarItem(
-          child: Icon(Icons.perm_identity,
+          child: Icon(Icons.account_circle_outlined,
             color: Colors.black,
           ),
           label: 'Account',
@@ -78,7 +78,7 @@ class NavMenu extends StatelessWidget {
           case 3:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  AudiobookApp()),
+              MaterialPageRoute(builder: (context) =>  Gallery(searchQuery: '',)),
             );
             break;
           case 4:
