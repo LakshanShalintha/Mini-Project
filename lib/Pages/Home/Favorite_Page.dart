@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import '../../CommonParts/Nav_Menu.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Gallery.dart';
+import '../../CommonParts/Nav_Menu.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FavoritePage extends StatefulWidget {
-  const FavoritePage({Key? key});
+  const FavoritePage({Key? key}) : super(key: key);
 
   @override
   _FavoritePageState createState() => _FavoritePageState();
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  // Boolean list to track whether each grid item is favorited or not
-  List<bool> isFavorited = List.generate(12, (index) => false); // Updated grid count to match the number of grid items
-
   @override
   Widget build(BuildContext context) {
+    final favoritePdfUrls = FavoritesManager().favoritePdfUrls;
+
     return Scaffold(
       appBar: FAppBar(
         title: 'Favorite',
@@ -27,8 +30,8 @@ class _FavoritePageState extends State<FavoritePage> {
             ),
             onPressed: () {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const Gallery()),
-              );// Add your functionality here
+                MaterialPageRoute(builder: (context) => const Gallery(searchQuery: '',)),
+              ); // Add your functionality here
             },
           ),
         ],
@@ -40,47 +43,68 @@ class _FavoritePageState extends State<FavoritePage> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              GridView.count(
-                crossAxisCount: 2,
+              GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                  childAspectRatio: 1.0,
+                ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: List.generate(12, (index) {
-                  return GestureDetector(
-                    onTap: () {
-                      // Handle item tap
-                    },
-                    child: Card(
-                      child: Stack(
-                        children: [
-                          // Your content here
-
-                          // Heart button in top-right corner
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: InkWell(
-                              onTap: () {
-                                // Toggle isFavorited value when heart button is tapped
-                                setState(() {
-                                  isFavorited[index] = !isFavorited[index];
-                                });
-                              },
-                              child: Icon(
-                                isFavorited[index]
-                                    ? Icons.favorite_border
-                                    : Icons.favorite,
-                                color: isFavorited[index]
-                                    ? Colors.grey
-                                    : Colors.red, // Change color based on isFavorited value
-                                size: 30,
+                itemCount: favoritePdfUrls.length,
+                itemBuilder: (context, index) {
+                  final pdfUrl = favoritePdfUrls[index];
+                  return FutureBuilder<Reference>(
+                    future: FirebaseStorage.instance.ref(pdfUrl).getDownloadURL().then((url) => FirebaseStorage.instance.refFromURL(url)),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData) {
+                        return Center(child: Text('No file available'));
+                      } else {
+                        final fileRef = snapshot.data!;
+                        final fileName = fileRef.name.split('.pdf')[0];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewerScreen(fileRef: fileRef),
                               ),
+                            );
+                          },
+                          child: Card(
+                            child: Stack(
+                              children: [
+                                Center(
+                                  child: Text(fileName),
+                                ),
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        FavoritesManager().removeFavorite(pdfUrl);
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
+                        );
+                      }
+                    },
                   );
-                }),
+                },
               ),
             ],
           ),
@@ -115,3 +139,66 @@ class FAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
+
+
+
+
+
+
+class FavoritesManager {
+  static final FavoritesManager _instance = FavoritesManager._internal();
+  factory FavoritesManager() => _instance;
+
+  FavoritesManager._internal();
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final String _favoritesCollection = 'favorites';
+  List<String> _favoritePdfUrls = [];
+
+  List<String> get favoritePdfUrls => _favoritePdfUrls;
+
+  Future<void> loadFavorites() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot snapshot = await _firestore
+          .collection(_favoritesCollection)
+          .doc(user.uid)
+          .get();
+
+      if (snapshot.exists) {
+        _favoritePdfUrls = List<String>.from((snapshot.data() as Map<String, dynamic>)['pdfUrls'] ?? []);
+      }
+    }
+  }
+
+  Future<void> addFavorite(String pdfUrl) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      if (!_favoritePdfUrls.contains(pdfUrl)) {
+        _favoritePdfUrls.add(pdfUrl);
+        await _firestore
+            .collection(_favoritesCollection)
+            .doc(user.uid)
+            .set({'pdfUrls': _favoritePdfUrls});
+      }
+    }
+  }
+
+  Future<void> removeFavorite(String pdfUrl) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      _favoritePdfUrls.remove(pdfUrl);
+      await _firestore
+          .collection(_favoritesCollection)
+          .doc(user.uid)
+          .set({'pdfUrls': _favoritePdfUrls});
+    }
+  }
+
+  bool isFavorite(String pdfUrl) {
+    return _favoritePdfUrls.contains(pdfUrl);
+  }
+}
+
+
+

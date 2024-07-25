@@ -23,6 +23,7 @@ class NavMenu extends StatelessWidget {
         CurvedNavigationBarItem(
           child: Icon(Icons.home_outlined,
             color: Colors.black,
+            size: 30,
           ),
           label: 'Home',
         ),
@@ -37,19 +38,21 @@ class NavMenu extends StatelessWidget {
         CurvedNavigationBarItem(
           child: Icon(Icons.add_box_rounded,
               color: Colors.black,
-              size: 40,
+              size: 35,
           ),
           label: 'Create',
         ),
         CurvedNavigationBarItem(
           child: Icon(Icons.add_business_sharp,
             color: Colors.black,
+            size: 32,
           ),
           label: 'Gallery',
         ),
         CurvedNavigationBarItem(
           child: Icon(Icons.account_circle_outlined,
             color: Colors.black,
+            size: 30,
           ),
           label: 'Account',
         ),

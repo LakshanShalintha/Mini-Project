@@ -55,14 +55,15 @@ dependencies:
   #flutter_plugin_pdf_viewer: ^2.0.0
   flutter_document_picker: ^5.2.3
   pdfx: ^2.6.0
-  font_awesome_flutter: ^10.0.0
+  font_awesome_flutter: ^10.7.0
+  sign_in_with_apple: ^6.1.1
   pdf: ^3.3.1
   flutter_tts: ^3.4.0
   just_audio: ^0.9.39
   #curved_navigation_bar: ^1.0.6
   dart_openai: ^5.1.0
-  #openai: ^1.0.0
   firebase_app_check: ^0.3.0+3
+  google_sign_in: ^6.2.1
   shared_preferences: ^2.0.15
 cloud_firestore: ^5.1.0
 
