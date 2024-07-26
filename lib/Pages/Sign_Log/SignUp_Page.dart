@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +26,7 @@ class _SignUpPageState extends State<SignUp_Page> {
   String emailErrorText = '';
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> signUp() async {
     if (firstNameController.text.isNotEmpty &&
@@ -39,6 +41,14 @@ class _SignUpPageState extends State<SignUp_Page> {
           email: emailController.text,
           password: passwordController.text,
         );
+
+        // Add user data to Firestore
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+          'firstName': firstNameController.text,
+          'email': emailController.text,
+          'phoneNumber': phoneNumberController.text,
+        });
+
         print('Sign up successful');
         Navigator.pushReplacement(
           context,
@@ -242,7 +252,6 @@ class _SignUpPageState extends State<SignUp_Page> {
                           ),
                         ),
                       ),
-
                       if (phoneNumberErrorText.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -411,7 +420,7 @@ class _SignUpPageState extends State<SignUp_Page> {
                     ],
                   ),
                 ),
-                 // This spacer will push the content above it to the top
+                // This spacer will push the content above it to the top
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20.0),

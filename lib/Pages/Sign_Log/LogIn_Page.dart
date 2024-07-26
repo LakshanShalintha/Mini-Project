@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:google_sign_in/google_sign_in.dart'; // Import Google Sign-In
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import '../Home/Home_Screen.dart';
-import 'Facebook_LogIn.dart';
 import 'Forgot/Forgot_pass.dart';
-import 'Gmail_LogIn.dart';
 import 'SignUp_Page.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Import this package
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LogIn_Page extends StatefulWidget {
   const LogIn_Page({Key? key}) : super(key: key);
@@ -19,11 +17,12 @@ class LogIn_Page extends StatefulWidget {
 class _LogIn_PageState extends State<LogIn_Page> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   bool rememberMe = false;
   bool _showPassword = false;
   String emailErrorText = '';
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> signIn() async {
     try {
@@ -45,7 +44,56 @@ class _LogIn_PageState extends State<LogIn_Page> {
         message = 'Sign in failed. Please try again.';
       }
 
-      // Show error message in a dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Login Error'),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        return; // User canceled the sign-in
+      }
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential = await _auth.signInWithCredential(credential);
+
+      // Store user info in Firestore
+      User? user = userCredential.user;
+      if (user != null) {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'email': user.email,
+          'name': user.displayName,
+          // Add other user info if needed
+        });
+      }
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message = 'Sign in with Google failed. Please try again.';
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -108,18 +156,17 @@ class _LogIn_PageState extends State<LogIn_Page> {
                       ),
                       child: Column(
                         children: [
-                          // Email Field
                           TextField(
                             controller: emailController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               prefixIcon:
-                                  const Icon(Icons.email, color: Colors.black),
+                              const Icon(Icons.email, color: Colors.black),
                               hintText: 'Email',
                               hintStyle: const TextStyle(color: Colors.black),
                               border: const OutlineInputBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(
                                   color: Colors.black,
                                   width: 2.0,
@@ -141,7 +188,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                   r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$',
                                 ).hasMatch(value)) {
                                   emailErrorText =
-                                      'Please enter a valid email address';
+                                  'Please enter a valid email address';
                                 } else {
                                   emailErrorText = '';
                                 }
@@ -149,18 +196,17 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             },
                           ),
                           const SizedBox(height: 15.0),
-                          // Password Field
                           TextField(
                             controller: passwordController,
                             obscureText: !_showPassword,
                             decoration: InputDecoration(
                               prefixIcon:
-                                  const Icon(Icons.lock, color: Colors.black),
+                              const Icon(Icons.lock, color: Colors.black),
                               hintText: 'Password',
                               hintStyle: const TextStyle(color: Colors.black),
                               border: const OutlineInputBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(
                                   color: Colors.black,
                                   width: 2.0,
@@ -285,7 +331,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const SignUp_Page()),
+                                      const SignUp_Page()),
                                 );
                               },
                               child: const Text(
@@ -335,12 +381,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          const googleUrl = 'https://www.google.com';
-                          if (await canLaunch(googleUrl)) {
-                            await launch(googleUrl);
-                          } else {
-                            throw 'Could not launch $googleUrl';
-                          }
+                          signInWithGoogle(); // Call Google sign-in method
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -349,15 +390,9 @@ class _LogIn_PageState extends State<LogIn_Page> {
                               borderRadius: BorderRadius.zero,
                             ),
                             child: IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => GmailLoginPage()),
-                                );
-                              },
+                              onPressed: signInWithGoogle,
                               icon: const Icon(
-                                FontAwesomeIcons.google, // Google icon
+                                FontAwesomeIcons.google,
                                 size: 30,
                                 color: Colors.white,
                               ),
@@ -377,15 +412,15 @@ class _LogIn_PageState extends State<LogIn_Page> {
                             ),
                             child: IconButton(
                               onPressed: () {
-                                Navigator.push(
+                                /*Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           FacebookLoginPage()),
-                                );
+                                );*/
                               },
                               icon: const Icon(
-                                FontAwesomeIcons.facebookF, // Facebook icon
+                                FontAwesomeIcons.facebookF,
                                 size: 30,
                                 color: Colors.white,
                               ),
@@ -394,7 +429,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
