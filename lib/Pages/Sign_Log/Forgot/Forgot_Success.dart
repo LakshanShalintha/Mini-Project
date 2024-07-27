@@ -31,7 +31,7 @@ class Forgot_Success extends StatelessWidget {
               const SizedBox(height: 20),
               const Center(
                 child: Text(
-                  "AudiRAB@gmail.com",
+                  "Your email",
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.black,
@@ -43,7 +43,7 @@ class Forgot_Success extends StatelessWidget {
               const SizedBox(height: 10),
               const Center(
                 child: Text(
-                  "Congragulation! Your Password Successfuly Reset, You Can Use New Password While LogIn.",
+                  "Congratulations! Your password has been successfully reset. You can use your new password to log in.",
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,
@@ -65,10 +65,8 @@ class Forgot_Success extends StatelessWidget {
                     );
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.blue),
-                    minimumSize:
-                    MaterialStateProperty.all<Size>(const Size(200, 50)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    minimumSize: MaterialStateProperty.all<Size>(const Size(200, 50)),
                   ),
                   child: const Text(
                     "Continue",
