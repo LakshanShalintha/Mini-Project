@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -35,66 +37,107 @@ class _StoryDisplayScreenState extends State<StoryDisplayScreen> {
   }
 
   void _speakText(String text, BuildContext context) async {
-    String apiKey = 'sk_ec394bdbecaf5ebc3dd400bb5d13906130022927a8d18d15';
+    String apiKey = 'sk_f7f3f6fb01bf3936470a7551dbebcc92755aa35bf6ceae3d';
     String voiceId = '21m00Tcm4TlvDq8ikWAM';
-
     String url = 'https://api.elevenlabs.io/v1/text-to-speech/$voiceId';
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
-          'accept': 'audio/mpeg',
-          'xi-api-key': apiKey,
-          'Content-Type': 'application/json',
-        },
-        body: json.encode({
-          "text": text,
-          "model_id": "eleven_monolingual_v1",
-          "voice_settings": {"stability": 0.15, "similarity_boost": 0.75}
-        }),
-      );
 
-      if (response.statusCode == 200) {
-        final bytes = response.bodyBytes;
-        _audioPlayer = AudioPlayer();
-        await _audioPlayer!.setAudioSource(
-          ConcatenatingAudioSource(
-            children: [
-              AudioSource.uri(Uri.dataFromBytes(bytes, mimeType: 'audio/mpeg')),
-            ],
-          ),
-        );
-        _audioPlayer!.play();
-        setState(() {
-          _isPlaying = true;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Playback started!')),
-        );
+    // Reduce the text payload size for testing
+    String reducedText = text.length > 500 ? text.substring(0, 500) : text;
 
-        _audioPlayer!.playerStateStream.listen((state) {
-          if (state.processingState == ProcessingState.completed) {
-            setState(() {
-              _isPlaying = false;
-            });
-          }
-        });
-      } else if (response.statusCode == 401) {
+    int retryCount = 0;
+    const int maxRetries = 3;
+    const Duration retryDelay = Duration(seconds: 5);
+
+    while (retryCount < maxRetries) {
+      try {
+        final response = await http
+            .post(
+          Uri.parse(url),
+          headers: {
+            'accept': 'audio/mpeg',
+            'xi-api-key': apiKey,
+            'Content-Type': 'application/json',
+          },
+          body: json.encode({
+            "text": reducedText,
+            "model_id": "eleven_monolingual_v1",
+            "voice_settings": {"stability": 0.15, "similarity_boost": 0.75}
+          }),
+        )
+            .timeout(Duration(seconds: 60)); // Increased timeout duration
+
+        if (response.statusCode == 200) {
+          final bytes = response.bodyBytes;
+          final buffer = bytes.buffer;
+          final source = await AudioSource.uri(
+            Uri.dataFromBytes(
+              buffer.asUint8List(),
+              mimeType: 'audio/mpeg',
+            ),
+          );
+          _audioPlayer = AudioPlayer();
+          await _audioPlayer!.setAudioSource(source);
+          _audioPlayer!.play();
+          setState(() {
+            _isPlaying = true;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Playback started!')),
+          );
+
+          _audioPlayer!.playerStateStream.listen((state) {
+            if (state.processingState == ProcessingState.completed) {
+              setState(() {
+                _isPlaying = false;
+              });
+            }
+          });
+          return; // Exit the loop if successful
+        } else if (response.statusCode == 401) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Unauthorized: Check your API key')),
+          );
+          print('Unauthorized: Check your API key');
+          return; // Exit the loop if unauthorized
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(
+                    'Failed to load audio: ${response.statusCode}, ${response.reasonPhrase}')),
+          );
+          print(
+              'Failed to load audio: ${response.statusCode}, ${response.reasonPhrase}');
+          return; // Exit the loop if other error occurs
+        }
+      } on SocketException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unauthorized: Check your API key')),
+          SnackBar(content: Text('Network error: $e')),
         );
-        print('Unauthorized: Check your API key');
-      } else {
+        print('Network error: $e');
+        retryCount++;
+        if (retryCount >= maxRetries) {
+          return; // Exit the loop if maximum retries reached
+        } else {
+          await Future.delayed(retryDelay); // Wait before retrying
+        }
+      } on TimeoutException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load audio: ${response.statusCode}, ${response.reasonPhrase}')),
+          SnackBar(content: Text('Request timed out: $e')),
         );
-        print('Failed to load audio: ${response.statusCode}, ${response.reasonPhrase}');
+        print('Request timed out: $e');
+        retryCount++;
+        if (retryCount >= maxRetries) {
+          return; // Exit the loop if maximum retries reached
+        } else {
+          await Future.delayed(retryDelay); // Wait before retrying
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('An error occurred: $e')),
+        );
+        print('An error occurred: $e');
+        return; // Exit the loop for any other error
       }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred: $e')),
-      );
-      print('An error occurred: $e');
     }
   }
 
@@ -137,6 +180,14 @@ class _StoryDisplayScreenState extends State<StoryDisplayScreen> {
   }
 
   Future<void> _savePdfToFirebase(String title, String story, String storyJson, BuildContext context) async {
+    // Check if the story content indicates that no story was found or content not found
+    if (story == 'Story not found' || storyJson == 'Story not found' || story == 'Content not found') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid story content. Upload cancelled.')),
+      );
+      return;
+    }
+
     final pdf = pw.Document();
     int maxLinesPerPage = 40; // Adjust this value based on your content and layout
     List<String> pages = splitStoryIntoPages(story, maxLinesPerPage);
@@ -219,56 +270,62 @@ class _StoryDisplayScreenState extends State<StoryDisplayScreen> {
             ),
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(_isPlaying ? Icons.stop : Icons.volume_up),
-            onPressed: () {
-              if (_isPlaying) {
-                _stopAudio();
-              } else {
-                _speakText(widget.story, context);
-              }
-            },
-          ),
-        ],
         centerTitle: true,
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.white10,
-              Colors.black26,
-              Colors.white,
-              Colors.yellowAccent,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.storyJson,
-                  style: const TextStyle(
-                      fontSize: 25,
-                      color: Colors.redAccent,
-                      fontWeight: FontWeight.bold
-                  ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.white10,
+                  Colors.black26,
+                  Colors.white,
+                  Colors.yellowAccent,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.storyJson,
+                      style: const TextStyle(
+                        fontSize: 25,
+                        color: Colors.redAccent,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      widget.story,
+                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  widget.story,
-                  style: const TextStyle(fontSize: 18, color: Colors.black),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: () {
+                if (_isPlaying) {
+                  _stopAudio();
+                } else {
+                  _speakText(widget.story, context);
+                }
+              },
+              child: Icon(_isPlaying ? Icons.stop : Icons.volume_up),
+            ),
+          ),
+        ],
       ),
     );
   }
