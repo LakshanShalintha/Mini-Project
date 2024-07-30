@@ -202,7 +202,7 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
   bool _isPlaying = false;
 
   Future<void> _speakText(String text) async {
-    String apiKey = 'sk_1742f1ccb6df0007e03684881085e6f1ae10e60a5b626140';
+    String apiKey = 'sk_f7f3f6fb01bf3936470a7551dbebcc92755aa35bf6ceae3d';
     String voiceId = '21m00Tcm4TlvDq8ikWAM';
 
     String url = 'https://api.elevenlabs.io/v1/text-to-speech/$voiceId';
