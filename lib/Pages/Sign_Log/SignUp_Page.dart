@@ -19,23 +19,36 @@ class _SignUpPageState extends State<SignUp_Page> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
+  String firstNameErrorText = '';
+  String emailErrorText = '';
   String phoneNumberErrorText = '';
+  String passwordErrorText = '';
+  String confirmPasswordErrorText = '';
   bool _showPassword = false;
   bool _showConfirmPassword = false;
   bool rememberMe = false;
-  String emailErrorText = '';
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> signUp() async {
-    if (firstNameController.text.isNotEmpty &&
-        emailController.text.isNotEmpty &&
-        phoneNumberController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty &&
-        confirmPasswordController.text.isNotEmpty &&
+    setState(() {
+      firstNameErrorText = firstNameController.text.isEmpty ? 'Please enter your first name' : '';
+      emailErrorText = emailController.text.isEmpty ? 'Please enter a valid email address' : '';
+      phoneNumberErrorText = phoneNumberController.text.isEmpty ? 'Please enter a valid phone number' : '';
+      passwordErrorText = passwordController.text.isEmpty ? 'Please enter a password' : '';
+      confirmPasswordErrorText = confirmPasswordController.text.isEmpty ? 'Please confirm your password' : '';
+
+      if (passwordController.text != confirmPasswordController.text) {
+        confirmPasswordErrorText = 'Passwords do not match';
+      }
+    });
+
+    if (firstNameErrorText.isEmpty &&
+        emailErrorText.isEmpty &&
         phoneNumberErrorText.isEmpty &&
-        passwordController.text == confirmPasswordController.text) {
+        passwordErrorText.isEmpty &&
+        confirmPasswordErrorText.isEmpty) {
       try {
         UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
           email: emailController.text,
@@ -53,22 +66,18 @@ class _SignUpPageState extends State<SignUp_Page> {
         showSuccessDialog();
       } catch (e) {
         print('Sign up failed: $e');
-        showErrorDialog('Sign up failed', e.toString());
-      }
-    } else {
-      // Do not proceed with sign-up, display error messages
-      if (firstNameController.text.isEmpty ||
-          emailController.text.isEmpty ||
-          phoneNumberController.text.isEmpty ||
-          passwordController.text.isEmpty ||
-          confirmPasswordController.text.isEmpty) {
-        showErrorDialog('Error', 'Please fill in all required fields.');
-      } else if (phoneNumberErrorText.isNotEmpty) {
-        showErrorDialog('Error', phoneNumberErrorText);
-      } else if (passwordController.text != confirmPasswordController.text) {
-        showErrorDialog('Error', 'Passwords do not match.');
+        showErrorDialog('Sign up failed', cleanErrorMessage(e.toString()));
       }
     }
+  }
+
+  String cleanErrorMessage(String errorMessage) {
+    // Remove the prefix (e.g., "[firebase_auth/weak-password] ")
+    final prefixEnd = errorMessage.indexOf(']') + 1;
+    if (prefixEnd > 0) {
+      return errorMessage.substring(prefixEnd).trim();
+    }
+    return errorMessage;
   }
 
   void showErrorDialog(String title, String content) {
@@ -83,7 +92,9 @@ class _SignUpPageState extends State<SignUp_Page> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('OK'),
+              child: const Text('OK',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ],
         );
@@ -99,25 +110,34 @@ class _SignUpPageState extends State<SignUp_Page> {
           title: Center(
             child: Text(
               'Sign Up Successful',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 25),
             ),
           ),
-          content: Center(
-            child: Text(
-              'Thank you for signing up! \n Now you can log in to your account',
-              textAlign: TextAlign.center,
+          content: Container(
+            width: MediaQuery.of(context).size.width * 0.5, // 70% of screen width
+            height: MediaQuery.of(context).size.height * 0.03, // 30% of screen height
+            child: Center(
+              child: Text(
+                'Thank you for signing up! \n Now you can log in to your account',
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
-              },
-              child: const Text('OK'),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
+                child: const Text(
+                  'OK',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
             ),
           ],
         );
@@ -128,7 +148,7 @@ class _SignUpPageState extends State<SignUp_Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -141,11 +161,11 @@ class _SignUpPageState extends State<SignUp_Page> {
               end: Alignment.bottomCenter,
             ),
           ),
-          child: Stack(
+          child: Column(
             children: [
-              Column(
-                children: [
-                  Padding(
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -171,26 +191,32 @@ class _SignUpPageState extends State<SignUp_Page> {
                               horizontal: 20.0,
                               vertical: 15.0,
                             ),
-                            child: TextField(
-                              controller: firstNameController,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.person, color: Colors.black),
-                                hintText: 'User Name',
-                                hintStyle: const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    color: Colors.black, // Border color
-                                    width: 2.0, // Border width
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: firstNameController,
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(Icons.person, color: Colors.black),
+                                    hintText: 'User Name',
+                                    hintStyle: const TextStyle(color: Colors.black),
+                                    border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.black, // Border color
+                                        width: 2.0, // Border width
+                                      ),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                      vertical: 2.5,
+                                    ),
+                                    errorText: firstNameErrorText.isNotEmpty ? firstNameErrorText : null,
+                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
                                   ),
                                 ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 5,
-                                  vertical: 2.5,
-                                ),
-                              ),
+                              ],
                             ),
                           ),
                         ),
@@ -224,6 +250,7 @@ class _SignUpPageState extends State<SignUp_Page> {
                                       vertical: 2.5,
                                     ),
                                     errorText: emailErrorText.isNotEmpty ? emailErrorText : null,
+                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
                                   ),
                                   onChanged: (value) {
                                     setState(() {
@@ -248,103 +275,46 @@ class _SignUpPageState extends State<SignUp_Page> {
                               horizontal: 20.0,
                               vertical: 15.0,
                             ),
-                            child: TextField(
-                              controller: phoneNumberController,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(10), // Limit input to 10 digits
-                                FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: phoneNumberController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(10), // Limit input to 10 digits
+                                    FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                                  ],
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(Icons.phone, color: Colors.black),
+                                    hintText: 'Phone Number',
+                                    hintStyle: const TextStyle(color: Colors.black),
+                                    border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.black, // Border color
+                                        width: 2.0, // Border width
+                                      ),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                      vertical: 2.5,
+                                    ),
+                                    errorText: phoneNumberErrorText.isNotEmpty ? phoneNumberErrorText : null,
+                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (!RegExp(r'^[0-9]*$').hasMatch(value)) {
+                                        phoneNumberErrorText = 'Please enter a valid phone number';
+                                      } else {
+                                        phoneNumberErrorText = '';
+                                      }
+                                    });
+                                  },
+                                ),
                               ],
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.phone, color: Colors.black),
-                                hintText: 'Phone Number',
-                                hintStyle: const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    color: Colors.black, // Border color
-                                    width: 2.0, // Border width
-                                  ),
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 5,
-                                  vertical: 2.5,
-                                ),
-                              ),
-                              onChanged: (value) {
-                                if (!RegExp(r'^[0-9]*$').hasMatch(value)) {
-                                  setState(() {
-                                    phoneNumberErrorText = 'Please enter a valid phone number';
-                                  });
-                                } else {
-                                  setState(() {
-                                    phoneNumberErrorText = '';
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                        if (phoneNumberErrorText.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                              vertical: 5.0,
-                            ),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                phoneNumberErrorText,
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ),
-                        Align(
-                          alignment: const Alignment(0, 0.06),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                              vertical: 15.0,
-                            ),
-                            child: TextField(
-                              controller: passwordController,
-                              obscureText: !_showPassword,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.lock, color: Colors.black),
-                                hintText: 'Password',
-                                hintStyle: const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    color: Colors.black, // Border color
-                                    width: 2.0, // Border width
-                                  ),
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 5,
-                                  vertical: 2.5,
-                                ),
-                                suffixIcon: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _showPassword = !_showPassword;
-                                    });
-                                  },
-                                  child: Icon(
-                                    _showPassword
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
                             ),
                           ),
                         ),
@@ -355,40 +325,92 @@ class _SignUpPageState extends State<SignUp_Page> {
                               horizontal: 20.0,
                               vertical: 15.0,
                             ),
-                            child: TextField(
-                              controller: confirmPasswordController,
-                              obscureText: !_showConfirmPassword,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.lock, color: Colors.black),
-                                hintText: 'Confirm Password',
-                                hintStyle: const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    color: Colors.black, // Border color
-                                    width: 2.0, // Border width
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: passwordController,
+                                  obscureText: !_showPassword,
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                                    hintText: 'Password',
+                                    hintStyle: const TextStyle(color: Colors.black),
+                                    border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.black, // Border color
+                                        width: 2.0, // Border width
+                                      ),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                      vertical: 2.5,
+                                    ),
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _showPassword = !_showPassword;
+                                        });
+                                      },
+                                      child: Icon(
+                                        _showPassword ? Icons.visibility : Icons.visibility_off,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    errorText: passwordErrorText.isNotEmpty ? passwordErrorText : null,
+                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
                                   ),
                                 ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 5,
-                                  vertical: 2.5,
-                                ),
-                                suffixIcon: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _showConfirmPassword = !_showConfirmPassword;
-                                    });
-                                  },
-                                  child: Icon(
-                                    _showConfirmPassword
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors.black,
+                              ],
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: const Alignment(0, 0.06),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 15.0,
+                            ),
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: confirmPasswordController,
+                                  obscureText: !_showConfirmPassword,
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                                    hintText: 'Confirm Password',
+                                    hintStyle: const TextStyle(color: Colors.black),
+                                    border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.black, // Border color
+                                        width: 2.0, // Border width
+                                      ),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                      vertical: 2.5,
+                                    ),
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _showConfirmPassword = !_showConfirmPassword;
+                                        });
+                                      },
+                                      child: Icon(
+                                        _showConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    errorText: confirmPasswordErrorText.isNotEmpty ? confirmPasswordErrorText : null,
+                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                         ),
@@ -397,47 +419,10 @@ class _SignUpPageState extends State<SignUp_Page> {
                             horizontal: 20.0,
                             vertical: 5.0,
                           ),
-                          child: Row(
-                            children: [
-                              Checkbox(
-                                value: rememberMe,
-                                onChanged: (value) {
-                                  setState(() {
-                                    rememberMe = value!;
-                                  });
-                                },
-                                activeColor: Colors.white,
-                                checkColor: Colors.black,
-                              ),
-                              Text(
-                                'Remember Me',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            if (firstNameController.text.isEmpty ||
-                                emailController.text.isEmpty ||
-                                phoneNumberController.text.isEmpty ||
-                                passwordController.text.isEmpty ||
-                                confirmPasswordController.text.isEmpty) {
-                              // Show error message if any required field is empty
-                              showErrorDialog('Error', 'Please fill in all required fields.');
-                            } else if (phoneNumberErrorText.isNotEmpty) {
-                              // Show error message if phone number is invalid
-                              showErrorDialog('Error', phoneNumberErrorText);
-                            } else if (passwordController.text != confirmPasswordController.text) {
-                              // Show error message if passwords do not match
-                              showErrorDialog('Error', 'Passwords do not match.');
-                            } else {
-                              // All fields are filled, phone number is valid, and passwords match, proceed with sign-up
-                              signUp();
-                            }
+                            signUp();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.orange,
@@ -452,45 +437,44 @@ class _SignUpPageState extends State<SignUp_Page> {
                             style: TextStyle(color: Colors.black),
                           ),
                         ),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "If you already have an account ",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const LogIn_Page(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    'LogIn',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 48, 83, 182),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  // This spacer will push the content above it to the top
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "If you already have an account",
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LogIn_Page(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              'LogIn',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 47, 87, 199),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
@@ -498,5 +482,4 @@ class _SignUpPageState extends State<SignUp_Page> {
       ),
     );
   }
-
 }
