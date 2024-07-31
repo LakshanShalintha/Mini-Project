@@ -1,0 +1,29 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "audio-rab",
+          "appId": "1:690066462839:android:bddbbebe37be724f5b0e72",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "audio-rab",
+          "configurations": {
+            "android": "1:690066462839:android:bddbbebe37be724f5b0e72",
+            "ios": "1:690066462839:ios:04e3f5ed8c05d7dd5b0e72"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
+}

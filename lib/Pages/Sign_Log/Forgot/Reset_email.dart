@@ -4,9 +4,9 @@ import 'package:mini_project/Pages/Sign_Log/LogIn_Page.dart';
 import '../Verify_email.dart';
 import 'Forgot_Success.dart';
 
-
 class Reset_email extends StatelessWidget {
-  const Reset_email({Key? key}) : super(key: key);
+  final String email;
+  const Reset_email({Key? key, required this.email}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,6 @@ class Reset_email extends StatelessWidget {
             children: [
               const Image(image: AssetImage("assets/logos/Reset_email.png")),
               const SizedBox(height: 30),
-              // Add your widgets here
-
               const Center(
                 child: Text(
                   "Password Reset, Email Sent!",
@@ -44,10 +42,10 @@ class Reset_email extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              const Center(
+              Center(
                 child: Text(
-                  "AudiRAB@gmail.com",
-                  style: TextStyle(
+                  email,
+                  style: const TextStyle(
                     fontSize: 12,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -58,7 +56,7 @@ class Reset_email extends StatelessWidget {
               const SizedBox(height: 10),
               const Center(
                 child: Text(
-                  "Your Account Security is Our Priority! We'we Sent You a Security Link to Safeiy Change Your Password and Keep Your Account Protected",
+                  "Your Account Security is Our Priority! We've Sent You a Security Link to Safely Change Your Password and Keep Your Account Protected",
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,
@@ -77,10 +75,8 @@ class Reset_email extends StatelessWidget {
                     );
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.blue),
-                    minimumSize:
-                    MaterialStateProperty.all<Size>(const Size(200, 50)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    minimumSize: MaterialStateProperty.all<Size>(const Size(200, 50)),
                   ),
                   child: const Text(
                     "Continue",
@@ -100,10 +96,8 @@ class Reset_email extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const Verify_email()),
                   ),
                   style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.white),
-                    minimumSize:
-                    MaterialStateProperty.all<Size>(const Size(200, 50)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    minimumSize: MaterialStateProperty.all<Size>(const Size(200, 50)),
                   ),
                   child: const Text(
                     "Resend Email",

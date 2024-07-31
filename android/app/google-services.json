@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "337764060105",
+    "project_id": "audirab-44b07",
+    "storage_bucket": "audirab-44b07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337764060105:android:e32d952555ff9bff583618",
+        "android_client_info": {
+          "package_name": "com.example.mini_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_qwLZRELDGbTHv4apWfqEFgB42vzVTp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

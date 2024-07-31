@@ -37,8 +37,8 @@ class NavMenu extends StatelessWidget {
         ),
         CurvedNavigationBarItem(
           child: Icon(Icons.add_box_rounded,
-              color: Colors.black,
-              size: 35,
+            color: Colors.black,
+            size: 35,
           ),
           label: 'Create',
         ),
