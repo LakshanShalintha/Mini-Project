@@ -18,7 +18,7 @@ class NavMenu extends StatelessWidget {
     return CurvedNavigationBar(
       height: 60,
       color: Colors.black26,
-      backgroundColor: Colors.black26,
+      backgroundColor: Colors.blueGrey,
       items: const [
         CurvedNavigationBarItem(
           child: Icon(Icons.home_outlined,
@@ -30,7 +30,7 @@ class NavMenu extends StatelessWidget {
         CurvedNavigationBarItem(
           child: Icon(
             Icons.favorite,
-            color: Colors.red,
+            color: Colors.white,
             size: 40,
           ),
           label: 'Favorite',
