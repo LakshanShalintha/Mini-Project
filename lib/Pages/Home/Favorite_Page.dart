@@ -14,10 +14,41 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
+  TextEditingController _searchController = TextEditingController();
+  List<String> _filteredPdfUrls = [];
+  List<String> _favoritePdfUrls = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_filterFavorites);
+    FavoritesManager().loadFavorites().then((_) {
+      setState(() {
+        _favoritePdfUrls = FavoritesManager().favoritePdfUrls;
+        _filteredPdfUrls = _favoritePdfUrls;
+      });
+    });
+  }
+
+  void _filterFavorites() {
+    setState(() {
+      String query = _searchController.text.trim().toLowerCase();
+      _filteredPdfUrls = _favoritePdfUrls.where((pdfUrl) {
+        final fileName = pdfUrl.toLowerCase();
+        return fileName.contains(query);
+      }).toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_filterFavorites);
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final favoritePdfUrls = FavoritesManager().favoritePdfUrls;
-
     return Scaffold(
       appBar: FAppBar(
         title: 'Favorite',
@@ -38,75 +69,106 @@ class _FavoritePageState extends State<FavoritePage> {
         backgroundColor: Colors.purpleAccent,
       ),
       backgroundColor: Colors.purple,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
-                  childAspectRatio: 1.0,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          decoration: InputDecoration(
+                            hintText: 'Search in favorites',
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.search),
+                              onPressed: _filterFavorites,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: favoritePdfUrls.length,
-                itemBuilder: (context, index) {
-                  final pdfUrl = favoritePdfUrls[index];
-                  return FutureBuilder<Reference>(
-                    future: FirebaseStorage.instance.ref(pdfUrl).getDownloadURL().then((url) => FirebaseStorage.instance.refFromURL(url)),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else if (!snapshot.hasData) {
-                        return Center(child: Text('No file available'));
-                      } else {
-                        final fileRef = snapshot.data!;
-                        final fileName = fileRef.name.split('.pdf')[0];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => PDFViewerScreen(fileRef: fileRef),
-                              ),
-                            );
-                          },
-                          child: Card(
-                            child: Stack(
-                              children: [
-                                Center(
-                                  child: Text(fileName),
+                _filteredPdfUrls.isEmpty
+                    ? Center(child: Text('No PDFs available', style: TextStyle(color: Colors.white)))
+                    : GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                    childAspectRatio: 1.0,
+                  ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _filteredPdfUrls.length,
+                  itemBuilder: (context, index) {
+                    final pdfUrl = _filteredPdfUrls[index];
+                    return FutureBuilder<Reference>(
+                      future: FirebaseStorage.instance.ref(pdfUrl).getDownloadURL().then((url) => FirebaseStorage.instance.refFromURL(url)),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else if (!snapshot.hasData) {
+                          return Center(child: Text('No file available'));
+                        } else {
+                          final fileRef = snapshot.data!;
+                          final fileName = fileRef.name.split('.pdf')[0];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => PDFViewerScreen(fileRef: fileRef),
                                 ),
-                                Positioned(
-                                  top: 8,
-                                  right: 8,
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        FavoritesManager().removeFavorite(pdfUrl);
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.favorite,
-                                      color: Colors.red,
-                                      size: 30,
+                              );
+                            },
+                            child: Card(
+                              child: Stack(
+                                children: [
+                                  Center(
+                                    child: Text(fileName),
+                                  ),
+                                  Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          FavoritesManager().removeFavorite(pdfUrl);
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.favorite,
+                                        color: Colors.red,
+                                        size: 30,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    },
-                  );
-                },
-              ),
-            ],
+                          );
+                        }
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -139,11 +201,6 @@ class FAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-
-
-
-
-
 
 class FavoritesManager {
   static final FavoritesManager _instance = FavoritesManager._internal();
@@ -199,6 +256,3 @@ class FavoritesManager {
     return _favoritePdfUrls.contains(pdfUrl);
   }
 }
-
-
-
