@@ -6,8 +6,9 @@ import 'package:path/path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../Pages/Home_Page.dart';
-import 'Nav_Menu.dart';
+import '../../Pages/Home_Page.dart';
+import '../Nav_Menu.dart';
+import 'PasswordPage.dart';
 import 'ProfilePage.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -236,16 +237,25 @@ class _SettingScreenState extends State<SettingScreen> {
                     },
                   ),
                   SettingMenuTitle(
-                    icon: Icons.account_circle,
-                    title: 'Account',
-                    subtitle: 'Manage your account',
-                    onTap: () {},
+                    icon: Icons.lock,
+                    title: 'Password',
+                    subtitle: 'Change Password',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PasswordPage(),
+                        ),
+                      );
+                    },
                   ),
                   SettingMenuTitle(
                     icon: Icons.account_circle,
                     title: 'Account',
                     subtitle: 'Manage your account',
-                    onTap: () {},
+                    onTap: () {
+
+                    },
                   ),
                 ],
               ),
@@ -262,7 +272,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     _showLogoutConfirmation(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: Colors.orange,
                   ),
                   child: const Text(
                     'Log Out',
