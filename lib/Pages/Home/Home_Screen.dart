@@ -7,7 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:just_audio/just_audio.dart';
-import '../../CommonParts/Nav_Menu.dart';
+import '../../CommonParts/CommonPages/Nav_Menu.dart';
 import 'Gallery.dart';
 
 Future<void> main() async {
@@ -421,7 +421,7 @@ class SectionHeading extends StatelessWidget {
           title,
           style: Theme.of(context)
               .textTheme
-              .headline6!
+              .titleLarge!
               .copyWith(color: Colors.white),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

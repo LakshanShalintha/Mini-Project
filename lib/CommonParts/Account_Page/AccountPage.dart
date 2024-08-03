@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:mini_project/CommonParts/Account_Page/DeleteAccount.dart';
 import 'package:path/path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../Pages/Home_Page.dart';
-import '../Nav_Menu.dart';
+import '../CommonPages/Nav_Menu.dart';
 import 'PasswordPage.dart';
-import 'ProfilePage.dart';
+import 'Profile.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -222,7 +223,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   SettingMenuTitle(
                     icon: Icons.person,
                     title: 'Profile',
-                    subtitle: 'Manage your profile',
+                    subtitle: 'Manage profile',
                     onTap: () async {
                       await Navigator.push(
                         context,
@@ -254,7 +255,12 @@ class _SettingScreenState extends State<SettingScreen> {
                     title: 'Account',
                     subtitle: 'Manage your account',
                     onTap: () {
-
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DeleteAccount(),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -368,11 +374,11 @@ class SettingMenuTitle extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.headline6!,
+        style: Theme.of(context).textTheme.titleLarge!,
       ),
       subtitle: Text(
         subtitle,
-        style: Theme.of(context).textTheme.subtitle1!,
+        style: Theme.of(context).textTheme.titleMedium!,
       ),
       trailing: trailing,
       onTap: onTap,
@@ -401,7 +407,7 @@ class CurvedBackground extends StatelessWidget {
           color: Colors.white10,
         ),
         child: SizedBox(
-          height: 300,
+          height: 350,
           child: Stack(
             children: [
               Positioned(
