@@ -78,6 +78,7 @@ class _GalleryState extends State<Gallery> {
         ),
         backgroundColor: Color(0xFF121313), // Replace with your desired color
       ),
+
       backgroundColor: Colors.blueGrey,
       body: GestureDetector(
         onTap: () {
@@ -86,7 +87,13 @@ class _GalleryState extends State<Gallery> {
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
+<<<<<<< HEAD
               colors: [Color(0xFF151414), Color(0xFF333131)],
+=======
+              colors: [
+                Color(0xFF151414),
+                Color(0xFF333131)],
+>>>>>>> 263e1357cf05adb928707b72f0295411347b60f7
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -130,11 +137,17 @@ class _GalleryState extends State<Gallery> {
                     } else {
                       final pdfRefs = snapshot.data!;
                       return Padding(
+<<<<<<< HEAD
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0), // Add padding here
                         child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
+=======
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0), // Add padding here
+                        child: GridView.builder(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+>>>>>>> 263e1357cf05adb928707b72f0295411347b60f7
                             crossAxisCount: 3, // Number of columns
                             crossAxisSpacing: 10.0, // Spacing between columns
                             mainAxisSpacing: 10.0, // Spacing between rows
@@ -144,16 +157,25 @@ class _GalleryState extends State<Gallery> {
                           itemCount: pdfRefs.length,
                           itemBuilder: (context, index) {
                             final pdfUrl = pdfRefs[index].fullPath;
+<<<<<<< HEAD
                             final fileName =
                                 pdfRefs[index].name.split('.pdf')[0];
                             final isFavorited =
                                 FavoritesManager().isFavorite(pdfUrl);
+=======
+                            final fileName = pdfRefs[index].name.split('.pdf')[0];
+                            final isFavorited = FavoritesManager().isFavorite(pdfUrl);
+>>>>>>> 263e1357cf05adb928707b72f0295411347b60f7
                             return GestureDetector(
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
+<<<<<<< HEAD
                                     builder: (context) => PDFViewerScreen(
                                         fileRef: pdfRefs[index]),
+=======
+                                    builder: (context) => PDFViewerScreen(fileRef: pdfRefs[index]),
+>>>>>>> 263e1357cf05adb928707b72f0295411347b60f7
                                   ),
                                 );
                               },
@@ -170,6 +192,7 @@ class _GalleryState extends State<Gallery> {
                                         onTap: () {
                                           setState(() {
                                             if (isFavorited) {
+<<<<<<< HEAD
                                               FavoritesManager()
                                                   .removeFavorite(pdfUrl)
                                                   .then((_) {
@@ -179,18 +202,30 @@ class _GalleryState extends State<Gallery> {
                                               FavoritesManager()
                                                   .addFavorite(pdfUrl)
                                                   .then((_) {
+=======
+                                              FavoritesManager().removeFavorite(pdfUrl).then((_) {
+                                                setState(() {});
+                                              });
+                                            } else {
+                                              FavoritesManager().addFavorite(pdfUrl).then((_) {
+>>>>>>> 263e1357cf05adb928707b72f0295411347b60f7
                                                 setState(() {});
                                               });
                                             }
                                           });
                                         },
                                         child: Icon(
+<<<<<<< HEAD
                                           isFavorited
                                               ? Icons.favorite
                                               : Icons.favorite_border,
                                           color: isFavorited
                                               ? Colors.red
                                               : Colors.grey,
+=======
+                                          isFavorited ? Icons.favorite : Icons.favorite_border,
+                                          color: isFavorited ? Colors.red : Colors.grey,
+>>>>>>> 263e1357cf05adb928707b72f0295411347b60f7
                                           size: 30,
                                         ),
                                       ),

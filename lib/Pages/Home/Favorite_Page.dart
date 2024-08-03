@@ -5,6 +5,8 @@ import '../../CommonParts/CommonPages/Nav_Menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
+
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);
 
@@ -111,6 +113,7 @@ class _FavoritePageState extends State<FavoritePage> {
               Expanded(
                 child: _filteredPdfUrls.isEmpty
                     ? Center(
+<<<<<<< HEAD
                         child: Text(
                           'No PDFs available',
                           style: TextStyle(color: Colors.white),
@@ -199,6 +202,83 @@ class _FavoritePageState extends State<FavoritePage> {
                           },
                         ),
                       ),
+=======
+                  child: Text(
+                    'No PDFs available',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+                    : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:20.0), // Add horizontal padding here
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.0,
+                    ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _filteredPdfUrls.length,
+                    itemBuilder: (context, index) {
+                      final pdfUrl = _filteredPdfUrls[index];
+                      return FutureBuilder<Reference>(
+                        future: FirebaseStorage.instance
+                            .ref(pdfUrl)
+                            .getDownloadURL()
+                            .then((url) => FirebaseStorage.instance.refFromURL(url)),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          } else if (!snapshot.hasData) {
+                            return Center(child: Text('No file available'));
+                          } else {
+                            final fileRef = snapshot.data!;
+                            final fileName = fileRef.name.split('.pdf')[0];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => PDFViewerScreen(fileRef: fileRef),
+                                  ),
+                                );
+                              },
+                              child: Card(
+                                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5), // Add margins inside the Card
+                                child: Stack(
+                                  children: [
+                                    Center(
+                                      child: Text(fileName),
+                                    ),
+                                    Positioned(
+                                      top: 8,
+                                      right: 8,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            FavoritesManager().removeFavorite(pdfUrl);
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                          size: 30,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
+>>>>>>> 263e1357cf05adb928707b72f0295411347b60f7
               ),
             ],
           ),
@@ -208,6 +288,7 @@ class _FavoritePageState extends State<FavoritePage> {
     );
   }
 }
+
 
 class FAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -224,8 +305,12 @@ class FAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+<<<<<<< HEAD
       title: Text(
         title,
+=======
+      title: Text(title,
+>>>>>>> 263e1357cf05adb928707b72f0295411347b60f7
         style: TextStyle(color: Colors.white),
       ),
       actions: actions,
