@@ -7,7 +7,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
-import '../../CommonParts/Nav_Menu.dart';
+import '../../CommonParts/CommonPages/Nav_Menu.dart';
 import 'Favorite_Page.dart';
 
 class Gallery extends StatefulWidget {
