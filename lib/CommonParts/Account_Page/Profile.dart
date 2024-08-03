@@ -17,24 +17,49 @@ class _ProfilePageState extends State<ProfilePage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  User? _currentUser;
 
   @override
   void initState() {
     super.initState();
     _nameController.text = widget.name ?? '';
     _emailController.text = widget.email ?? '';
+    _currentUser = FirebaseAuth.instance.currentUser;
   }
 
   Future<void> _saveProfile() async {
     if (_formKey.currentState?.validate() ?? false) {
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          'name': _nameController.text,
-          'email': _emailController.text,
-        }, SetOptions(merge: true));
+      if (_emailController.text.trim() != _currentUser?.email) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Error',
+            style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+            ),
+            content: Text('The entered email does not match!.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+        return;
       }
-      Navigator.pop(context);
+
+      if (_formKey.currentState?.validate() ?? false) {
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+            'name': _nameController.text,
+            'email': _emailController.text,
+          }, SetOptions(merge: true));
+        }
+        Navigator.pop(context);
+      }
     }
   }
 
