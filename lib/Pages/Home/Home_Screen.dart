@@ -421,7 +421,7 @@ class SectionHeading extends StatelessWidget {
           title,
           style: Theme.of(context)
               .textTheme
-              .titleLarge!
+              .headline6!
               .copyWith(color: Colors.white),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
