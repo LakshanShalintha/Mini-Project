@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:mini_project/CommonParts/Profile_Page/DeleteAccount.dart';
+import 'package:mini_project/CommonParts/Account_Page/DeleteAccount.dart';
 import 'package:path/path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,7 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../Pages/Home_Page.dart';
 import '../CommonPages/Nav_Menu.dart';
 import 'PasswordPage.dart';
-import 'ManageProfile.dart';
+import 'Profile.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -407,7 +407,7 @@ class CurvedBackground extends StatelessWidget {
           color: Colors.white10,
         ),
         child: SizedBox(
-          height: 300,
+          height: 350,
           child: Stack(
             children: [
               Positioned(

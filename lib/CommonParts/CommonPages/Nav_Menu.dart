@@ -6,9 +6,9 @@ import 'package:mini_project/Pages/Home/Gallery.dart';
 import 'package:mini_project/Pages/Home/Home_Screen.dart';
 import 'package:mini_project/Pages/Home/New_Story.dart';
 import 'package:mini_project/Pages/Home/StoryDisplay.dart';
-import '../Pages/Home/Favorite_Page.dart';
-import '../Pages/Home/speech.dart';
-import 'Account_Page/AccountPage.dart';
+import '../../Pages/Home/Favorite_Page.dart';
+import '../../Pages/Home/speech.dart';
+import '../Account_Page/AccountPage.dart';
 
 class NavMenu extends StatelessWidget {
   const NavMenu({super.key});

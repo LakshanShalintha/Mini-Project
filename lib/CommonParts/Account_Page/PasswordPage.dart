@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mini_project/CommonParts/Profile_Page/ProfilePage.dart';
+import 'package:mini_project/CommonParts/Account_Page/AccountPage.dart';
 
 class PasswordPage extends StatefulWidget {
   @override

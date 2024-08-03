@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // Add this import
-import '../../CommonParts/AIParts.dart';
-import '../../CommonParts/AppBar.dart';
-import '../../CommonParts/Nav_Menu.dart';
+import '../../CommonParts/CommonPages/AIParts.dart';
+import '../../CommonParts/CommonPages/AppBar.dart';
+import '../../CommonParts/CommonPages/Nav_Menu.dart';
 import 'Home_Screen.dart';
 import 'StoryDisplay.dart';
 
