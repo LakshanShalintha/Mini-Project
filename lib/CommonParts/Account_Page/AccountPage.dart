@@ -374,11 +374,11 @@ class SettingMenuTitle extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.titleLarge!,
+        style: Theme.of(context).textTheme.headline6!,
       ),
       subtitle: Text(
         subtitle,
-        style: Theme.of(context).textTheme.titleMedium!,
+        style: Theme.of(context).textTheme.subtitle1!,
       ),
       trailing: trailing,
       onTap: onTap,
