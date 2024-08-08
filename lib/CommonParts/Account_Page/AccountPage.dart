@@ -173,7 +173,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           child: GestureDetector(
                             onTap: _pickImage,
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.black,
                                 shape: BoxShape.circle,
                               ),
