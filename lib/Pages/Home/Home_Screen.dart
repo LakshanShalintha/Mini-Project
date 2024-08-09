@@ -46,17 +46,17 @@ class HomeScreen extends StatelessWidget {
       {'imagePath': 'assets/logos/facebook.png', 'label': 'Facebook'},
       {'imagePath': 'assets/logos/google.png', 'label': 'Twitter'},
       {'imagePath': 'assets/logos/facebook.png', 'label': 'Instagram'},
-      {'imagePath': 'assets/images/PDFs/dog1.webp', 'label': 'LinkedIn'},
+      {'imagePath': 'assets/logos/google.png', 'label': 'LinkedIn'},
     ];
 
     // Paths to your images
     List<String> imagePaths = [
-      'assets/images/PDFs/cat2.webp',
-      'assets/logos/google.png',
-      'assets/logos/facebook.png',
-      'assets/logos/google.png',
-      'assets/logos/google.png',
-      'assets/logos/google.png',
+      'assets/images/PDFs/Elephant.webp',
+      'assets/images/PDFs/Moon.webp',
+      'assets/images/PDFs/Sea.webp',
+      'assets/images/PDFs/Solar.jpeg',
+      'assets/images/PDFs/Tree.webp',
+      'assets/images/PDFs/World.webp',
     ];
 
     return Scaffold(
@@ -521,7 +521,7 @@ class GridItem extends StatelessWidget {
           child: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 4.0), // Adjust the padding to move the image to the right
+                padding: const EdgeInsets.only(left: 2.0), // Adjust the padding to move the image to the right
                 child: ClipOval(
                   child: Image.asset(
                     imagePath!,
@@ -577,7 +577,7 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
   bool _isPlaying = false;
 
   void _speakText(String filePath) async {
-    String apiKey = 'YOUR_ELEVEN_LABS_API_KEY';
+    String apiKey = 'sk_f7f3f6fb01bf3936470a7551dbebcc92755aa35bf6ceae3d';
     String voiceId = '21m00Tcm4TlvDq8ikWAM';
 
     String url = 'https://api.elevenlabs.io/v1/text-to-speech/$voiceId';

@@ -1,14 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import '../../CommonParts/CommonPages/Nav_Menu.dart';
-import '../../CommonParts/PDFReader/MusicAnimation.dart';
 import '../../CommonParts/PDFReader/PDFViewer.dart';
 import 'Favorite_Page.dart';
 
@@ -40,8 +34,9 @@ class _GalleryState extends State<Gallery> {
   Future<List<Reference>> fetchPdfReferences(String query) async {
     final storageRef = FirebaseStorage.instance.ref();
     final files = await listAllFiles(storageRef);
+    final lowerCaseQuery = query.toLowerCase();  // Convert the query to lowercase
     final pdfFiles = files
-        .where((file) => file.name.endsWith('.pdf') && file.name.contains(query))
+        .where((file) => file.name.toLowerCase().endsWith('.pdf') && file.name.toLowerCase().contains(lowerCaseQuery))
         .toList();
     return pdfFiles;
   }
@@ -80,7 +75,6 @@ class _GalleryState extends State<Gallery> {
         backgroundColor: Color(0xFF121313), // Replace with your desired color
       ),
 
-      backgroundColor: Colors.blueGrey,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
