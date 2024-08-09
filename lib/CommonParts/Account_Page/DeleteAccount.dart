@@ -85,11 +85,30 @@ class _DeleteAccountState extends State<DeleteAccount> {
         await user.reauthenticateWithCredential(credential);
         await FirebaseFirestore.instance.collection('users').doc(user.uid).delete();
         await user.delete();
-        Navigator.of(context).popUntil((route) => route.isFirst); // Pop all existing routes
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomePage(),
+
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Successful',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 25),
+            ),
+            content: const Text('This Account Has Been Deleted'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).popUntil((route) => route.isFirst); // Pop all existing routes
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                  );
+                },
+                child: const Text('OK'),
+              ),
+            ],
           ),
         );
       } catch (e) {
@@ -97,7 +116,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
           context: context,
           builder: (context) => AlertDialog(
             title: const Text('Error'),
-            content: Text(e.toString()),
+            content: const Text('Please Enter Correct Password'),
             actions: [
               TextButton(
                 onPressed: () {
