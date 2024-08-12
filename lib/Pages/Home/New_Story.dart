@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http; // Add this import
 import '../../CommonParts/CommonPages/AIParts.dart';
 import '../../CommonParts/CommonPages/AppBar.dart';
 import '../../CommonParts/CommonPages/Nav_Menu.dart';
+import '../../CommonParts/PDFReader/PDFViewer.dart';
 import 'Home_Screen.dart';
 import 'StoryDisplay.dart';
 
@@ -442,41 +443,3 @@ class _SearchBarState extends State<SearchBar> {
   }
 }
 
-class PDFViewerScreen extends StatelessWidget {
-  final Reference fileRef;
-
-  const PDFViewerScreen({required this.fileRef, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(fileRef.name.split('.pdf')[0]),
-      ),
-      body: FutureBuilder<String>(
-        future: _downloadFile(fileRef),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No file available'));
-          } else {
-            final localPath = snapshot.data!;
-            return PDFView(
-              filePath: localPath,
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Future<String> _downloadFile(Reference fileRef) async {
-    final directory = await getTemporaryDirectory();
-    final file = File('${directory.path}/${fileRef.name}');
-    await fileRef.writeToFile(file);
-    return file.path;
-  }
-}

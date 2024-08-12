@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:just_audio/just_audio.dart';
 import '../../CommonParts/CommonPages/Nav_Menu.dart';
+import '../../CommonParts/PDFReader/PDFViewer.dart';
 import 'Gallery.dart';
 
 Future<void> main() async {
@@ -139,13 +140,12 @@ class HomeScreen extends StatelessWidget {
                             ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Center(
-                              child: Text('Error: ${snapshot.error}'));
+                          return Center(child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData ||
                             snapshot.data!.isEmpty) {
                           return Center(child: Text('No PDFs found'));
                         } else {
-                          final pdfUrls = snapshot.data!;
+                          final pdfRefs = snapshot.data!;
                           return GridView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
@@ -154,23 +154,14 @@ class HomeScreen extends StatelessWidget {
                               crossAxisCount: 2, // Number of columns
                               crossAxisSpacing: 10.0,
                               mainAxisSpacing: 15.0,
-                              childAspectRatio:
-                              3.5, // Aspect ratio of grid items
+                              childAspectRatio: 3.5, // Aspect ratio of grid items
                             ),
                             itemCount: 6,
                             itemBuilder: (context, index) {
-                              if (index < pdfUrls.length) {
-                                // Display the PDF items
-                                return GridItem(
-                                  pdfUrl: pdfUrls[index].fullPath,
-                                  imagePath: imagePaths[index],
-                                );
-                              } else {
-                                // Display the image at the remaining positions
-                                return GridItem(
-                                  imagePath: imagePaths[index],
-                                );
-                              }
+                              return GridItem(
+                                pdfRef: pdfRefs[index], // Passing the Reference object
+                                imagePath: imagePaths[index],
+                              );
                             },
                           );
                         }
@@ -183,9 +174,8 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                                builder: (context) => const Gallery(
-                                    searchQuery:
-                                    "")), // Provide a default value for searchQuery
+                              builder: (context) => const Gallery(searchQuery: ""),
+                            ), // Provide a default value for searchQuery
                           ); // Handle button tap
                         },
                         style: ElevatedButton.styleFrom(
@@ -219,11 +209,11 @@ class HomeScreen extends StatelessWidget {
 
 class CurvedBackground extends StatelessWidget {
   final Widget child;
-  final String imagePath; // Add image path parameter
+  final String imagePath;
 
   const CurvedBackground({
     required this.child,
-    required this.imagePath, // Required parameter for image path
+    required this.imagePath,
     Key? key,
   }) : super(key: key);
 
@@ -234,8 +224,8 @@ class CurvedBackground extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(imagePath), // Use AssetImage or NetworkImage
-            fit: BoxFit.cover, // Adjust fit as needed
+            image: AssetImage(imagePath),
+            fit: BoxFit.cover,
           ),
         ),
         padding: const EdgeInsets.all(0),
@@ -363,8 +353,7 @@ class _SearchBarState extends State<SearchBar> {
             borderSide: const BorderSide(color: Colors.grey),
           ),
           filled: true,
-          // Set filled to true
-          fillColor: Colors.white, // Set fillColor to white
+          fillColor: Colors.white,
         ),
       ),
     );
@@ -379,18 +368,18 @@ class CustomCurvedEdges extends CustomClipper<Path> {
 
     final firstCurveStart = Offset(0, size.height - 20);
     final firstCurveEnd = Offset(40, size.height - 20);
-    path.quadraticBezierTo(firstCurveStart.dx, firstCurveStart.dy,
-        firstCurveEnd.dx, firstCurveEnd.dy);
+    path.quadraticBezierTo(
+        firstCurveStart.dx, firstCurveStart.dy, firstCurveEnd.dx, firstCurveEnd.dy);
 
     final secondCurveStart = Offset(0, size.height - 20);
     final secondCurveEnd = Offset(size.width - 40, size.height - 20);
-    path.quadraticBezierTo(secondCurveStart.dx, secondCurveStart.dy,
-        secondCurveEnd.dx, secondCurveEnd.dy);
+    path.quadraticBezierTo(
+        secondCurveStart.dx, secondCurveStart.dy, secondCurveEnd.dx, secondCurveEnd.dy);
 
     final thirdCurveStart = Offset(size.width, size.height - 20);
     final thirdCurveEnd = Offset(size.width, size.height);
-    path.quadraticBezierTo(thirdCurveStart.dx, thirdCurveStart.dy,
-        thirdCurveEnd.dx, thirdCurveEnd.dy);
+    path.quadraticBezierTo(
+        thirdCurveStart.dx, thirdCurveStart.dy, thirdCurveEnd.dx, thirdCurveEnd.dy);
 
     path.lineTo(size.width, 0);
     path.close();
@@ -484,34 +473,27 @@ class VerticalImageText extends StatelessWidget {
 }
 
 class GridItem extends StatelessWidget {
-  final String? pdfUrl;
+  final Reference? pdfRef;
   final String? imagePath;
 
   const GridItem({
     Key? key,
-    this.pdfUrl,
+    this.pdfRef,
     this.imagePath,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (imagePath != null) {
-      // Extract the PDF name from the URL
-      final pdfName = pdfUrl != null ? pdfUrl!.split('/').last.split('.pdf').first : 'Unknown';
+    if (imagePath != null && pdfRef != null) {
+      final pdfName = pdfRef!.name.split('.pdf').first;
 
       return GestureDetector(
         onTap: () async {
-          if (pdfUrl != null) {
-            final pdfRef = FirebaseStorage.instance.ref(pdfUrl);
-            final url = await pdfRef.getDownloadURL();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => PDFViewerScreen(
-                    pdfUrl: url,
-                    pdfName: pdfName),
-              ),
-            );
-          }
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => PDFViewerScreen(fileRef: pdfRef!),
+            ),
+          );
         },
         child: Container(
           decoration: BoxDecoration(
@@ -556,173 +538,5 @@ class GridItem extends StatelessWidget {
         ),
       );
     }
-  }
-}
-
-
-
-class PDFViewerScreen extends StatefulWidget {
-  final String pdfUrl;
-  final String pdfName;
-
-  const PDFViewerScreen({Key? key, required this.pdfUrl, required this.pdfName})
-      : super(key: key);
-
-  @override
-  _PDFViewerScreenState createState() => _PDFViewerScreenState();
-}
-
-class _PDFViewerScreenState extends State<PDFViewerScreen> {
-  AudioPlayer? _audioPlayer;
-  bool _isPlaying = false;
-
-  void _speakText(String filePath) async {
-    String apiKey = 'sk_f7f3f6fb01bf3936470a7551dbebcc92755aa35bf6ceae3d';
-    String voiceId = '21m00Tcm4TlvDq8ikWAM';
-
-    String url = 'https://api.elevenlabs.io/v1/text-to-speech/$voiceId';
-    try {
-      // Read the text content from the PDF file
-      String pdfText = await _extractTextFromPdf(filePath);
-
-      if (pdfText.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No text found in the PDF.')),
-        );
-        return;
-      }
-
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
-          'accept': 'audio/mpeg',
-          'xi-api-key': apiKey,
-          'Content-Type': 'application/json',
-        },
-        body: json.encode({
-          "text": pdfText,
-          "model_id": "eleven_monolingual_v1",
-          "voice_settings": {"stability": 0.15, "similarity_boost": 0.75}
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final bytes = response.bodyBytes;
-        _audioPlayer = AudioPlayer();
-        await _audioPlayer!.setAudioSource(
-          ConcatenatingAudioSource(
-            children: [
-              AudioSource.uri(Uri.dataFromBytes(bytes, mimeType: 'audio/mpeg')),
-            ],
-          ),
-        );
-        _audioPlayer!.play();
-        setState(() {
-          _isPlaying = true;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Playback started!')),
-        );
-
-        _audioPlayer!.playerStateStream.listen((state) {
-          if (state.processingState == ProcessingState.completed) {
-            setState(() {
-              _isPlaying = false;
-            });
-          }
-        });
-      } else if (response.statusCode == 401) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unauthorized: Check your API key')),
-        );
-        print('Unauthorized: Check your API key');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load audio: ${response.statusCode}, ${response.reasonPhrase}')),
-        );
-        print('Failed to load audio: ${response.statusCode}, ${response.reasonPhrase}');
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred: $e')),
-      );
-      print('An error occurred: $e');
-    }
-  }
-
-  Future<String> _extractTextFromPdf(String filePath) async {
-    // Implement PDF text extraction logic here
-    // For demonstration purposes, we'll return a dummy text
-    return "Extracted text from PDF.";
-  }
-
-  void _stopAudio() async {
-    if (_audioPlayer != null) {
-      await _audioPlayer!.stop();
-      setState(() {
-        _isPlaying = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Playback stopped!')),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.pdfName),
-      ),
-      body: FutureBuilder<String>(
-        future: _downloadFile(widget.pdfUrl),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No file available'));
-          } else {
-            final localPath = snapshot.data!;
-            return Stack(
-              children: [
-                PDFView(
-                  filePath: localPath,
-                ),
-                Positioned(
-                  bottom: 20,
-                  right: 20,
-                  child: FloatingActionButton(
-                    onPressed: () async {
-                      if (_isPlaying) {
-                        _stopAudio();
-                      } else {
-                        _speakText(localPath);
-                      }
-                    },
-                    child: Icon(_isPlaying ? Icons.stop : Icons.volume_up),
-                  ),
-                ),
-              ],
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Future<String> _downloadFile(String url) async {
-    final response = await HttpClient().getUrl(Uri.parse(url));
-    final directory = await getTemporaryDirectory();
-    final file = File('${directory.path}/${Uri.parse(url).pathSegments.last}');
-    await response.close().then((response) => response.pipe(file.openWrite()));
-    return file.path;
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer?.dispose();
-    super.dispose();
   }
 }
