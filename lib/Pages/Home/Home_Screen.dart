@@ -1,12 +1,7 @@
-import 'dart:io';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:just_audio/just_audio.dart';
 import '../../CommonParts/CommonPages/Nav_Menu.dart';
 import '../../CommonParts/PDFReader/PDFViewer.dart';
 import 'Gallery.dart';
@@ -44,10 +39,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, String>> categories = [
-      {'imagePath': 'assets/logos/facebook.png', 'label': 'Facebook'},
-      {'imagePath': 'assets/logos/google.png', 'label': 'Twitter'},
-      {'imagePath': 'assets/logos/facebook.png', 'label': 'Instagram'},
-      {'imagePath': 'assets/logos/google.png', 'label': 'LinkedIn'},
+      {'imagePath': 'assets/icons/Home_popular/Fantasy.jpg', 'label': 'Fantasy'},
+      {'imagePath': 'assets/icons/Home_popular/Science.jpg', 'label': 'Science'},
+      {'imagePath': 'assets/icons/Home_popular/Thriller.jpg', 'label': 'Thriller'},
+      {'imagePath': 'assets/icons/Home_popular/Fiction.jpg', 'label': 'Fiction'},
     ];
 
     // Paths to your images
@@ -406,14 +401,17 @@ class SectionHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          title,
-          style: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(color: Colors.white),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+        Padding(
+          padding: const EdgeInsets.only(left: 10.0), // Add padding to the left of the text
+          child: Text(
+            title,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: Colors.white, fontSize: 20), // Adjust the font size here
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         if (showActionButton)
           TextButton(

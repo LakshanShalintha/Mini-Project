@@ -157,8 +157,8 @@ class _GalleryState extends State<Gallery> {
                                       child: Text(fileName),
                                     ),
                                     Positioned(
-                                      top: 8,
-                                      right: 8,
+                                      top: 3,
+                                      right: 3,
                                       child: InkWell(
                                         onTap: () {
                                           setState(() {
@@ -176,7 +176,7 @@ class _GalleryState extends State<Gallery> {
                                         child: Icon(
                                           isFavorited ? Icons.favorite : Icons.favorite_border,
                                           color: isFavorited ? Colors.red : Colors.grey,
-                                          size: 30,
+                                          size: 25,
                                         ),
                                       ),
                                     ),

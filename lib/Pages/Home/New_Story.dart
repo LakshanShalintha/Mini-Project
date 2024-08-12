@@ -2,18 +2,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // Add this import
 import '../../CommonParts/CommonPages/AIParts.dart';
-import '../../CommonParts/CommonPages/AppBar.dart';
 import '../../CommonParts/CommonPages/Nav_Menu.dart';
 import '../../CommonParts/PDFReader/PDFViewer.dart';
 import 'Home_Screen.dart';
 import 'StoryDisplay.dart';
-
 import 'dart:io';
 import 'package:file_picker/file_picker.dart'; // Import file picker package
 import 'package:firebase_storage/firebase_storage.dart'; // Import firebase storage package
 import 'package:flutter/foundation.dart'; // For kIsWeb
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class NewStory extends StatelessWidget {
   const NewStory({Key? key}) : super(key: key);
