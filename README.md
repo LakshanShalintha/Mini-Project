@@ -1,4 +1,4 @@
-![AudiRAB Mobile App]([https://storage.googleapis.com/audirab-44b07.appspot.com/Logo.png](https://firebasestorage.googleapis.com/v0/b/audirab-44b07.appspot.com/o/Logo.png?alt=media&token=fde37e8a-bebb-42c4-982a-c3c0ea9cbbd5))
+![AudiRAB Mobile App](https://firebasestorage.googleapis.com/v0/b/exe2-96fd1.appspot.com/o/Screenshot%202024-08-18%20101516.png?alt=media&token=11bbb3f9-d9b4-4ff7-ada8-4ecbc52c543a)
 
 # 🌐 AudiRAB Mobile App
 
