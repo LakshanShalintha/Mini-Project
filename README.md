@@ -27,12 +27,12 @@ Ready to set up the web app locally? Follow these steps:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/audirab-web.git
+   https://github.com/LakshanShalintha/Mini-Project.git
      
    ```
 2. **Navigate to the Project Directory:**
    ```bash
-   cd audirab-web
+   cd Mini-Project
    ```
 3. **Install Dependencies:**
    ```bash
@@ -42,7 +42,7 @@ Ready to set up the web app locally? Follow these steps:
    Create a .env file at the root of the project and configure your Firebase keys and other environment settings.
    ```
 5. **Run the App:**
-     pflutter run
+     flutter run
 
    ```
 
