@@ -17,9 +17,9 @@ Welcome to the **Audirab Web Application**! This platform offers a seamless onli
 - **Offline Mode**: Download audiobooks for offline listening.
 
 ## 🛠️ Technologies Used
-- **Backend**: Node.js
-- **Frontend**: React, Bootstrap
-- **Database**: MongoDB
+- **Frontend**: Flutter
+- **Backend**: Firebase
+- **Database**: Firebase
 
 ## 🔧 Installation
 
@@ -40,8 +40,11 @@ Ready to set up the web app locally? Follow these steps:
    ```
 4. **Set Up Environment Variables:**
    Create a .env file at the root of the project and configure your Firebase keys and other environment settings.
+   ```bash
+   flutter_dotenv
    ```
-5. **Run the App:**
+6. **Run the App:**
+ ```bash
      flutter run
 
    ```
@@ -60,9 +63,5 @@ We welcome contributions from the community! To contribute:
 3. Commit your changes and push them to your fork.
 4. Open a pull request and describe your changes.
 
-   ## 📜 License
----
-
-Ensure to replace `./path/to/your/image.png` with the actual path to your Audirab logo in the repository. This README template is tailored for a Flutter mobile application, reflecting the structure and technologies relevant to your app. Let me know if you need any further modifications or additions!
 
 
