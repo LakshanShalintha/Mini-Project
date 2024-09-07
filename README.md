@@ -1,6 +1,6 @@
-![Audirab Web App](./path/to/your/image.png)
+![AudiRAB Mobile App](https://storage.googleapis.com/audirab-44b07.appspot.com/Logo.png)
 
-# 🌐 Audirab Web Application
+# 🌐 AudiRAB Mobile App
 
 Welcome to the **Audirab Web Application**! This platform offers a seamless online experience for audiobook enthusiasts. With personalized recommendations and a vast library, Audirab transforms your reading into a dynamic listening experience.
 
