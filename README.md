@@ -2,7 +2,7 @@
 
 # 🌐 AudiRAB Mobile App
 
-Welcome to the **Audirab Web Application**! This platform offers a seamless online experience for audiobook enthusiasts. With personalized recommendations and a vast library, Audirab transforms your reading into a dynamic listening experience.
+Welcome to the **Audirab Mobile Application**! This platform offers a seamless online experience for audiobook enthusiasts. With personalized recommendations and a vast library, Audirab transforms your reading into a dynamic listening experience.
 
 ## 🚀 Features
 
