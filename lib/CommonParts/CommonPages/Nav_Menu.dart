@@ -1,95 +1,103 @@
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:mini_project/CommonParts/Account_Page/AccountPage.dart';
+import 'package:mini_project/Pages/Home/Favorite_Page.dart';
 import 'package:mini_project/Pages/Home/Gallery.dart';
 import 'package:mini_project/Pages/Home/Home_Screen.dart';
 import 'package:mini_project/Pages/Home/New_Story.dart';
-import '../../Pages/Home/Favorite_Page.dart';
-import '../Account_Page/AccountPage.dart';
 
-class NavMenu extends StatelessWidget {
+class NavMenu extends StatefulWidget {
   const NavMenu({super.key});
 
   @override
+  State<NavMenu> createState() => _NavBarState();
+}
+
+int _selectedIndex = 0;
+
+class _NavBarState extends State<NavMenu> {
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+        break;
+      case 1:
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const FavoritePage()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const NewStory()),
+        );
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Gallery(searchQuery: '',)),
+        );
+        break;
+        break;
+      case 4:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const SettingScreen()),
+        );
+        break;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return CurvedNavigationBar(
-      height: 60,
-      color: Colors.black26,
-      backgroundColor: Colors.black26,
-      items: const [
-        CurvedNavigationBarItem(
-          child: Icon(Icons.home_outlined,
-            color: Colors.black,
-            size: 30,
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey, // Green shadow color
+            blurRadius: 8, // Spread of the shadow
+            offset: Offset(0, -2), // Shadow offset (negative y-axis to show above the bar)
           ),
-          label: 'Home',
-        ),
-        CurvedNavigationBarItem(
-          child: Icon(
-            Icons.favorite,
-            color: Colors.red,
-            size: 40,
+        ],
+      ),
+      child: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.orange,
+        unselectedItemColor: Colors.white,
+        backgroundColor: Colors.black54,
+        type: BottomNavigationBarType.fixed,  // Always show the labels
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          label: 'Favorite',
-        ),
-        CurvedNavigationBarItem(
-          child: Icon(Icons.add_box_rounded,
-            color: Colors.black,
-            size: 35,
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite,
+              size: 30.0,
+            ),
+            label: 'Favorite',
           ),
-          label: 'Create',
-        ),
-        CurvedNavigationBarItem(
-          child: Icon(Icons.add_business_sharp,
-            color: Colors.black,
-            size: 32,
+          BottomNavigationBarItem(
+            icon: Icon(Icons.create_new_folder_outlined),
+            label: 'New',
           ),
-          label: 'Gallery',
-        ),
-        CurvedNavigationBarItem(
-          child: Icon(Icons.account_circle_outlined,
-            color: Colors.black,
-            size: 30,
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_business_sharp),
+            label: 'Gallery',
           ),
-          label: 'Account',
-        ),
-      ],
-      onTap: (index) {
-        // Handle button tap
-        switch (index) {
-          case 0:
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-            break; // Add break statement
-          case 1:
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FavoritePage()),
-            );
-            break;
-          case 2:
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NewStory()),
-            );
-            break;
-          case 3:
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>  Gallery(searchQuery: '',)),
-            );
-            break;
-          case 4:
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SettingScreen()),
-            );
-            break;
-        }
-      },
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+      ),
     );
   }
 }
