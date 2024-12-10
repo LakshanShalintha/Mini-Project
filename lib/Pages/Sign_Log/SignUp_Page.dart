@@ -156,7 +156,9 @@ class _SignUpPageState extends State<SignUp_Page> {
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF131313), Color(0xFF312E2E)],
+              colors: [
+                Color(0xFF131313),
+                Color(0xFF312E2E)],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),

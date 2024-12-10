@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(flex: 1),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               const Text(
                 'AudiRAB',
                 style: TextStyle(

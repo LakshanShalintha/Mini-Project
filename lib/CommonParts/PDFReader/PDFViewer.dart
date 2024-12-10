@@ -6,37 +6,57 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
-import '../../Pages/Home/Home_Screen.dart';
-import 'VideoAnimation.dart';  // Update this path according to your project structure
+import 'package:syncfusion_flutter_pdf/pdf.dart'; // Import Syncfusion package
+import 'VideoAnimation.dart';
 
 class PDFViewerScreen extends StatefulWidget {
   final Reference fileRef;
 
-  const PDFViewerScreen({required this.fileRef, Key? key}) : super(key: key);
+  const PDFViewerScreen({required this.fileRef, super.key});
 
   @override
   _PDFViewerScreenState createState() => _PDFViewerScreenState();
 }
 
+
 class _PDFViewerScreenState extends State<PDFViewerScreen> {
   AudioPlayer? _audioPlayer;
   bool _isPlaying = false;
+  bool _isTextExtracted = false; // Flag to track text extraction
+  String extractedText = "Loading...";
 
-  Future<void> _speakText(String text) async {
-    // Your text-to-speech implementation...
-  }
+  Future<void> extractTextFromPdf(File file) async {
+    try {
+      final PdfDocument document = PdfDocument(inputBytes: await file.readAsBytes());
+      String rawText = PdfTextExtractor(document).extractText();
+      String cleanedText = cleanAndFormatText(rawText);
 
-  void _stopAudio() async {
-    if (_audioPlayer != null) {
-      await _audioPlayer!.stop();
       setState(() {
-        _isPlaying = false;
+        extractedText = cleanedText;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Playback stopped!')),
-      );
+
+      print("Extracted Text: $extractedText");
+      document.dispose();
+    } catch (e) {
+      setState(() {
+        extractedText = "Failed to extract text. Error: $e";
+      });
     }
   }
+
+  String cleanAndFormatText(String text) {
+    // Remove unnecessary symbols but retain newlines
+    String cleanedText = text.replaceAll(RegExp(r'[^\w\s.,\n]'), ''); // Retain letters, numbers, spaces, periods, commas, and newlines
+
+    // Normalize multiple consecutive line breaks into one
+    cleanedText = cleanedText.replaceAll(RegExp(r'\n{2,}'), '\n\n');
+
+    // Remove any leading or trailing spaces
+    cleanedText = cleanedText.trim();
+
+    return cleanedText;
+  }
+
 
   Future<String> _downloadFile(Reference fileRef) async {
     final directory = await getTemporaryDirectory();
@@ -49,12 +69,6 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
   void dispose() {
     _audioPlayer?.dispose();
     super.dispose();
-  }
-
-  void _toggleAudio() {
-    setState(() {
-      _isPlaying = !_isPlaying;
-    });
   }
 
   @override
@@ -74,25 +88,65 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
             return Center(child: Text('No file available'));
           } else {
             final localPath = snapshot.data!;
-            return Stack(
+
+            if (!_isTextExtracted) {
+              _isTextExtracted = true; // Set the flag to true to prevent re-extraction
+              Future.microtask(() => extractTextFromPdf(File(localPath)));
+            }
+
+            return Column(
               children: [
-                PDFView(
-                  filePath: localPath,
+                // Add the VideoAnimation at the top
+                Container(
+                  color: Colors.black12, // Optional background color for contrast
+                  padding: const EdgeInsets.all(8.0),
+                  child: VideoAnimation(isPlaying: _isPlaying),
                 ),
-                VideoAnimation(isPlaying: _isPlaying),
-                Positioned(
-                  bottom: 16,
-                  right: 16,
-                  child: FloatingActionButton(
-                    child: Icon(_isPlaying ? Icons.stop : Icons.volume_up),
-                    onPressed: _toggleAudio,
+                // Update the PDF viewer to take more space
+                Expanded(
+                  flex: 5, // Increase the flex value to allocate more space
+                  child: PDFView(
+                    filePath: localPath,
+                  ),
+                ),
+                // Add the extracted text
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    color: Colors.white,
+                    child: SingleChildScrollView(
+                      child: Text(
+                        extractedText,
+                        style: const TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                // Add a FloatingActionButton for audio control
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        setState(() {
+                          _isPlaying = !_isPlaying;
+                        });
+                      },
+                      child: Icon(_isPlaying ? Icons.stop : Icons.volume_up),
+                    ),
                   ),
                 ),
               ],
             );
+
           }
         },
       ),
     );
+
   }
+
 }
+
