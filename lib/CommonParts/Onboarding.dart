@@ -1,17 +1,15 @@
-import 'package:flutter/material.dart'; //This provides the material design widgets and functionalities.
-import '../Pages/Home_Page.dart'; //this import home page file
+import 'package:flutter/material.dart';
+import '../Pages/Home_Page.dart';
 
 class Onboarding extends StatefulWidget {
-  const Onboarding({Key? key})
-      : super(
-            key: key); //StatefulWidget constructer used to dynamically changes
+  const Onboarding({Key? key}) : super(key: key);
 
   @override
   _OnboardingState createState() => _OnboardingState();
 }
 
 class _OnboardingState extends State<Onboarding> {
-  int currentIndex = 0; //Tracks the currently visible onboarding page
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
