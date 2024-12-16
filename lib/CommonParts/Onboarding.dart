@@ -1,34 +1,42 @@
-import 'package:flutter/material.dart';
-import '../Pages/Home_Page.dart';
+import 'package:flutter/material.dart'; //This provides the material design widgets and functionalities.
+import '../Pages/Home_Page.dart'; //this import home page file
 
 class Onboarding extends StatefulWidget {
-  const Onboarding({Key? key}) : super(key: key);
+  const Onboarding({Key? key})
+      : super(
+            key: key); //StatefulWidget constructer used to dynamically changes
 
   @override
   _OnboardingState createState() => _OnboardingState();
 }
 
 class _OnboardingState extends State<Onboarding> {
-  int currentIndex = 0;
+  int currentIndex = 0; //Tracks the currently visible onboarding page
 
   @override
   Widget build(BuildContext context) {
     // Initialize contents with a list of onboarding items
     List<OnboardingItem> contents = [
       OnboardingItem(
-        onBoarding: const AssetImage("assets/images/on_boarding/onboard01.webp"),
+        onBoarding:
+            const AssetImage("assets/images/on_boarding/onboard01.webp"),
         title: "We are Your Best Digital Solution",
-        description: "Step into a world where stories come to life, where every page is an adventure, and every word is a journey!",
+        description:
+            "Step into a world where stories come to life, where every page is an adventure, and every word is a journey!",
       ),
       OnboardingItem(
-        onBoarding: const AssetImage("assets/images/on_boarding/onboard02.webp"),
+        onBoarding:
+            const AssetImage("assets/images/on_boarding/onboard02.webp"),
         title: "We are Here to Achieve Your Goals",
-        description: "Discover a vast library of audiobooks from all genres. With AudiRAB, you can listen to your favorite stories anytime, anywhere.",
+        description:
+            "Discover a vast library of audiobooks from all genres. With AudiRAB, you can listen to your favorite stories anytime, anywhere.",
       ),
       OnboardingItem(
-        onBoarding: const AssetImage("assets/images/on_boarding/onboard03.webp"),
+        onBoarding:
+            const AssetImage("assets/images/on_boarding/onboard03.webp"),
         title: "Ready to Begin Your Audio Adventure",
-        description: "Join our community of audiobook enthusiasts and start your journey with AudiRAB today. Your next great listen is just a tap away!",
+        description:
+            "Join our community of audiobook enthusiasts and start your journey with AudiRAB today. Your next great listen is just a tap away!",
       ),
     ];
 
@@ -42,14 +50,16 @@ class _OnboardingState extends State<Onboarding> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/on_boarding/OnBoardingBackground.jpg"), // Background image
+                image: AssetImage(
+                    "assets/images/on_boarding/OnBoardingBackground.jpg"), // Background image
                 fit: BoxFit.cover,
               ),
             ),
           ),
           // Foreground content
           Container(
-            color: Colors.black.withOpacity(0.7), // Overlay to darken the background image
+            color: Colors.black
+                .withOpacity(0.7), // Overlay to darken the background image
             child: Column(
               children: [
                 Expanded(
@@ -64,22 +74,29 @@ class _OnboardingState extends State<Onboarding> {
                       return Padding(
                         padding: const EdgeInsets.all(40),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center, // Align content to the center
+                          crossAxisAlignment: CrossAxisAlignment
+                              .center, // Align content to the center
                           children: [
-                            if (currentIndex <= 1) // Show skip button only for the first two pages
+                            if (currentIndex <=
+                                1) // Show skip button only for the first two pages
                               Align(
                                 alignment: Alignment.topRight,
                                 child: TextButton(
                                   onPressed: () {
                                     // Handle skip button tap
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (_) => const HomePage()));
                                   },
                                   style: TextButton.styleFrom(
                                     backgroundColor: Colors.transparent,
                                   ),
                                   child: const Text(
                                     'Skip',
-                                    style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
@@ -103,15 +120,18 @@ class _OnboardingState extends State<Onboarding> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white, // Text color for titles
                               ),
-                              textAlign: TextAlign.center, // Align text to the center
+                              textAlign:
+                                  TextAlign.center, // Align text to the center
                             ),
                             const SizedBox(height: 20),
                             Text(
                               contents[i].description,
-                              textAlign: TextAlign.center, // Align text to the center
+                              textAlign:
+                                  TextAlign.center, // Align text to the center
                               style: const TextStyle(
                                 fontSize: 16,
-                                color: Colors.white, // Text color for descriptions
+                                color:
+                                    Colors.white, // Text color for descriptions
                               ),
                             ),
                           ],
@@ -125,7 +145,7 @@ class _OnboardingState extends State<Onboarding> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
                     contents.length,
-                        (index) => buildDot(index),
+                    (index) => buildDot(index),
                   ),
                 ),
                 Container(
@@ -136,14 +156,18 @@ class _OnboardingState extends State<Onboarding> {
                     onPressed: () {
                       if (currentIndex < contents.length - 1) {
                         // Go to the next page
-                        pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
+                        pageController.nextPage(
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.ease);
                       } else {
                         // Navigate to HomePage
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (_) => const HomePage()));
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white), // White background
+                      backgroundColor: MaterialStateProperty.all(
+                          Colors.white), // White background
                     ),
                     child: Text(
                       currentIndex == contents.length - 1 ? "Finish" : "Next",
@@ -170,7 +194,9 @@ class _OnboardingState extends State<Onboarding> {
       margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: index == currentIndex ? Colors.white : Colors.grey, // Active dot color
+        color: index == currentIndex
+            ? Colors.white
+            : Colors.grey, // Active dot color
       ),
     );
   }
