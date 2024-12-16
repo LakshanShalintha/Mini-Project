@@ -7,7 +7,7 @@ import '../../CommonParts/PDFReader/PDFViewer.dart';
 import 'Gallery.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); //checking home
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MaterialApp(
     home: HomeScreen(),
