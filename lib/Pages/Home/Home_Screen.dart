@@ -7,7 +7,7 @@ import '../../CommonParts/PDFReader/PDFViewer.dart';
 import 'Gallery.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); //checking home
   await Firebase.initializeApp();
   runApp(const MaterialApp(
     home: HomeScreen(),
@@ -39,10 +39,22 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, String>> categories = [
-      {'imagePath': 'assets/icons/Home_popular/Fantasy.jpg', 'label': 'Fantasy'},
-      {'imagePath': 'assets/icons/Home_popular/Science.jpg', 'label': 'Science'},
-      {'imagePath': 'assets/icons/Home_popular/Thriller.jpg', 'label': 'Thriller'},
-      {'imagePath': 'assets/icons/Home_popular/Fiction.jpg', 'label': 'Fiction'},
+      {
+        'imagePath': 'assets/icons/Home_popular/Fantasy.jpg',
+        'label': 'Fantasy'
+      },
+      {
+        'imagePath': 'assets/icons/Home_popular/Science.jpg',
+        'label': 'Science'
+      },
+      {
+        'imagePath': 'assets/icons/Home_popular/Thriller.jpg',
+        'label': 'Thriller'
+      },
+      {
+        'imagePath': 'assets/icons/Home_popular/Fiction.jpg',
+        'label': 'Fiction'
+      },
     ];
 
     // Paths to your images
@@ -125,7 +137,7 @@ class HomeScreen extends StatelessWidget {
                     Text(
                       'Popular Stories',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 0),
                     FutureBuilder<List<Reference>>(
@@ -135,7 +147,8 @@ class HomeScreen extends StatelessWidget {
                             ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData ||
                             snapshot.data!.isEmpty) {
                           return Center(child: Text('No PDFs found'));
@@ -145,16 +158,18 @@ class HomeScreen extends StatelessWidget {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, // Number of columns
                               crossAxisSpacing: 10.0,
                               mainAxisSpacing: 15.0,
-                              childAspectRatio: 3.5, // Aspect ratio of grid items
+                              childAspectRatio:
+                                  3.5, // Aspect ratio of grid items
                             ),
                             itemCount: 6,
                             itemBuilder: (context, index) {
                               return GridItem(
-                                pdfRef: pdfRefs[index], // Passing the Reference object
+                                pdfRef: pdfRefs[
+                                    index], // Passing the Reference object
                                 imagePath: imagePaths[index],
                               );
                             },
@@ -169,7 +184,8 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) => const Gallery(searchQuery: ""),
+                              builder: (context) =>
+                                  const Gallery(searchQuery: ""),
                             ), // Provide a default value for searchQuery
                           ); // Handle button tap
                         },
@@ -329,11 +345,11 @@ class _SearchBarState extends State<SearchBar> {
           hintText: 'Search in story',
           suffixIcon: _isFocused
               ? IconButton(
-            icon: const Icon(Icons.search, color: Colors.black, size: 35),
-            onPressed: () {
-              _handleSearch(context);
-            },
-          )
+                  icon: const Icon(Icons.search, color: Colors.black, size: 35),
+                  onPressed: () {
+                    _handleSearch(context);
+                  },
+                )
               : null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
@@ -363,18 +379,18 @@ class CustomCurvedEdges extends CustomClipper<Path> {
 
     final firstCurveStart = Offset(0, size.height - 20);
     final firstCurveEnd = Offset(40, size.height - 20);
-    path.quadraticBezierTo(
-        firstCurveStart.dx, firstCurveStart.dy, firstCurveEnd.dx, firstCurveEnd.dy);
+    path.quadraticBezierTo(firstCurveStart.dx, firstCurveStart.dy,
+        firstCurveEnd.dx, firstCurveEnd.dy);
 
     final secondCurveStart = Offset(0, size.height - 20);
     final secondCurveEnd = Offset(size.width - 40, size.height - 20);
-    path.quadraticBezierTo(
-        secondCurveStart.dx, secondCurveStart.dy, secondCurveEnd.dx, secondCurveEnd.dy);
+    path.quadraticBezierTo(secondCurveStart.dx, secondCurveStart.dy,
+        secondCurveEnd.dx, secondCurveEnd.dy);
 
     final thirdCurveStart = Offset(size.width, size.height - 20);
     final thirdCurveEnd = Offset(size.width, size.height);
-    path.quadraticBezierTo(
-        thirdCurveStart.dx, thirdCurveStart.dy, thirdCurveEnd.dx, thirdCurveEnd.dy);
+    path.quadraticBezierTo(thirdCurveStart.dx, thirdCurveStart.dy,
+        thirdCurveEnd.dx, thirdCurveEnd.dy);
 
     path.lineTo(size.width, 0);
     path.close();
@@ -402,13 +418,12 @@ class SectionHeading extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 10.0), // Add padding to the left of the text
+          padding: const EdgeInsets.only(
+              left: 10.0), // Add padding to the left of the text
           child: Text(
             title,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: Colors.white, fontSize: 20), // Adjust the font size here
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Colors.white, fontSize: 20), // Adjust the font size here
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -496,12 +511,15 @@ class GridItem extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.grey[800],
-            borderRadius: BorderRadius.circular(50), // Adjusted to make the container circular
+            borderRadius: BorderRadius.circular(
+                50), // Adjusted to make the container circular
           ),
           child: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 2.0), // Adjust the padding to move the image to the right
+                padding: const EdgeInsets.only(
+                    left:
+                        2.0), // Adjust the padding to move the image to the right
                 child: ClipOval(
                   child: Image.asset(
                     imagePath!,
@@ -511,7 +529,8 @@ class GridItem extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 10), // Add some space between the image and the text
+              SizedBox(
+                  width: 10), // Add some space between the image and the text
               Text(
                 pdfName,
                 style: TextStyle(color: Colors.white),
@@ -526,7 +545,8 @@ class GridItem extends StatelessWidget {
       return Container(
         decoration: BoxDecoration(
           color: Colors.grey[800],
-          borderRadius: BorderRadius.circular(50), // Adjusted to make the container circular
+          borderRadius: BorderRadius.circular(
+              50), // Adjusted to make the container circular
         ),
         child: Center(
           child: Text(
