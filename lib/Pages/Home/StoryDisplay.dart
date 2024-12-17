@@ -33,8 +33,14 @@ class _StoryDisplayScreenState extends State<StoryDisplayScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _savePdfToFirebase(widget.title, widget.story, widget.storyJson, context);
   }
+
 
   void _speakText(String text, BuildContext context) async {
     String apiKey = 'sk_f7f3f6fb01bf3936470a7551dbebcc92755aa35bf6ceae3d';
@@ -294,7 +300,7 @@ class _StoryDisplayScreenState extends State<StoryDisplayScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.storyJson,
+                      widget.storyJson.isNotEmpty ? widget.storyJson : "Content not found",
                       style: const TextStyle(
                         fontSize: 25,
                         color: Colors.redAccent,
