@@ -49,7 +49,7 @@ dependencies:
   firebase_auth: ^5.1.2
   cloud_firestore: ^5.1.0
   firebase_storage: ^12.1.1
-  file_picker: ^8.0.5
+  file_picker: ^5.0.0
   image_picker: ^1.1.2
   flutter_pdfview: ^1.3.2
   path_provider: ^2.1.3
@@ -58,7 +58,7 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   sign_in_with_apple: ^6.1.1
   pdf: ^3.3.1
-  flutter_tts: ^3.4.0
+  flutter_tts: ^3.6.0
   just_audio: ^0.9.9
   dart_openai: ^5.1.0
   firebase_app_check: ^0.3.0+3
@@ -67,7 +67,6 @@ dependencies:
   flare_flutter: ^3.0.0
   video_player: ^2.2.19
   syncfusion_flutter_pdf: 27.2.5
-
 
 
 
