@@ -4,7 +4,7 @@ class AIServices {
   // Initialize the GenerativeModel with the API key and model
   final model = GenerativeModel(
     model: "gemini-1.5-pro-latest",
-    apiKey: "AIzaSyCVvMSw88d29co-TsEBuREFbXFsaRmrwLU",
+    apiKey: "AIzaSyCOMGMDGUv3IsJEB-xmTskv9wF-pW7qotc",
   );
 
   // Method to generate a story based on input data
@@ -14,7 +14,7 @@ class AIServices {
     I want you to create a detailed audio book story based on the following data: $data.
 
     Here are the guidelines for the story structure:
-    - The story should be approximately 5000 words long and I want to speech this text using elevenlab API.
+    - The story should be approximately 15000 words long and I want to speech this text using elevenlab API.
     """;
 
     // Create a list of content with the prompt text
