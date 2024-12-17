@@ -17,7 +17,6 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  // Test control search bar
   TextEditingController _searchController = TextEditingController();
   List<String> _filteredPdfUrls = [];
   List<String> _favoritePdfUrls = [];
