@@ -33,11 +33,20 @@ class _SignUpPageState extends State<SignUp_Page> {
 
   Future<void> signUp() async {
     setState(() {
-      firstNameErrorText = firstNameController.text.isEmpty ? 'Please enter your first name' : '';
-      emailErrorText = emailController.text.isEmpty ? 'Please enter a valid email address' : '';
-      phoneNumberErrorText = phoneNumberController.text.isEmpty ? 'Please enter a valid phone number' : '';
-      passwordErrorText = passwordController.text.isEmpty ? 'Please enter a password' : '';
-      confirmPasswordErrorText = confirmPasswordController.text.isEmpty ? 'Please confirm your password' : '';
+      firstNameErrorText = firstNameController.text.isEmpty
+          ? 'Please enter your first name'
+          : '';
+      emailErrorText = emailController.text.isEmpty
+          ? 'Please enter a valid email address'
+          : '';
+      phoneNumberErrorText = phoneNumberController.text.isEmpty
+          ? 'Please enter a valid phone number'
+          : '';
+      passwordErrorText =
+          passwordController.text.isEmpty ? 'Please enter a password' : '';
+      confirmPasswordErrorText = confirmPasswordController.text.isEmpty
+          ? 'Please confirm your password'
+          : '';
 
       if (passwordController.text != confirmPasswordController.text) {
         confirmPasswordErrorText = 'Passwords do not match';
@@ -50,7 +59,8 @@ class _SignUpPageState extends State<SignUp_Page> {
         passwordErrorText.isEmpty &&
         confirmPasswordErrorText.isEmpty) {
       try {
-        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
@@ -92,7 +102,8 @@ class _SignUpPageState extends State<SignUp_Page> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('OK',
+              child: const Text(
+                'OK',
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -110,12 +121,17 @@ class _SignUpPageState extends State<SignUp_Page> {
           title: Center(
             child: Text(
               'Sign Up Successful',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 25),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                  fontSize: 25),
             ),
           ),
           content: Container(
-            width: MediaQuery.of(context).size.width * 0.5, // 70% of screen width
-            height: MediaQuery.of(context).size.height * 0.03, // 30% of screen height
+            width:
+                MediaQuery.of(context).size.width * 0.5, // 70% of screen width
+            height: MediaQuery.of(context).size.height *
+                0.03, // 30% of screen height
             child: Center(
               child: Text(
                 'Thank you for signing up! \n Now you can log in to your account',
@@ -156,9 +172,7 @@ class _SignUpPageState extends State<SignUp_Page> {
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color(0xFF131313),
-                Color(0xFF312E2E)],
+              colors: [Color(0xFF131313), Color(0xFF312E2E)],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -198,11 +212,14 @@ class _SignUpPageState extends State<SignUp_Page> {
                                 TextField(
                                   controller: firstNameController,
                                   decoration: InputDecoration(
-                                    prefixIcon: const Icon(Icons.person, color: Colors.black),
+                                    prefixIcon: const Icon(Icons.person,
+                                        color: Colors.black),
                                     hintText: 'User Name',
-                                    hintStyle: const TextStyle(color: Colors.black),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.black),
                                     border: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.black, // Border color
                                         width: 2.0, // Border width
@@ -214,8 +231,12 @@ class _SignUpPageState extends State<SignUp_Page> {
                                       horizontal: 5,
                                       vertical: 2.5,
                                     ),
-                                    errorText: firstNameErrorText.isNotEmpty ? firstNameErrorText : null,
-                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
+                                    errorText: firstNameErrorText.isNotEmpty
+                                        ? firstNameErrorText
+                                        : null,
+                                    errorStyle: const TextStyle(
+                                        color: Colors
+                                            .white), // Set error text color to white
                                   ),
                                 ),
                               ],
@@ -235,11 +256,14 @@ class _SignUpPageState extends State<SignUp_Page> {
                                   controller: emailController,
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
-                                    prefixIcon: const Icon(Icons.email, color: Colors.black),
+                                    prefixIcon: const Icon(Icons.email,
+                                        color: Colors.black),
                                     hintText: 'Email',
-                                    hintStyle: const TextStyle(color: Colors.black),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.black),
                                     border: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.black, // Border color
                                         width: 2.0, // Border width
@@ -251,15 +275,20 @@ class _SignUpPageState extends State<SignUp_Page> {
                                       horizontal: 5,
                                       vertical: 2.5,
                                     ),
-                                    errorText: emailErrorText.isNotEmpty ? emailErrorText : null,
-                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
+                                    errorText: emailErrorText.isNotEmpty
+                                        ? emailErrorText
+                                        : null,
+                                    errorStyle: const TextStyle(
+                                        color: Colors
+                                            .white), // Set error text color to white
                                   ),
                                   onChanged: (value) {
                                     setState(() {
                                       if (!RegExp(
                                         r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$',
                                       ).hasMatch(value)) {
-                                        emailErrorText = 'Please enter a valid email address';
+                                        emailErrorText =
+                                            'Please enter a valid email address';
                                       } else {
                                         emailErrorText = '';
                                       }
@@ -283,15 +312,20 @@ class _SignUpPageState extends State<SignUp_Page> {
                                   controller: phoneNumberController,
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
-                                    LengthLimitingTextInputFormatter(10), // Limit input to 10 digits
-                                    FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                                    LengthLimitingTextInputFormatter(
+                                        10), // Limit input to 10 digits
+                                    FilteringTextInputFormatter
+                                        .digitsOnly, // Allow only digits
                                   ],
                                   decoration: InputDecoration(
-                                    prefixIcon: const Icon(Icons.phone, color: Colors.black),
+                                    prefixIcon: const Icon(Icons.phone,
+                                        color: Colors.black),
                                     hintText: 'Phone Number',
-                                    hintStyle: const TextStyle(color: Colors.black),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.black),
                                     border: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.black, // Border color
                                         width: 2.0, // Border width
@@ -303,13 +337,19 @@ class _SignUpPageState extends State<SignUp_Page> {
                                       horizontal: 5,
                                       vertical: 2.5,
                                     ),
-                                    errorText: phoneNumberErrorText.isNotEmpty ? phoneNumberErrorText : null,
-                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
+                                    errorText: phoneNumberErrorText.isNotEmpty
+                                        ? phoneNumberErrorText
+                                        : null,
+                                    errorStyle: const TextStyle(
+                                        color: Colors
+                                            .white), // Set error text color to white
                                   ),
                                   onChanged: (value) {
                                     setState(() {
-                                      if (!RegExp(r'^[0-9]*$').hasMatch(value)) {
-                                        phoneNumberErrorText = 'Please enter a valid phone number';
+                                      if (!RegExp(r'^[0-9]*$')
+                                          .hasMatch(value)) {
+                                        phoneNumberErrorText =
+                                            'Please enter a valid phone number';
                                       } else {
                                         phoneNumberErrorText = '';
                                       }
@@ -333,11 +373,14 @@ class _SignUpPageState extends State<SignUp_Page> {
                                   controller: passwordController,
                                   obscureText: !_showPassword,
                                   decoration: InputDecoration(
-                                    prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                                    prefixIcon: const Icon(Icons.lock,
+                                        color: Colors.black),
                                     hintText: 'Password',
-                                    hintStyle: const TextStyle(color: Colors.black),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.black),
                                     border: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.black, // Border color
                                         width: 2.0, // Border width
@@ -356,12 +399,18 @@ class _SignUpPageState extends State<SignUp_Page> {
                                         });
                                       },
                                       child: Icon(
-                                        _showPassword ? Icons.visibility : Icons.visibility_off,
+                                        _showPassword
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
                                         color: Colors.black,
                                       ),
                                     ),
-                                    errorText: passwordErrorText.isNotEmpty ? passwordErrorText : null,
-                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
+                                    errorText: passwordErrorText.isNotEmpty
+                                        ? passwordErrorText
+                                        : null,
+                                    errorStyle: const TextStyle(
+                                        color: Colors
+                                            .white), // Set error text color to white
                                   ),
                                 ),
                               ],
@@ -381,11 +430,14 @@ class _SignUpPageState extends State<SignUp_Page> {
                                   controller: confirmPasswordController,
                                   obscureText: !_showConfirmPassword,
                                   decoration: InputDecoration(
-                                    prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                                    prefixIcon: const Icon(Icons.lock,
+                                        color: Colors.black),
                                     hintText: 'Confirm Password',
-                                    hintStyle: const TextStyle(color: Colors.black),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.black),
                                     border: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.black, // Border color
                                         width: 2.0, // Border width
@@ -400,16 +452,24 @@ class _SignUpPageState extends State<SignUp_Page> {
                                     suffixIcon: GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          _showConfirmPassword = !_showConfirmPassword;
+                                          _showConfirmPassword =
+                                              !_showConfirmPassword;
                                         });
                                       },
                                       child: Icon(
-                                        _showConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                                        _showConfirmPassword
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
                                         color: Colors.black,
                                       ),
                                     ),
-                                    errorText: confirmPasswordErrorText.isNotEmpty ? confirmPasswordErrorText : null,
-                                    errorStyle: const TextStyle(color: Colors.white), // Set error text color to white
+                                    errorText:
+                                        confirmPasswordErrorText.isNotEmpty
+                                            ? confirmPasswordErrorText
+                                            : null,
+                                    errorStyle: const TextStyle(
+                                        color: Colors
+                                            .white), // Set error text color to white
                                   ),
                                 ),
                               ],
@@ -430,9 +490,11 @@ class _SignUpPageState extends State<SignUp_Page> {
                             backgroundColor: Colors.orange,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
-                              side: const BorderSide(color: Colors.black, width: 1),
+                              side: const BorderSide(
+                                  color: Colors.black, width: 1),
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 5),
                           ),
                           child: const Text(
                             'Sign Up',
@@ -458,7 +520,8 @@ class _SignUpPageState extends State<SignUp_Page> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const LogIn_Page(),
+                                        builder: (context) =>
+                                            const LogIn_Page(),
                                       ),
                                     );
                                   },
