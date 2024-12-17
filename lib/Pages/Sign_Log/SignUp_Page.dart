@@ -1,22 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart'; //authentication and database interaction
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../Home_Page.dart';
 import 'LogIn_Page.dart';
 
 class SignUp_Page extends StatefulWidget {
-  const SignUp_Page({Key? key})
-      : super(
-            key: key); //StatefulWidget manages the UI state for a sign-up form
+  const SignUp_Page({Key? key}) : super(key: key);
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUp_Page> {
-  TextEditingController firstNameController =
-      TextEditingController(); //Implements the logic and UI for user registration.
+  TextEditingController firstNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
